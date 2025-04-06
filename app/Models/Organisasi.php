@@ -36,7 +36,12 @@ class Organisasi extends Model
         'password',
         'remember_token',
     ];
-// Kurang relationship
+
+    //relationship
+    public function Donasi()
+    {
+        return $this->hasMany(Donasi::class,'Id_organisasi');
+    }
     /**
      * Get the attributes that should be cast.
      *

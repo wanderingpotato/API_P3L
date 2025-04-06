@@ -35,7 +35,20 @@ class Klaim_Merchandise extends Model
     //     'password',
     //     'remember_token',
     // ];
-    // Kurang relationship
+
+    //relationship
+    public function Pembeli()
+    {
+        return $this->belongsTo(Pembeli::class, 'Id_Pembeli');
+    }
+    public function Penitip()
+    {
+        return $this->belongsTo(Penitip::class, 'Id_penitip');
+    }
+    public function Merchandise()
+    {
+        return $this->belongsTo(Merchandise::class, 'Id_merchandise');
+    }
     /**
      * Get the attributes that should be cast.
      *

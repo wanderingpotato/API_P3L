@@ -33,7 +33,11 @@ class Detail_Pendapatan extends Model
     //     'remember_token',
     // ];
 
-    // Kurang relationship
+    //relationships
+    public function Penitip()
+    {
+        return $this->belongsTo(Penitip::class, 'Id_penitip');
+    }
     
     /**
      * Get the attributes that should be cast.

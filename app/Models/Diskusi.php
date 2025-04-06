@@ -34,7 +34,24 @@ class Diskusi extends Model
     //     'password',
     //     'remember_token',
     // ];
-// Kurang relationship
+
+    //relationships
+    public function Pembeli()
+    {
+        return $this->belongsTo(Pembeli::class, 'Id_Pembeli');
+    }
+    public function Penitip()
+    {
+        return $this->belongsTo(Penitip::class, 'Id_Penitip');
+    }
+    public function Pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'Id_Pegawai');
+    }
+    public function Barang()
+    {
+        return $this->belongsTo(Penitipan_Barang::class, 'Id_Barang');
+    }
     /**
      * Get the attributes that should be cast.
      *

@@ -33,7 +33,12 @@ class Merchandise extends Model
     //     'password',
     //     'remember_token',
     // ];
-// Kurang relationship
+
+    //relationship
+    public function Klaim()
+    {
+        return $this->hasMany(Klaim_Merchandise::class,'Id_merchandise');
+    }
     /**
      * Get the attributes that should be cast.
      *

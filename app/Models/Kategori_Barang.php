@@ -31,10 +31,13 @@ class Kategori_Barang extends Model
     //     'password',
     //     'remember_token',
     // ];
+
+    //relationship
     public function Barang()
     {
         return $this->hasMany(Penitipan_Barang::class,'Id_kategori');
     }
+    
     /**
      * Get the attributes that should be cast.
      *

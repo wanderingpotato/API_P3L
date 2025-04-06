@@ -40,6 +40,35 @@ class Penitip extends Model
         'remember_token',
     ];
 
+    //Relationship
+    public function Diskusi()
+    {
+        return $this->hasMany(Diskusi::class,'Id_penitip');
+    }
+    public function Komisi()
+    {
+        return $this->hasMany(Komisi::class,'Id_penitip');
+    }
+    public function Penitipan()
+    {
+        return $this->hasMany(Penitipan_Barang::class,'Id_penitip');
+    }
+    public function Klaim()
+    {
+        return $this->hasMany(Klaim_Merchandise::class,'Id_penitip');
+    }
+    public function Detail_Pembelian()
+    {
+        return $this->hasMany(Detail_Pembelian::class,'Id_penitip');
+    }
+    public function Detail_Donasi()
+    {
+        return $this->hasMany(Detail_Donasi::class,'Id_penitip');
+    }
+    public function Detail_Pendapatan()
+    {
+        return $this->hasMany(Detail_Pendapatan::class,'Id_penitip');
+    }
     /**
      * Get the attributes that should be cast.
      *

@@ -46,8 +46,29 @@ class Pembelian extends Model
     //     'remember_token',
     // ];
 
-    // Kurang relationship
-
+    // Kurang relationships
+    public function Pembelian()
+    {
+        return $this->belongsToMany(
+            Penitipan_Barang::class,
+            'Detail_Pembelian',
+            'Id_pembelian',
+            'Id_barang' 
+            
+        );
+    }
+    public function Alamat()
+    {
+        return $this->belongsTo(Alamat::class, 'Id_alamat');
+    }
+    public function Pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'Id_Pegawai');
+    }
+    public function Pembeli()
+    {
+        return $this->belongsTo(Pembeli::class, 'Id_Pembeli');
+    }
     /**
      * Get the attributes that should be cast.
      *

@@ -30,8 +30,19 @@ class Detail_Pembelian extends Model
     //     'remember_token',
     // ];
 
-    //kurang relationship
-
+    //relationship
+    public function Barang()
+    {
+        return $this->belongsTo(Penitipan_Barang::class, 'Id_barang');
+    }
+    public function Pembelian()
+    {
+        return $this->belongsTo(Pembelian::class, 'Id_pembelian');
+    }
+    public function Penitip()
+    {
+        return $this->belongsTo(Penitip::class, 'Id_penitip');
+    }
     /**
      * Get the attributes that should be cast.
      *

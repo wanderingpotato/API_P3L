@@ -37,8 +37,19 @@ class Komisi extends Model
     //     'remember_token',
     // ];
 
-    // kurang relationship
-
+    //relationships
+    public function Penitip()
+    {
+        return $this->belongsTo(Penitip::class, 'Id_penitip');
+    }
+    public function Pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'Id_pegawai');
+    }
+    public function Barang()
+    {
+        return $this->belongsTo(Penitipan_Barang::class, 'Id_barang');
+    }
     /**
      * Get the attributes that should be cast.
      *

@@ -31,13 +31,26 @@ class Donasi extends Model
     *
     * @var list<string>
     */
-//    protected $hidden = [
-//        'password',
-//        'remember_token',
-//    ];
+    //protected $hidden = [
+    // 'password',
+    // 'remember_token',
+    //];
 
-   // Kurang relationship
-   
+   //relationships
+    public function Organisasi()
+    {
+        return $this->belongsTo(Organisasi::class, 'Id_organisasi');
+    }
+    public function Donasi()
+    {
+        return $this->belongsToMany(
+            Penitipan_Barang::class,
+            'Detail_Donasi',
+            'Id_donasi',
+            'Id_barang' 
+            
+        );
+    }
    /**
     * Get the attributes that should be cast.
     *

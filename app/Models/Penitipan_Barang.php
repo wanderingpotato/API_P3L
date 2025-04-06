@@ -46,8 +46,39 @@ class Penitipan_Barang extends Model
     //     'remember_token',
     // ];
 
-    //kurang relationship
-
+    // kurang relationship
+    public function Pembelian()
+    {
+        return $this->belongsToMany(
+            Pembelian::class,
+            'Detail_Pembelian',
+            'Id_barang',
+            'Id_pembelian',
+            
+        );
+    }
+    public function Donasi()
+    {
+        return $this->belongsToMany(
+            Donasi::class,
+            'Detail_Donasi',
+            'Id_barang' ,
+            'Id_donasi'
+            
+        );
+    }
+    public function Kategori()
+    {
+        return $this->belongsTo(Kategori_Barang::class, 'Id_kategori');
+    }
+    public function Pegawai()
+    {
+        return $this->belongsTo(Pegawai::class, 'Id_Pegawai');
+    }
+    public function Penitip()
+    {
+        return $this->belongsTo(Penitip::class, 'Id_Penitip');
+    }
     /**
      * Get the attributes that should be cast.
      *

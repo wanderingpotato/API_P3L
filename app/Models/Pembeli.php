@@ -36,6 +36,23 @@ class Pembeli extends Model
         'remember_token',
     ];
 
+    //Relationship
+    public function Diskusi()
+    {
+        return $this->hasMany(Diskusi::class,'Id_Pembeli');
+    }
+    public function Alamat()
+    {
+        return $this->hasMany(Alamat::class,'Id_Pembeli');
+    }
+    public function Klaim()
+    {
+        return $this->hasMany(Klaim_Merchandise::class,'Id_Pembeli');
+    }
+    public function Pembelian()
+    {
+        return $this->hasMany(Pembelian::class,'Id_Pembeli');
+    }
     /**
      * Get the attributes that should be cast.
      *

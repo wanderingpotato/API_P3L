@@ -34,7 +34,13 @@ class Alamat extends Model
     //     'password',
     //     'remember_token',
     // ];
-// 
+
+    //relationship
+    public function Pembeli()
+    {
+        return $this->belongsTo(Pembeli::class, 'Id_Pembeli');
+    }
+    
     /**
      * Get the attributes that should be cast.
      *

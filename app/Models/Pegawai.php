@@ -36,7 +36,28 @@ class Pegawai extends Model
         'password',
         'remember_token',
     ];
-// Kurang relationship
+
+    //relationship
+    public function Diskusi()
+    {
+        return $this->hasMany(Diskusi::class,'Id_pegawai');
+    }
+    public function Komisi()
+    {
+        return $this->hasMany(Komisi::class,'Id_pegawai');
+    }
+    public function Penitipan()
+    {
+        return $this->hasMany(Penitipan_Barang::class,'Id_pegawai');
+    }
+    public function Pembelian()
+    {
+        return $this->hasMany(Pembelian::class,'Id_pegawai');
+    }
+    public function Jabatan()
+    {
+        return $this->belongsTo(Jabatan::class, 'Id_jabatan');
+    }
     /**
      * Get the attributes that should be cast.
      *

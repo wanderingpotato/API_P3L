@@ -31,10 +31,13 @@ class Jabatan extends Model
     //     'password',
     //     'remember_token',
     // ];
+
+    //relationship
     public function Pegawai()
     {
         return $this->hasMany(Pegawai::class,'Id_jabatan');
     }
+    
     /**
      * Get the attributes that should be cast.
      *

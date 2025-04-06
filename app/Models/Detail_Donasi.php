@@ -30,8 +30,19 @@ class Detail_Donasi extends Model
     //     'remember_token',
     // ];
 
-    //kurang relationship
-
+    // kurang relationship
+    public function Barang()
+    {
+        return $this->belongsTo(Penitipan_Barang::class, 'Id_barang');
+    }
+    public function Donasi()
+    {
+        return $this->belongsTo(Donasi::class, 'Id_donasi');
+    }
+    public function Penitip()
+    {
+        return $this->belongsTo(Penitip::class, 'Id_penitip');
+    }
     /**
      * Get the attributes that should be cast.
      *
