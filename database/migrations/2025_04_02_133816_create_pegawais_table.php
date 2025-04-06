@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('pegawais', function (Blueprint $table) {
             // $table->string('Id_pegawai')->primary();
             $table->id('Id_pegawai');
-            $table->string('Jabatan_id');
-            $table->foreign('Jabatan_id')->references('Id_jabatan')->on('jabatans')->onDelete('cascade');
+            $table->string('Id_jabatan');
+            $table->foreign('Id_jabatan')->references('Id_jabatan')->on('jabatans')->onDelete('cascade');
             $table->string('name');
             $table->string('username')->unique();
             $table->string('email')->unique();
