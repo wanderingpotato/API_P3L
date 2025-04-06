@@ -15,11 +15,15 @@ class Klaim_Merchandise extends Model
      * @var list<string>
      */
     public $timestamps = false;
-    protected $primaryKey = 'Id_jabatan';
+    protected $primaryKey = 'Id_klaim';
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'Id_klaim',
+        'Id_merchandise',
+        'Id_Pembeli',
+        'Id_penitip',
+        'Jumlah',
+        'Tanggal_ambil',
+        'Status',
     ];
 
     /**
@@ -27,11 +31,11 @@ class Klaim_Merchandise extends Model
      *
      * @var list<string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
+    // protected $hidden = [
+    //     'password',
+    //     'remember_token',
+    // ];
+    // Kurang relationship
     /**
      * Get the attributes that should be cast.
      *
@@ -40,8 +44,7 @@ class Klaim_Merchandise extends Model
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'Id_klaim' => 'string',
         ];
     }
 }

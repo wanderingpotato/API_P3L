@@ -15,11 +15,16 @@ class Pegawai extends Model
      * @var list<string>
      */
     public $timestamps = false;
-    protected $primaryKey = 'Id_jabatan';
+    protected $primaryKey = 'Id_pegawai';
     protected $fillable = [
+        'Id_pegawai',
+        'Id_jabatan',
         'name',
+        'username',
         'email',
+        'noTelp',
         'password',
+        'foto',
     ];
 
     /**
@@ -31,7 +36,7 @@ class Pegawai extends Model
         'password',
         'remember_token',
     ];
-
+// Kurang relationship
     /**
      * Get the attributes that should be cast.
      *
@@ -40,6 +45,7 @@ class Pegawai extends Model
     protected function casts(): array
     {
         return [
+            'Id_pegawai' => 'string',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];

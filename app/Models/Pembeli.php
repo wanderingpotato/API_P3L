@@ -15,13 +15,17 @@ class Pembeli extends Model
      * @var list<string>
      */
     public $timestamps = false;
-    protected $primaryKey = 'Id_jabatan';
+    protected $primaryKey = 'Id_Pembeli';
     protected $fillable = [
+        'Id_Pembeli',
         'name',
+        'username',
         'email',
+        'noTelp',
         'password',
+        'Poin',
+        'foto',
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -40,6 +44,7 @@ class Pembeli extends Model
     protected function casts(): array
     {
         return [
+            'Id_Pembeli' => 'string',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];

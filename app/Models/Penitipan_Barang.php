@@ -15,22 +15,38 @@ class Penitipan_Barang extends Model
      * @var list<string>
      */
     public $timestamps = false;
-    protected $primaryKey = 'Id_jabatan';
+    protected $primaryKey = 'Id_barang';
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'Id_barang',
+        'Id_kategori',
+        'Id_Penitip',
+        'Id_Pegawai',
+        'Nama_Barang',
+        'DiPerpanjang',
+        'DiliverHere',
+        'Hunter',
+        'Status',
+        'Harga_barang',
+        'Rating',
+        'Tanggal_penitipan',
+        'Tanggal_kadaluarsa',
+        'Batas_ambil',
+        'Tanggal_laku',
+        'Tanggal_rating',
+        'Garansi',
+        'Foto_Barang',
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var list<string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    // protected $hidden = [
+    //     'password',
+    //     'remember_token',
+    // ];
+
+    //kurang relationship
 
     /**
      * Get the attributes that should be cast.
@@ -40,8 +56,7 @@ class Penitipan_Barang extends Model
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'Id_barang' => 'string',
         ];
     }
 }

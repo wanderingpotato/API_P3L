@@ -15,13 +15,21 @@ class Penitip extends Model
      * @var list<string>
      */
     public $timestamps = false;
-    protected $primaryKey = 'Id_jabatan';
+    protected $primaryKey = 'Id_penitip';
     protected $fillable = [
+        'Id_penitip',
         'name',
+        'noTelp',
+        'username',
         'email',
         'password',
+        'Saldo',
+        'Poin',
+        'RataRating',
+        'Badge',
+        'Alamat',
+        'foto',
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -40,6 +48,7 @@ class Penitip extends Model
     protected function casts(): array
     {
         return [
+            'Id_penitip' => 'string',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];

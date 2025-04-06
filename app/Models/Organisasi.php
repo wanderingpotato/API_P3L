@@ -15,11 +15,16 @@ class Organisasi extends Model
      * @var list<string>
      */
     public $timestamps = false;
-    protected $primaryKey = 'Id_jabatan';
+    protected $primaryKey = 'Id_organisasi';
     protected $fillable = [
+        'Id_organisasi',
         'name',
+        'username',
+        'noTelp',
+        'Alamat',
         'email',
         'password',
+        'Deskripsi',
     ];
 
     /**
@@ -31,7 +36,7 @@ class Organisasi extends Model
         'password',
         'remember_token',
     ];
-
+// Kurang relationship
     /**
      * Get the attributes that should be cast.
      *
@@ -40,6 +45,7 @@ class Organisasi extends Model
     protected function casts(): array
     {
         return [
+            'Id_organisasi' => 'string',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];

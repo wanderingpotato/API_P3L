@@ -15,11 +15,15 @@ class Donasi extends Model
     * @var list<string>
     */
     public $timestamps = false;
-    protected $primaryKey = 'Id_jabatan';
+    protected $primaryKey = 'Id_donasi';
    protected $fillable = [
-       'name',
-       'email',
-       'password',
+       'Id_donasi',
+       'Id_organisasi',
+       'Nama_Penerima',
+       'Konfirmasi',
+       'Tanggal_diberikan',
+       'Tanggal_request',
+       'Deskripsi',
    ];
 
    /**
@@ -27,11 +31,13 @@ class Donasi extends Model
     *
     * @var list<string>
     */
-   protected $hidden = [
-       'password',
-       'remember_token',
-   ];
+//    protected $hidden = [
+//        'password',
+//        'remember_token',
+//    ];
 
+   // Kurang relationship
+   
    /**
     * Get the attributes that should be cast.
     *
@@ -40,8 +46,7 @@ class Donasi extends Model
    protected function casts(): array
    {
        return [
-           'email_verified_at' => 'datetime',
-           'password' => 'hashed',
+           'Id_donasi' => 'string',
        ];
    }
 }

@@ -15,11 +15,13 @@ class Merchandise extends Model
      * @var list<string>
      */
     public $timestamps = false;
-    protected $primaryKey = 'Id_jabatan';
+    protected $primaryKey = 'Id_merchandise';
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'Id_merchandise',
+        'Nama',
+        'Poin',
+        'Kategori',
+        'Stock',
     ];
 
     /**
@@ -27,11 +29,11 @@ class Merchandise extends Model
      *
      * @var list<string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
+    // protected $hidden = [
+    //     'password',
+    //     'remember_token',
+    // ];
+// Kurang relationship
     /**
      * Get the attributes that should be cast.
      *
@@ -40,8 +42,7 @@ class Merchandise extends Model
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'Id_merchandise' => 'string',
         ];
     }
 }

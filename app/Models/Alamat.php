@@ -15,23 +15,26 @@ class Alamat extends Model
      * @var list<string>
      */
     public $timestamps = false;
-    protected $primaryKey = 'Id_jabatan';
+    protected $primaryKey = 'Id_alamat';
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'Id_alamat',
+        'Id_Pembeli',
+        'NoTelp',
+        'Title',
+        'Default',
+        'Deskripsi',
+        'Alamat',
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var list<string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
+    // protected $hidden = [
+    //     'password',
+    //     'remember_token',
+    // ];
+// 
     /**
      * Get the attributes that should be cast.
      *
@@ -40,8 +43,7 @@ class Alamat extends Model
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'Id_alamat' => 'string',
         ];
     }
 }

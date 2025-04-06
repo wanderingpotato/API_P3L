@@ -15,23 +15,26 @@ class Detail_Pendapatan extends Model
      * @var list<string>
      */
     public $timestamps = false;
-    protected $primaryKey = 'Id_jabatan';
+    protected $primaryKey = 'Id_DetailPendapatan';
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'Id_DetailPendapatan',
+        'Id_penitip',
+        'total',
+        'month',
+        'Bonus_Pendapatan',
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var list<string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    // protected $hidden = [
+    //     'password',
+    //     'remember_token',
+    // ];
 
+    // Kurang relationship
+    
     /**
      * Get the attributes that should be cast.
      *
@@ -40,8 +43,7 @@ class Detail_Pendapatan extends Model
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'Id_DetailPendapatan' => 'string',
         ];
     }
 }

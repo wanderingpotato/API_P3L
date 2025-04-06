@@ -15,22 +15,38 @@ class Pembelian extends Model
      * @var list<string>
      */
     public $timestamps = false;
-    protected $primaryKey = 'Id_jabatan';
+    protected $primaryKey = 'Id_pembelian';
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'Id_pembelian',
+        'Id_alamat',
+        'Id_Pembeli',
+        'Id_Pegawai',
+        'Dilivery',
+        'Status',
+        'Status_Pengiriman',
+        'PointYgDidapat',
+        'PointCurrent',
+        'PointDigunakan',
+        'Potongan_Harga',
+        'Harga_Barang',
+        'Ongkir',
+        'Batas_Waktu',
+        'Tanggal_Pembelian',
+        'Tanggal_Lunas',
+        'Tanggal_Pengiriman-Pengambilan',
+        'Bukti_Pembayaran',
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var list<string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    // protected $hidden = [
+    //     'password',
+    //     'remember_token',
+    // ];
+
+    // Kurang relationship
 
     /**
      * Get the attributes that should be cast.
@@ -40,8 +56,7 @@ class Pembelian extends Model
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'Id_pembelian' => 'string',
         ];
     }
 }
