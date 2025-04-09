@@ -8,7 +8,7 @@ class Alamat extends Model
 {
     ////
     use HasFactory;
-
+    public $incrementing=false;
     /**
      * The attributes that are mass assignable.
      *
@@ -50,6 +50,7 @@ class Alamat extends Model
     {
         return [
             'Id_alamat' => 'string',
+            'Default' => 'boolean'
         ];
     }
 }

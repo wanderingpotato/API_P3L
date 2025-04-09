@@ -80,6 +80,7 @@ class Penitip extends Model
             'Id_penitip' => 'string',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'Badge' => 'boolean'
         ];
     }
 }

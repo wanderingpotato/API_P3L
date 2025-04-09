@@ -8,7 +8,7 @@ class Pembelian extends Model
 {
     ////
     use HasFactory;
-
+    public $incrementing=false;
     /**
      * The attributes that are mass assignable.
      *
@@ -78,6 +78,8 @@ class Pembelian extends Model
     {
         return [
             'Id_pembelian' => 'string',
+            'Dilivery' => 'boolean',
+            
         ];
     }
 }

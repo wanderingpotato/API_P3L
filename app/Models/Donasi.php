@@ -8,7 +8,7 @@ class Donasi extends Model
 {
    //
    use HasFactory;
-
+   public $incrementing=false;
    /**
     * The attributes that are mass assignable.
     *
@@ -60,6 +60,7 @@ class Donasi extends Model
    {
        return [
            'Id_donasi' => 'string',
+           'Konfirmasi' => 'boolean',
        ];
    }
 }

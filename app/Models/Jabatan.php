@@ -9,7 +9,7 @@ class Jabatan extends Model
 {
     //
     use HasFactory;
-
+    public $incrementing=false;
     /**
      * The attributes that are mass assignable.
      *

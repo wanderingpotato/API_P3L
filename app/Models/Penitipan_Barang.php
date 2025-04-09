@@ -8,7 +8,7 @@ class Penitipan_Barang extends Model
 {
     ////
     use HasFactory;
-
+    public $incrementing=false;
     /**
      * The attributes that are mass assignable.
      *
@@ -88,6 +88,9 @@ class Penitipan_Barang extends Model
     {
         return [
             'Id_barang' => 'string',
+            'DiPerpanjang' => 'boolean',
+            'DiliverHere' => 'boolean',
+            'Hunter' => 'boolean',
         ];
     }
 }

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('Id_Penitip')->references('Id_Penitip')->on('penitips')->onDelete('cascade');
             $table->bigInteger('Id_Pegawai')->unsigned()->nullable();
             $table->foreign('Id_Pegawai')->references('Id_Pegawai')->on('pegawais')->onDelete('cascade');
-            $table->string('Id_Barang')->nullable();
+            $table->string('Id_Barang');
             $table->foreign('Id_Barang')->references('Id_Barang')->on('penitipan__barangs')->onDelete('cascade');
             $table->string('Title');
             $table->text('Deskripsi');
