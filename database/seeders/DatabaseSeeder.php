@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10)->create();
+        // User::factory(10)->create();
         Jabatan::factory(10)->create();
         Pegawai::factory(10)->create();
         Penitip::factory(10)->create();
