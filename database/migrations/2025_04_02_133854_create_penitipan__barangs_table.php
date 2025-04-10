@@ -33,6 +33,7 @@ return new class extends Migration
             $table->dateTime('Tanggal_rating')->nullable();
             $table->dateTime('Garansi')->nullable();
             $table->text('Foto_Barang')->nullable();
+            $table->text('Deskripsi')->nullable();
             $table->timestamps();
         });
     }

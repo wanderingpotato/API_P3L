@@ -41,7 +41,7 @@ class Penitipan_BarangFactory extends Factory
             'DiliverHere'=>fake()->numberBetween(0, 1),
             'Hunter'=>fake()->numberBetween(0, 1),
             'Foto_Barang'=>fake()->word() . '.png',
-            // 'Deskripsi'=>fake()->text(),
+            'Deskripsi'=>fake()->text(),
             //
         ];
     }
