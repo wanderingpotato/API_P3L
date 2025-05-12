@@ -2,18 +2,21 @@
 
 namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
 
-class Penitip extends Model
+class Penitip extends Authenticatable
 {
     ////
-    use HasFactory;
+    use HasFactory,HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
+    protected $table = 'Penitips';
     public $timestamps = false;
     protected $primaryKey = 'Id_penitip';
     protected $fillable = [

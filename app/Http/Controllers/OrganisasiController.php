@@ -6,6 +6,7 @@ use App\Models\Organisasi;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -56,11 +57,11 @@ class OrganisasiController extends Controller
             return response(['message' => $validate->errors()->first()], 400);
         }
 
-        if (!Auth::attempt($loginData)) {
-            return response(['message' => 'Invalid email & password match'], 401);
+        $user = Organisasi::where('username', $loginData['username'])->first();
+        if (!$user || !Hash::check($loginData['password'], $user->password)) {
+            return response(['message' => 'Invalid username or password'], 401);
         }
-        $user = Auth::user();
-        $token = $user->createToken('Authentication Token')->plainTextToken;
+        $token = $user->createToken('Auth Token')->plainTextToken;
 
         return response([
             'message' => 'Authenticated',

@@ -6,6 +6,7 @@ use App\Models\Pegawai;
 use App\Models\Penitip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -59,11 +60,11 @@ class PenitipController extends Controller
             return response(['message' => $validate->errors()->first()], 400);
         }
 
-        if (!Auth::attempt($loginData)) {
-            return response(['message' => 'Invalid email & password match'], 401);
+        $user = Penitip::where('username', $loginData['username'])->first();
+        if (!$user || !Hash::check($loginData['password'], $user->password)) {
+            return response(['message' => 'Invalid username or password'], 401);
         }
-        $user = Auth::user();
-        $token = $user->createToken('Authentication Token')->plainTextToken;
+        $token = $user->createToken('Auth Token')->plainTextToken;
 
         return response([
             'message' => 'Authenticated',

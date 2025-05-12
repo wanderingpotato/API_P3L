@@ -36,9 +36,21 @@ return [
     */
 
     'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
+        'penitip' => [
+            'driver' => 'sanctum',
+            'provider' => 'penitips',
+        ],
+        'pegawai' => [
+            'driver' => 'sanctum',
+            'provider' => 'pegawais',
+        ],
+        'pembeli' => [
+            'driver' => 'sanctum',
+            'provider' => 'pembelis',
+        ],
+        'organisasi' => [
+            'driver' => 'sanctum',
+            'provider' => 'organisasis',
         ],
     ],
 
@@ -60,11 +72,22 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'penitips' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => App\Models\Penitip::class,
         ],
-
+        'pegawais' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Pegawai::class,
+        ],
+        'pembelis' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Pembeli::class,
+        ],
+        'organisasis' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Organisasi::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
