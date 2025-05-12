@@ -41,7 +41,7 @@ class Donasi extends Model
     {
         return $this->belongsTo(Organisasi::class, 'Id_organisasi');
     }
-    public function Donasi()
+    public function Detail_Donasi()
     {
         return $this->belongsToMany(
             Penitipan_Barang::class,

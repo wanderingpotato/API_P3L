@@ -3,18 +3,69 @@
 namespace App\Http\Controllers;
 
 use App\Models\Merchandise;
+use App\Models\Pegawai;
+use App\Models\Pembeli;
+use App\Models\Penitip;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class MerchandiseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
+        $query = Merchandise::get();
+        if ($request->has('search') && $request->search != '') {
+            $query->where('Nama', 'like', '%' . $request->search . '%');
+        }
+        $perPage = $request->query('per_page', 7);
+        $Merchandise = $query->paginate($perPage);
 
+        return response([
+            'message' => 'All Merchandise Retrieved',
+            'data' => $Merchandise
+        ], 200);
+    }
+    public function getData()
+    {
+        $data = Merchandise::get();
+
+        return response([
+            'message' => 'All JenisKamar Retrieved',
+            'data' => $data
+        ], 200);
+    }
+    public function showMerchandisebyPenitip($id)
+    {
+        $user = Penitip::find($id);
+        if (!$user) {
+            return response([
+                'message' => 'User Not Found',
+                'data' => null
+            ], 404);
+        }
+        $Merchandise = Merchandise::where('Id_penitip', $user->id)->get();
+        return response([
+            'message' => 'Penitipan Barang of ' . $user->name . ' Retrieved',
+            'data' => $Merchandise
+        ], 200);
+    }
+    public function showMerchandisebyPembeli($id)
+    {
+        $user = Pembeli::find($id);
+        if (!$user) {
+            return response([
+                'message' => 'User Not Found',
+                'data' => null
+            ], 404);
+        }
+        $Merchandise = Merchandise::where('Id_Pembeli', $user->id)->get();
+        return response([
+            'message' => 'Penitipan Barang of ' . $user->name . ' Retrieved',
+            'data' => $Merchandise
+        ], 200);
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -28,38 +79,131 @@ class MerchandiseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $storeData = $request->all();
+
+        $validate = Validator::make($storeData, [
+            'Nama' => 'required',
+            'Poin' => 'required',
+            'Kategori' => 'required',
+            'Stock' => 'required',
+        ]);
+        if ($validate->fails()) {
+            return response(['message' => $validate->errors()], 400);
+        }
+        $idUser =  Auth::id();
+        $user = Pegawai::find($idUser);
+        if (is_null($user)) {
+            return response([
+                'message' => 'User Not Found'
+            ], 404);
+        }
+        if ($user->Id_jabatan == 'J-001') {
+            return response([
+                'message' => 'User Cannot'
+            ], 404);
+        }
+
+        $lastId = Merchandise::latest('Id_merchandise')->first();
+        $newId = $lastId ? 'M-' . str_pad((int) substr($lastId->Id_merchandise, 2) + 1, 3, '0', STR_PAD_LEFT) : 'M-001';
+        $storeData['Id_merchandise'] = $newId;
+
+        $Merchandise = Merchandise::create($storeData);
+        return response([
+            'message' => 'Penitipan Barang Added Successfully',
+            'data' => $Merchandise,
+        ], 200);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Merchandise $merchandise)
+    public function show(string $id)
     {
-        //
-    }
+        $Merchandise = Merchandise::find($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Merchandise $merchandise)
-    {
-        //
+        if ($Merchandise) {
+            return response([
+                'message' => 'Merchandise Found',
+                'data' => $Merchandise
+            ], 200);
+        }
+
+        return response([
+            'message' => 'Merchandise Not Found',
+            'data' => null
+        ], 404);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Merchandise $merchandise)
+    public function update(Request $request, string $id)
     {
-        //
+        $Merchandise = Merchandise::find($id);
+        if (is_null($Merchandise)) {
+            return response([
+                'message' => 'Merchandise Not Found',
+                'data' => null
+            ], 404);
+        }
+
+        $updateData = $request->all();
+
+        $validate = Validator::make($updateData, [
+            'Nama' => 'required',
+            'Poin' => 'required',
+            'Kategori' => 'required',
+            'Stock' => 'required',
+        ]);
+        if ($validate->fails()) {
+            return response(['message' => $validate->errors()], 400);
+        }
+        $idUser = Auth::id();
+        $user = Pegawai::find($idUser);
+        if (is_null($user)) {
+            return response([
+                'message' => 'User Not Found'
+            ], 404);
+        }
+        if ($user->Id_jabatan == 'J-001') {
+            return response([
+                'message' => 'User Cannot'
+            ], 404);
+        }
+
+        $Merchandise->update($updateData);
+
+        return response([
+            'message' => 'Merchandise Updated Successfully',
+            'data' => $Merchandise,
+        ], 200);
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Merchandise $merchandise)
+    public function destroy(string $id)
     {
-        //
+        $Merchandise = Merchandise::find($id);
+
+        if (is_null($Merchandise)) {
+            return response([
+                'message' => 'Merchandise Not Found',
+                'data' => null
+            ], 404);
+        }
+
+        if ($Merchandise->delete()) {
+            return response([
+                'message' => 'Merchandise Deleted Successfully',
+                'data' => $Merchandise,
+            ], 200);
+        }
+
+        return response([
+            'message' => 'Delete Merchandise Failed',
+            'data' => null,
+        ], 400);
     }
 }

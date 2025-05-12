@@ -35,6 +35,7 @@ class Penitipan_Barang extends Model
         'Tanggal_rating',
         'Garansi',
         'Foto_Barang',
+        'Deskripsi',
     ];
     /**
      * The attributes that should be hidden for serialization.
@@ -67,7 +68,7 @@ class Penitipan_Barang extends Model
             
         );
     }
-    public function Kategori()
+    public function Kategori_Barang()
     {
         return $this->belongsTo(Kategori_Barang::class, 'Id_kategori');
     }

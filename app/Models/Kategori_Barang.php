@@ -33,7 +33,7 @@ class Kategori_Barang extends Model
     // ];
 
     //relationship
-    public function Barang()
+    public function Penitipan_Barang()
     {
         return $this->hasMany(Penitipan_Barang::class,'Id_kategori');
     }
