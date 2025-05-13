@@ -47,11 +47,11 @@ class Pembelian extends Model
     // ];
 
     // Kurang relationships
-    public function Detail_Pembelian()
+    public function detail__pembelians()
     {
         return $this->belongsToMany(
             Penitipan_Barang::class,
-            'Detail_Pembelian',
+            'detail__pembelians',
             'Id_pembelian',
             'Id_barang' 
             

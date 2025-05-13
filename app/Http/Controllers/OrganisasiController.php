@@ -203,7 +203,7 @@ class OrganisasiController extends Controller
         if ($request->has('noTelp')  && $request->noTelp != null) {
             $updateData['noTelp'] = $request->noTelp;
         }
-        if ($request->has('username')  && $request->username != null) {
+        if ($request->has('username')  && $request->username != null && $request->username != $user->username) {
             $updateData['username'] = $request->username;
         }
         if ($request->has('Deskripsi')  && $request->Deskripsi != null) {
@@ -277,7 +277,7 @@ class OrganisasiController extends Controller
         if ($request->has('noTelp')  && $request->noTelp != null) {
             $updateData['noTelp'] = $request->noTelp;
         }
-        if ($request->has('username')  && $request->username != null) {
+        if ($request->has('username')  && $request->username != null && $request->username != $user->username) {
             $updateData['username'] = $request->username;
         }
         if ($request->has('Deskripsi')  && $request->Deskripsi != null) {

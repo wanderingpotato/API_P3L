@@ -203,7 +203,7 @@ class PembeliController extends Controller
         if ($request->has('Poin')  && $request->Poin != null) {
             $updateData['Poin'] = $request->Poin;
         }
-        if ($request->has('username')  && $request->username != null) {
+        if ($request->has('username')  && $request->username != null && $request->username != $user->username) {
             $updateData['username'] = $request->username;
         }
         $validate = Validator::make($updateData, [
@@ -271,7 +271,7 @@ class PembeliController extends Controller
         if ($request->has('noTelp')  && $request->noTelp != null) {
             $updateData['noTelp'] = $request->noTelp;
         }
-        if ($request->has('username')  && $request->username != null) {
+        if ($request->has('username')  && $request->username != null && $request->username != $user->username) {
             $updateData['username'] = $request->username;
         }
 
