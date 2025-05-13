@@ -45,7 +45,7 @@ class Donasi extends Model
     {
         return $this->belongsToMany(
             Penitipan_Barang::class,
-            'Detail_Donasi',
+            'detail__donasis',
             'Id_donasi',
             'Id_barang' 
             

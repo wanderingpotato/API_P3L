@@ -147,6 +147,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/Alamat/{id}', [AlamatController::class, 'update']);
     Route::post('/Alamat/Pembeli/{id}', [AlamatController::class, 'EditAlamatPembeli']);
     Route::get('/Alamat/Pembeli/{id}', [AlamatController::class, 'showAlamatbyPembeli']);
+    Route::get('/Alamat', [AlamatController::class, 'getData']);
     Route::delete('/Alamat/{id}', [AlamatController::class, 'destroy']);
 
     //DetailDonasi

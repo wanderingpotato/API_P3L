@@ -26,7 +26,7 @@ class PegawaiController extends Controller
             'noTelp' => 'required|min:10',
             'username' => 'required|unique:Pegawais',
         ]);
-        $registrationData['Id_jabatan'] = 'J-000';
+        //$registrationData['Id_jabatan'] = 'J-000';
 
         if ($validate->fails()) {
             return response(['message' => $validate->errors()->first()], 400);
