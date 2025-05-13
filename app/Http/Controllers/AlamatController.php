@@ -17,7 +17,7 @@ class AlamatController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Alamat::get();
+        $query = Alamat::query();
         if ($request->has('search') && $request->search != '') {
             $query->where('Nama', 'like', '%' . $request->search . '%');
         }

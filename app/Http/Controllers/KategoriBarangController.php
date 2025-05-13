@@ -16,7 +16,7 @@ class KategoriBarangController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Kategori_Barang::get();
+        $query = Kategori_Barang::query();
         if ($request->has('search') && $request->search != '') {
             $query->where('Nama_Kategori', 'like', '%' . $request->search . '%');
         }
