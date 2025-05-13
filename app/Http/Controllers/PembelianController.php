@@ -79,7 +79,23 @@ class PembelianController extends Controller
                 'data' => null
             ], 404);
         }
-        $Pembelian = Pembelian::where('id_users', $user->id)->get();
+        $Pembelian = Pembelian::with('detail__pembelians')->where('Id_Pembeli', $user->Id_Pembeli)->get();
+        return response([
+            'message' => 'Pembelian of ' . $user->name . ' Retrieved',
+            'data' => $Pembelian
+        ], 200);
+    }
+    public function showPembelianbyId($id)
+    {
+        $idUser = Auth::id();
+        $user = Pembeli::find($idUser);
+        if (!$user) {
+            return response([
+                'message' => 'User Not Found',
+                'data' => null
+            ], 404);
+        }
+        $Pembelian = Pembelian::with(['detail__pembelians', 'alamat'])->where('Id_Pembelian', $id)->get();
         return response([
             'message' => 'Pembelian of ' . $user->name . ' Retrieved',
             'data' => $Pembelian
@@ -100,7 +116,7 @@ class PembelianController extends Controller
         if (is_null($user)) {
             return response(['message' => 'User Not Found'], 404);
         }
-        $count = Pembelian::where('id_users', $idUser)->count();
+        $count = Pembelian::where('Id_Pembeli', $idUser)->count();
         return response([
             'message' => 'Count Retrieved Successfully',
             'count' => $count

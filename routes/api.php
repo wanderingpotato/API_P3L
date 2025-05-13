@@ -109,8 +109,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route::get('/PenitipanBarang/User/Count', [PenitipanBarangController::class, 'countPenitipanBarangByUser']);
     Route::post('/PenitipanBarang/{id}', [PenitipanBarangController::class, 'update']);
     Route::post('/PenitipanBarang/dashboard/{id}', [PenitipanBarangController::class, 'updateDashboard']);
-    Route::get('/PenitipanBarang/user/{id}', [PenitipanBarangController::class, 'showPenitipanBarangbyPenitip']);
-    Route::get('/PenitipanBarang/user/{id}', [PenitipanBarangController::class, 'showPenitipanBarangbyPembeli']);
+    Route::get('/PenitipanBarang/Penitip/{id}', [PenitipanBarangController::class, 'showPenitipanBarangbyPenitip']);
+    Route::get('/PenitipanBarang/Pembeli/{id}', [PenitipanBarangController::class, 'showPenitipanBarangbyPembeli']);
     Route::get('/PenitipanBarang/user', [PenitipanBarangController::class, 'getDataByPenitipId']);
     Route::post('/PenitipanBarang/UpdateRating', [PenitipanBarangController::class, 'UpdateRating']);
     Route::delete('/PenitipanBarang/{id}', [PenitipanBarangController::class, 'destroy']);
@@ -214,6 +214,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/Pembelian/{id}', [PembelianController::class, 'update']);
     Route::post('/Pembelian/dashboard/{id}', [PembelianController::class, 'updateDashboard']);
     Route::get('/Pembelian/Pembeli/{id}', [PembelianController::class, 'showPembelianbyUser']);
+    Route::get('/Pembelian/{id}', [PembelianController::class, 'showPembelianbyId']);
     Route::get('/Pembelian/Pembeli', [PembelianController::class, 'getDataByPembeliId']);
     Route::get('/Pembelian/Count', [PembelianController::class, 'countPembelian']);
     Route::get('/Pembelian/Pembeli/Count', [PembelianController::class, 'countPembelianByPembeli']);

@@ -201,7 +201,7 @@ class PegawaiController extends Controller
         if ($request->has('Poin')  && $request->Poin != null) {
             $updateData['Poin'] = $request->Poin;
         }
-        if ($request->has('username')  && $request->username != null) {
+        if ($request->has('username')  && $request->username != null && $request->username != $user->username) {
             $updateData['username'] = $request->username;
         }
         if ($request->has('Id_jabatan')  && $request->Id_jabatan != null) {

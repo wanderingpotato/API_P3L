@@ -58,7 +58,7 @@ class PenitipanBarangController extends Controller
                 'data' => null
             ], 404);
         }
-        $RatingBarang = Penitipan_Barang::where('Id_penitip', $user->id)->where('status', 'DiBeli')
+        $RatingBarang = Penitipan_Barang::where('Id_penitip', $user->Id_penitip)->where('status', 'DiBeli')
             ->where('rating', '!=', 0)->count();
             
         $updateData['RataRating'] = ($user->RataRating * ($RatingBarang-1) ) + ($Rating / $RatingBarang);
@@ -78,7 +78,7 @@ class PenitipanBarangController extends Controller
                 'data' => null
             ], 404);
         }
-        $PenitipanBarang = Penitipan_Barang::where('Id_penitip', $user->id)->get();
+        $PenitipanBarang = Penitipan_Barang::where('Id_Penitip', $user->Id_penitip)->get();
         return response([
             'message' => 'Penitipan Barang of ' . $user->name . ' Retrieved',
             'data' => $PenitipanBarang
@@ -94,7 +94,7 @@ class PenitipanBarangController extends Controller
                 'data' => null
             ], 404);
         }
-        $PenitipanBarang = Penitipan_Barang::where('Id_penitip', $user->id)->get();
+        $PenitipanBarang = Penitipan_Barang::where('Id_penitip', $user->Id_penitip)->get();
         return response([
             'message' => 'Penitipan Barang of ' . $user->name . ' Retrieved',
             'data' => $PenitipanBarang
@@ -109,7 +109,7 @@ class PenitipanBarangController extends Controller
                 'data' => null
             ], 404);
         }
-        $PenitipanBarang = Penitipan_Barang::where('Id_Pembeli', $user->id)->get();
+        $PenitipanBarang = Penitipan_Barang::where('Id_Pembeli', $user->Id_penitip)->get();
         return response([
             'message' => 'Penitipan Barang of ' . $user->name . ' Retrieved',
             'data' => $PenitipanBarang
