@@ -19,7 +19,7 @@ class KlaimMerchandiseController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Klaim_Merchandise::all();
+        $query = Klaim_Merchandise::query();
         if ($request->has('search') && $request->search != '') {
             $query->where('id_Klaim_Merchandise', 'like', '%' . $request->search . '%');
         }

@@ -15,7 +15,7 @@ class MerchandiseController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Merchandise::get();
+        $query = Merchandise::query();
         if ($request->has('search') && $request->search != '') {
             $query->where('Nama', 'like', '%' . $request->search . '%');
         }

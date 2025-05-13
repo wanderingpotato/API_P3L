@@ -56,6 +56,7 @@ Route::get('/Jabatan/{id}', [JabatanController::class, 'show']);
 
 Route::get('/Diskusi', [DiskusiController::class, 'index']);
 Route::get('/Diskusi/all', [DiskusiController::class, 'getData']);
+Route::get('/Diskusi/Barang/{id}', [DiskusiController::class, 'getDataByBarangId']);
 Route::get('/Diskusi/{id}', [DiskusiController::class, 'show']);
 
 Route::get('/Komisi', [KomisiController::class, 'index']);
@@ -195,7 +196,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/Diskusi/Penitip/{id}', [DiskusiController::class, 'getDataByPenitipId']);
     Route::get('/Diskusi/Pembeli/{id}', [DiskusiController::class, 'getDataByPembeliId']);
     Route::get('/Diskusi/Pegawai/{id}', [DiskusiController::class, 'getDataByPegawaiId']);
-    Route::get('/Diskusi/Barang/{id}', [DiskusiController::class, 'getDataByBarangId']);
+    
     Route::delete('/Diskusi/{id}', [DiskusiController::class, 'destroy']);
     
     //Merchandise

@@ -13,7 +13,7 @@ class JabatanController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Jabatan::get();
+        $query = Jabatan::query();
         if ($request->has('search') && $request->search != '') {
             $query->where('nama_jabatan', 'like', '%' . $request->search . '%');
         }
