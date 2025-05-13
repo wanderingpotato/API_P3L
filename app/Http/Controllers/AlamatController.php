@@ -110,7 +110,7 @@ class AlamatController extends Controller
         $validate = Validator::make($storeData, [
             'NoTelp' => 'required',
             'Title' => 'required',
-            'Default'=> 'required',
+            // 'Default'=> 'required',
             'Deskripsi'=> 'required',
             'Alamat'=> 'required',
         ]);
@@ -124,10 +124,10 @@ class AlamatController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        $storeData['Id_Pembeli']=$user->Id_pembeli;
-        $lastId = Alamat::latest('Id_Alamat')->first();
+        $storeData['Id_pembeli']=$user->Id_pembeli;
+        $lastId = Alamat::latest('Id_alamat')->first();
         $newId = $lastId ? 'A-' . str_pad((int) substr($lastId->Id_Alamat, 2) + 1, 3, '0', STR_PAD_LEFT) : 'A-001';
-        $storeData['Id_Alamat'] = $newId;
+        $storeData['Id_alamat'] = $newId;
 
         $Alamat = Alamat::create($storeData);
         return response([

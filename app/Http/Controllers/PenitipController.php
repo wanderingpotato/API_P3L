@@ -209,7 +209,7 @@ class PenitipController extends Controller
         if ($request->has('noTelp')  && $request->noTelp != null) {
             $updateData['noTelp'] = $request->noTelp;
         }
-        if ($request->has('username')  && $request->username != null) {
+        if ($request->has('username')  && !is_null($request->username) && $request->username != $user->username) {
             $updateData['username'] = $request->username;
         }
         if ($request->has('Saldo')  && $request->Saldo != null) {
@@ -236,7 +236,7 @@ class PenitipController extends Controller
                 'min:6',
             ],
             'noTelp' => 'nullable|min:10',
-            'username' => 'nullable|unique:Penitips',
+            'username' => 'nullable',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
