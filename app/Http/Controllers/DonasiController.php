@@ -41,9 +41,8 @@ class DonasiController extends Controller
             'data' => $data
         ], 200);
     }
-    public function getDataByOrganisasiId()
+    public function getDataByOrganisasiId($idUser)
     {
-        $idUser = Auth::id();
         $user = Organisasi::find($idUser);
         if (is_null($user)) {
             return response([
