@@ -127,9 +127,9 @@ class PegawaiController extends Controller
             'password' => 'required|min:8',
             'noTelp' => 'required|min:10',
             'username' => 'required|unique:Pegawais',
-            'Id_jabatan' => 'required',
+            'Id_jabatan' => '=',
         ]);
-
+        $storeData['Id_jabatan'] = 'J-5404';
         if ($validate->fails()) {
             return response(['message' => $validate->errors()->first()], 400);
         }

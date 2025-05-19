@@ -126,6 +126,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/Donasi/Organisasi/Count', [DonasiController::class, 'countDonasi']);
     Route::get('/Donasi/Organisasi/Count/{id}', [DonasiController::class, 'countDonasiByOrganisasi']);
     Route::delete('/Donasi/{id}', [DonasiController::class, 'destroy']);
+    Route::get('/Donasi/{id}', [DonasiController::class, 'getBarangDonasi']);
 
     //KategoriBarang
     Route::post('/KategoriBarang', [KategoriBarangController::class, 'store']);
