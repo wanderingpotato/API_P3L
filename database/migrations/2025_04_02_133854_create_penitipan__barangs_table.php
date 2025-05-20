@@ -23,7 +23,7 @@ return new class extends Migration
             $table->boolean('DiPerpanjang');
             $table->boolean('DiliverHere');
             $table->boolean('Hunter');
-            $table->enum('Status',['DiJual','DiDonasikan','DiKembalikan','DiBeli']);
+            $table->enum('Status',['DiJual','DiDonasikan','DiKembalikan','DiBeli', 'Kadaluarsa']);
             $table->double('Harga_barang');
             $table->double('Rating')->nullable();
             $table->dateTime('Tanggal_penitipan');

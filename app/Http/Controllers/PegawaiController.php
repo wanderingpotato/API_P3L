@@ -114,11 +114,11 @@ class PegawaiController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        if ($userCheck->Id_jabatan == 'J-003') {
-            return response([
-                'message' => 'User Cannot'
-            ], 404);
-        }
+        // if ($userCheck->Id_jabatan == 'J-003') {
+        //     return response([
+        //         'message' => 'User Cannot'
+        //     ], 404);
+        // }
         $storeData = $request->all();
 
         $validate = Validator::make($storeData, [
@@ -127,9 +127,9 @@ class PegawaiController extends Controller
             'password' => 'required|min:8',
             'noTelp' => 'required|min:10',
             'username' => 'required|unique:Pegawais',
-            'Id_jabatan' => '=',
+            'Id_jabatan' => 'required',
         ]);
-        $storeData['Id_jabatan'] = 'J-5404';
+        // $storeData['Id_jabatan'] = 'J-5404';
         if ($validate->fails()) {
             return response(['message' => $validate->errors()->first()], 400);
         }
