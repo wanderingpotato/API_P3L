@@ -147,7 +147,7 @@ class PenitipanBarangController extends Controller
             'Tanggal_laku' => '',
             'Tanggal_rating' => '',
             'Garansi' => '',
-            'Foto_Barang' => '',
+            'Foto_Barang' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:2048',
             'Deskripsi' => '',
         ]);
         if ($validate->fails()) {
@@ -169,7 +169,7 @@ class PenitipanBarangController extends Controller
         $lastId = Penitipan_Barang::latest('Id_barang')->first();
         $newId = $lastId ? 'PB-' . str_pad((int) substr($lastId->Id_barang, 2) + 1, 3, '0', STR_PAD_LEFT) : 'PB-001';
         $storeData['Id_barang'] = $newId;
-        if ($request->hasFile('foto')) {
+        if ($request->hasFile('Foto_Barang')) {
             $uploadFolder = 'FotoBarang';
             $image = $request->file('Foto_Barang');
             $image_uploaded_path = $image->store($uploadFolder, 'public');
