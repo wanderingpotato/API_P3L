@@ -39,7 +39,7 @@ class PenitipanBarangController extends Controller
             'data' => $data
         ], 200);
     }
-    
+
     public function UpdateRating(float $Rating, $id)
     {
         $PenitipanBarang = Penitipan_Barang::find($id);
@@ -49,7 +49,7 @@ class PenitipanBarangController extends Controller
                 'data' => null
             ], 404);
         }
-        $updateData["Rating"]=$Rating;
+        $updateData["Rating"] = $Rating;
         $PenitipanBarang->update($updateData);
         $user = Penitip::find($PenitipanBarang->Id_penitip);
         if (is_null($user)) {
@@ -60,14 +60,14 @@ class PenitipanBarangController extends Controller
         }
         $RatingBarang = Penitipan_Barang::where('Id_penitip', $user->Id_penitip)->where('status', 'DiBeli')
             ->where('rating', '!=', 0)->count();
-            
-        $updateData['RataRating'] = ($user->RataRating * ($RatingBarang-1) ) + ($Rating / $RatingBarang);
+
+        $updateData['RataRating'] = ($user->RataRating * ($RatingBarang - 1)) + ($Rating / $RatingBarang);
 
         $user->update($updateData);
         return response([
-        'message' => 'Rating updated successfully',
-        'data' => $user
-    ], 200);
+            'message' => 'Rating updated successfully',
+            'data' => $user
+        ], 200);
     }
     public function showPenitipanBarangbyPenitip($id)
     {
@@ -86,7 +86,7 @@ class PenitipanBarangController extends Controller
     }
     public function getDataByPenitipId()
     {
-         $idUser = Auth::id();
+        $idUser = Auth::id();
         $user = Penitip::find($idUser);
         if (!$user) {
             return response([
@@ -150,34 +150,43 @@ class PenitipanBarangController extends Controller
             'Foto_Barang' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:2048',
             'Deskripsi' => '',
         ]);
+
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
         }
-        $idUser =  Auth::id();
+
+        $idUser = Auth::id();
         $user = Pegawai::find($idUser);
         if (is_null($user)) {
-            return response([
-                'message' => 'User Not Found'
-            ], 404);
+            return response(['message' => 'User Not Found'], 404);
         }
         if ($user->Id_jabatan == 'J-003') {
-            return response([
-                'message' => 'User Cannot'
-            ], 404);
+            return response(['message' => 'User Cannot'], 403); // Ganti jadi 403 Forbidden lebih tepat
         }
 
+        // Generate Id_barang dengan format PB-xxxx (4 digit angka)
         $lastId = Penitipan_Barang::latest('Id_barang')->first();
-        $newId = $lastId ? 'PB-' . str_pad((int) substr($lastId->Id_barang, 2) + 1, 3, '0', STR_PAD_LEFT) : 'PB-001';
+        if ($lastId) {
+            // Ambil angka setelah "PB-" (mulai dari index 3)
+            $lastNumber = (int) substr($lastId->Id_barang, 3);
+            $newNumber = $lastNumber + 1;
+            $newId = 'PB-' . str_pad($newNumber, 4, '0', STR_PAD_LEFT);
+        } else {
+            $newId = 'PB-0001';
+        }
         $storeData['Id_barang'] = $newId;
+
+        // Upload foto barang jika ada
         if ($request->hasFile('Foto_Barang')) {
             $uploadFolder = 'FotoBarang';
             $image = $request->file('Foto_Barang');
             $image_uploaded_path = $image->store($uploadFolder, 'public');
             $uploadedImageResponse = basename($image_uploaded_path);
-
             $storeData['Foto_Barang'] = $uploadedImageResponse;
         }
+
         $PenitipanBarang = Penitipan_Barang::create($storeData);
+
         return response([
             'message' => 'Penitipan Barang Added Successfully',
             'data' => $PenitipanBarang,
