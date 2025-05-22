@@ -36,7 +36,7 @@ class DetailPendapatanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function showDetailPendapatanbyUser($id)
+    public function showDetailPendapatanbyPenitip($id)
     {
         $user = Penitip::find($id);
         if (!$user) {

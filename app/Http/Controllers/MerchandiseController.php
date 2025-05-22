@@ -45,7 +45,9 @@ class MerchandiseController extends Controller
                 'data' => null
             ], 404);
         }
-        $Merchandise = Merchandise::where('id_penitip', $user->id_penitip)->get();
+        $Merchandise = Merchandise::whereHas('Klaim', function ($query) use ($user) {
+            $query->where('id_penitip', $user->id_penitip);
+        })->get();
         return response([
             'message' => 'Merchandise of ' . $user->name . ' Retrieved',
             'data' => $Merchandise
@@ -60,7 +62,9 @@ class MerchandiseController extends Controller
                 'data' => null
             ], 404);
         }
-        $Merchandise = Merchandise::where('id_Pembeli', $user->id_Pembeli)->get();
+        $Merchandise = Merchandise::whereHas('Klaim', function ($query) use ($user) {
+            $query->where('id_Pembeli', $user->id_Pembeli);
+        })->get();
         return response([
             'message' => 'Merchandise of ' . $user->name . ' Retrieved',
             'data' => $Merchandise

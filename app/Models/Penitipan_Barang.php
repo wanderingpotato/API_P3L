@@ -51,7 +51,7 @@ class Penitipan_Barang extends Model
     {
         return $this->belongsToMany(
             Pembelian::class,
-            'Detail_Pembelian',
+            'detail__pembelians',
             'id_barang',
             'id_pembelian',
         );
@@ -60,7 +60,7 @@ class Penitipan_Barang extends Model
     {
         return $this->belongsToMany(
             Donasi::class,
-            'Detail_Donasi',
+            'detail__donasis',
             'id_barang' ,
             'id_donasi'
         );

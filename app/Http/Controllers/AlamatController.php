@@ -110,7 +110,7 @@ class AlamatController extends Controller
         $validate = Validator::make($storeData, [
             'no_telp' => 'required',
             'title' => 'required',
-            // 'default'=> 'required',
+            'default'=> 'required',
             'deskripsi' => 'required',
             'alamat' => 'required',
         ]);

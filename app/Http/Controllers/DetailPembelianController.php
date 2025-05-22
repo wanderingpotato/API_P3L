@@ -36,7 +36,7 @@ class DetailPembelianController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function showDetailPembelianbyUser($id)
+    public function showDetailPembelianbyPembelian($id)
     {
         $user = Pembelian::find($id);
         if (!$user) {

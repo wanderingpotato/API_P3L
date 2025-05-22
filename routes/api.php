@@ -155,25 +155,24 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/Alamat/{id}', [AlamatController::class, 'update']);
     Route::post('/Alamat/Pembeli/{id}', [AlamatController::class, 'EditAlamatPembeli']);
     Route::get('/Alamat/Pembeli/{id}', [AlamatController::class, 'showAlamatbyPembeli']);
-    Route::get('/Alamat', [AlamatController::class, 'getData']);
     Route::delete('/Alamat/{id}', [AlamatController::class, 'destroy']);
 
     //DetailDonasi
     Route::post('/DetailDonasi', [DetailDonasiController::class, 'store']);
     Route::post('/DetailDonasi/{id}', [DetailDonasiController::class, 'update']);
-    Route::get('/DetailDonasi/user/{id}', [DetailDonasiController::class, 'showDetailDonasibyUser']);
+    Route::get('/DetailDonasi/Donasi/{id}', [DetailDonasiController::class, 'showDetailDonasibyDonasi']);
     Route::delete('/DetailDonasi/{id}', [DetailDonasiController::class, 'destroy']);
 
     //DetailPendapatan
     Route::post('/DetailPendapatan', [DetailPendapatanController::class, 'store']);
     Route::post('/DetailPendapatan/{id}', [DetailPendapatanController::class, 'update']);
-    Route::get('/DetailPendapatan/user/{id}', [DetailPendapatanController::class, 'showDetailPendapatanbyUser']);
+    Route::get('/DetailPendapatan/Penitip/{id}', [DetailPendapatanController::class, 'showDetailPendapatanbyPenitip']);
     Route::delete('/DetailPendapatan/{id}', [DetailPendapatanController::class, 'destroy']);
 
     //DetailPembelian
     Route::post('/DetailPembelian', [DetailPembelianController::class, 'store']);
     Route::post('/DetailPembelian/{id}', [DetailPembelianController::class, 'update']);
-    Route::get('/DetailPembelian/user/{id}', [DetailPembelianController::class, 'showDetailPembelianbyUser']);
+    Route::get('/DetailPembelian/Pembelian/{id}', [DetailPembelianController::class, 'showDetailPembelianbyPembelian']);
     Route::delete('/DetailPembelian/{id}', [DetailPembelianController::class, 'destroy']);
 
     //Komisi
@@ -188,6 +187,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/Gallery/{id}', [GalleryController::class, 'update']);
     Route::get('/Gallery/Barang/{id}', [GalleryController::class, 'getDataByBarangId']);
     Route::delete('/Gallery/{id}', [GalleryController::class, 'destroy']);
+    
+    //Merchandise
+    Route::post('/Merchandise', [MerchandiseController::class, 'store']);
+    Route::post('/Merchandise/{id}', [MerchandiseController::class, 'update']);
+    Route::get('/Merchandise/Penitip/{id}', [MerchandiseController::class, 'showMerchandisebyPenitip']);// ini masi aneh harusnya aku dari kalim merch
+    Route::get('/Merchandise/Pembeli/{id}', [MerchandiseController::class, 'showMerchandisebyPembeli']); // ini masi aneh harusnya aku dari kalim merch
+    Route::delete('/Merchandise/{id}', [MerchandiseController::class, 'destroy']);
     
     //KlaimMerchandise
     Route::post('/KlaimMerchandise', [KlaimMerchandiseController::class, 'store']);
@@ -210,15 +216,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/Diskusi/Penitip/{id}', [DiskusiController::class, 'getDataByPenitipId']);
     Route::get('/Diskusi/Pembeli/{id}', [DiskusiController::class, 'getDataByPembeliId']);
     Route::get('/Diskusi/Pegawai/{id}', [DiskusiController::class, 'getDataByPegawaiId']);
-    
     Route::delete('/Diskusi/{id}', [DiskusiController::class, 'destroy']);
-    
-    //Merchandise
-    Route::post('/Merchandise', [MerchandiseController::class, 'store']);
-    Route::post('/Merchandise/{id}', [MerchandiseController::class, 'update']);
-    Route::get('/Merchandise/Penitip/{id}', [MerchandiseController::class, 'showMerchandisebyPenitip']);
-    Route::get('/Merchandise/Pembeli/{id}', [MerchandiseController::class, 'showMerchandisebyPembeli']);
-    Route::delete('/Merchandise/{id}', [MerchandiseController::class, 'destroy']);
     
     //Pembelian
     Route::post('/Pembelian', [PembelianController::class, 'store']);

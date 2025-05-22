@@ -38,7 +38,7 @@ class DetailDonasiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function showDetailDonasibyUser($id)
+    public function showDetailDonasibyDonasi($id)
     {
         $user = Donasi::find($id);
         if (!$user) {

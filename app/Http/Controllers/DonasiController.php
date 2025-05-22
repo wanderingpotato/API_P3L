@@ -63,7 +63,7 @@ class DonasiController extends Controller
     }
     public function getDataWithPenitipanBarang()
     {
-        $data = Donasi::with('penitipan__barangs')->get();
+        $data = Donasi::with(['Detail_Donasi', 'DetailDonasis.Barang'])->get();
         if ($data->isNotEmpty()) {
             return response([
                 'message' => 'Data Retrieved Successfully',
@@ -78,7 +78,7 @@ class DonasiController extends Controller
     }
     public function getDataWithPenitipanBarangById($id)
     {
-        $data = Donasi::with('penitipan__barangs')->find($id);
+        $data = Donasi::with(['Detail_Donasi', 'DetailDonasis.Barang'])->find($id);
         if ($data->isNotEmpty()) {
             return response([
                 'message' => 'Data Retrieved Successfully',
