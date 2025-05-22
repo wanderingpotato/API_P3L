@@ -12,18 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('komisis', function (Blueprint $table) {
-            $table->string('Id_komisi')->primary();
-            $table->string('Id_barang');
-            $table->foreign('Id_barang')->references('Id_barang')->on('penitipan__barangs')->onDelete('cascade');
-            $table->bigInteger('Id_pegawai')->unsigned()->nullable();
-            $table->foreign('Id_pegawai')->references('Id_pegawai')->on('pegawais')->onDelete('cascade');
-            $table->bigInteger('Id_penitip')->unsigned()->nullable();
-            $table->foreign('Id_penitip')->references('Id_penitip')->on('penitips')->onDelete('cascade');
-            $table->double('Bonus_Penitip')->nullable();
-            $table->double('Komisi_Penitip');
-            $table->double('Komisi_Toko');
-            $table->double('Komisi_Hunter')->nullable();
-            $table->dateTime('Tanggal_Komisi');
+            $table->string('id_komisi')->primary();
+            $table->string('id_barang');
+            $table->foreign('id_barang')->references('id_barang')->on('penitipan__barangs')->onDelete('cascade');
+            $table->bigInteger('id_pegawai')->unsigned()->nullable();
+            $table->foreign('id_pegawai')->references('id_pegawai')->on('pegawais')->onDelete('cascade');
+            $table->bigInteger('id_penitip')->unsigned()->nullable();
+            $table->foreign('id_penitip')->references('id_penitip')->on('penitips')->onDelete('cascade');
+            $table->double('bonus_penitip')->nullable();
+            $table->double('komisi_penitip');
+            $table->double('komisi_toko');
+            $table->double('komisi_hunter')->nullable();
+            $table->dateTime('tanggal_komisi');
             $table->timestamps();
         });
     }

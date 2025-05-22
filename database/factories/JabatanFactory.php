@@ -19,7 +19,7 @@ class JabatanFactory extends Factory
     {
         return [
             // 'Id_jabatan' => 'J' . fake()->numberBetween(1, 100),
-            'Id_jabatan' => fake()->unique()->numerify('J-####'),
+            'id_jabatan' => fake()->unique()->numerify('J-####'),
             'nama_jabatan' => fake()->unique()->jobTitle(),
         ];
     }

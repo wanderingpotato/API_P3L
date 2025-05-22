@@ -19,13 +19,13 @@ class Detail_DonasiFactory extends Factory
      */
     public function definition(): array
     {
-        $BarangId = Penitipan_Barang::pluck('Id_barang')->toArray();
-        $DonasiId = Donasi::pluck('Id_donasi')->toArray();
+        $BarangId = Penitipan_Barang::pluck('id_barang')->toArray();
+        $DonasiId = Donasi::pluck('id_donasi')->toArray();
         return [
-            'Id_barang' => fake()->randomElement($BarangId),
-            'Id_donasi' => fake()->randomElement($DonasiId),
-            'Id_penitip' => function (array $attributes) {
-                return Penitipan_Barang::find($attributes['Id_barang'])->Id_Penitip;
+            'id_barang' => fake()->randomElement($BarangId),
+            'id_donasi' => fake()->randomElement($DonasiId),
+            'id_penitip' => function (array $attributes) {
+                return Penitipan_Barang::find($attributes['id_barang'])->Id_Penitip;
             },
             //
         ];

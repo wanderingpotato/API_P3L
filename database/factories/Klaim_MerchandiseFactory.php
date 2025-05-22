@@ -19,28 +19,28 @@ class Klaim_MerchandiseFactory extends Factory
      */
     public function definition(): array
     {
-        $MerchandiseId = Merchandise::pluck('Id_merchandise')->toArray();
-        $PenitipId = Penitip::pluck('Id_penitip')->toArray();
-        $PembeliId = Pembeli::pluck('Id_Pembeli')->toArray();
+        $MerchandiseId = Merchandise::pluck('id_merchandise')->toArray();
+        $PenitipId = Penitip::pluck('id_penitip')->toArray();
+        $PembeliId = Pembeli::pluck('id_Pembeli')->toArray();
         if (fake()->randomDigitNotNull() % 2 == 0) {
             return [
-                'Id_klaim' => fake()->unique()->numerify('KM-####'),
-                'Id_penitip' => fake()->randomElement($PenitipId),
-                'Id_merchandise' => fake()->randomElement($MerchandiseId),
-                'Jumlah'=>fake()->randomNumber(3, false),
-                'Tanggal_ambil'=> fake()->dateTime(),
-                'Status' => fake()->randomElement(['On-Progress','Claimed','Canceled']),
-                'Id_Pembeli' => null,
+                'id_klaim' => fake()->unique()->numerify('KM-####'),
+                'id_penitip' => fake()->randomElement($PenitipId),
+                'id_merchandise' => fake()->randomElement($MerchandiseId),
+                'jumlah'=>fake()->randomNumber(3, false),
+                'tanggal_ambil'=> fake()->dateTime(),
+                'status' => fake()->randomElement(['On-Progress','Claimed','Canceled']),
+                'id_pembeli' => null,
             ];
         } else {
             return [
-                'Id_klaim' => fake()->unique()->numerify('KM-####'),
-                'Id_Pembeli' => fake()->randomElement($PembeliId),
-                'Id_merchandise' => fake()->randomElement($MerchandiseId),
-                'Jumlah'=>fake()->randomNumber(3, false),
-                'Tanggal_ambil'=> fake()->dateTime(),
-                'Status' => fake()->randomElement(['On-Progress','Claimed','Canceled']),
-                'Id_penitip' => null,
+                'id_klaim' => fake()->unique()->numerify('KM-####'),
+                'id_pembeli' => fake()->randomElement($PembeliId),
+                'id_merchandise' => fake()->randomElement($MerchandiseId),
+                'jumlah'=>fake()->randomNumber(3, false),
+                'tanggal_ambil'=> fake()->dateTime(),
+                'status' => fake()->randomElement(['On-Progress','Claimed','Canceled']),
+                'id_penitip' => null,
             ];
         }
     }

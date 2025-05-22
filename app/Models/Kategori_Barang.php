@@ -15,11 +15,11 @@ class Kategori_Barang extends Model
      * @var list<string>
      */
     public $timestamps = false;
-    protected $primaryKey = 'Id_kategori';
+    protected $primaryKey = 'id_kategori';
     protected $fillable = [
-        'Id_kategori',
-        'Nama_Kategori',
-        'Sub_Kategori',
+        'id_kategori',
+        'nama_kategori',
+        'sub_kategori',
     ];
 
     /**
@@ -35,7 +35,7 @@ class Kategori_Barang extends Model
     //relationship
     public function Penitipan_Barang()
     {
-        return $this->hasMany(Penitipan_Barang::class,'Id_kategori');
+        return $this->hasMany(Penitipan_Barang::class,'id_kategori');
     }
     
     /**
@@ -46,7 +46,7 @@ class Kategori_Barang extends Model
     protected function casts(): array
     {
         return [
-            'Id_kategori' => 'string',
+            'id_kategori' => 'string',
         ];
     }
 }

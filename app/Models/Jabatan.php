@@ -16,9 +16,9 @@ class Jabatan extends Model
      * @var list<string>
      */
     public $timestamps = false;
-    protected $primaryKey = 'Id_jabatan';
+    protected $primaryKey = 'id_jabatan';
     protected $fillable = [
-        'Id_jabatan',
+        'id_jabatan',
         'nama_jabatan',
     ];
 
@@ -35,7 +35,7 @@ class Jabatan extends Model
     //relationship
     public function Pegawai()
     {
-        return $this->hasMany(Pegawai::class,'Id_jabatan');
+        return $this->hasMany(Pegawai::class,'id_jabatan');
     }
     
     /**
@@ -46,7 +46,7 @@ class Jabatan extends Model
     protected function casts(): array
     {
         return [
-            'Id_jabatan' => 'string',
+            'id_jabatan' => 'string',
         ];
     }
 

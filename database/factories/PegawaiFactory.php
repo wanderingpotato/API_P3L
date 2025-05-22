@@ -24,8 +24,8 @@ class PegawaiFactory extends Factory
         return [
             // 'Id_pegawai' => 'P' . fake()->numberBetween(1, 100),
             // 'Id_pegawai' =>  fake()->numerify('P-####'),
-            'Id_jabatan' => fake()->randomElement($jabatanId),
-            'noTelp'=> fake()->numerify('08##########'),
+            'id_jabatan' => fake()->randomElement($jabatanId),
+            'no_telp'=> fake()->numerify('08##########'),
             'username' => fake()->unique()->firstName(),
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),

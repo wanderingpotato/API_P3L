@@ -89,6 +89,7 @@ Route::get('/Pembelian/all', [PembelianController::class, 'getData']);
 Route::get('/Pembelian/Count', [PembelianController::class, 'countPembelian']);
 Route::get('/Pembelian/{id}', [PembelianController::class, 'show']);
 
+Route::get('/filterbymonth', [PembelianController::class, 'filterbymonth']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/EditUserPenitip', [PenitipController::class, 'update']);

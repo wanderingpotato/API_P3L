@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pegawai;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -23,10 +24,11 @@ class PegawaiController extends Controller
             'name' => 'required',
             'email' => 'required|email:rfc,dns|unique:Pegawais',
             'password' => 'required|min:8',
-            'noTelp' => 'required|min:10',
+            'no_telp' => 'required|min:10',
             'username' => 'required|unique:Pegawais',
+            'tanggal_lahir' => 'required',
         ]);
-        //$registrationData['Id_jabatan'] = 'J-000';
+        $registrationData['id_jabatan'] = 'J-000';
 
         if ($validate->fails()) {
             return response(['message' => $validate->errors()->first()], 400);
@@ -114,7 +116,7 @@ class PegawaiController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        if ($userCheck->Id_jabatan == 'J-003') {
+        if ($userCheck->id_jabatan == 'J-003') {
             return response([
                 'message' => 'User Cannot'
             ], 404);
@@ -125,9 +127,10 @@ class PegawaiController extends Controller
             'name' => 'required',
             'email' => 'required|email:rfc,dns|unique:Pegawais',
             'password' => 'required|min:8',
-            'noTelp' => 'required|min:10',
+            'no_telp' => 'required|min:10',
             'username' => 'required|unique:Pegawais',
-            'Id_jabatan' => 'required',
+            'id_jabatan' => 'required',
+            'tanggal_lahir' => 'required',
         ]);
 
         if ($validate->fails()) {
@@ -195,8 +198,8 @@ class PegawaiController extends Controller
         if ($request->has('name')  && $request->name != null) {
             $updateData['name'] = $request->name;
         }
-        if ($request->has('noTelp')  && $request->noTelp != null) {
-            $updateData['noTelp'] = $request->noTelp;
+        if ($request->has('no_telp')  && $request->no_telp != null) {
+            $updateData['no_telp'] = $request->no_telp;
         }
         if ($request->has('Poin')  && $request->Poin != null) {
             $updateData['Poin'] = $request->Poin;
@@ -204,8 +207,11 @@ class PegawaiController extends Controller
         if ($request->has('username')  && $request->username != null && $request->username != $user->username) {
             $updateData['username'] = $request->username;
         }
-        if ($request->has('Id_jabatan')  && $request->Id_jabatan != null) {
-            $updateData['Id_jabatan'] = $request->Id_jabatan;
+        if ($request->has('id_jabatan')  && $request->id_jabatan != null) {
+            $updateData['id_jabatan'] = $request->id_jabatan;
+        }
+        if ($request->has('tanggal_lahir')  && $request->tanggal_lahir != null) {
+            $updateData['tanggal_lahir'] = $request->tanggal_lahir;
         }
         $validate = Validator::make($updateData, [
             'name' => 'nullable',
@@ -215,8 +221,9 @@ class PegawaiController extends Controller
                 'string',
                 'min:6',
             ],
-            'noTelp' => 'nullable|min:10',
+            'no_telp' => 'nullable|min:10',
             'username' => 'nullable|unique:Pegawais',
+            'tanggal_lahir' => 'nullable',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -228,7 +235,7 @@ class PegawaiController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        if ($userCheck->Id_jabatan == 'J-003') {
+        if ($userCheck->id_jabatan == 'J-003') {
             return response([
                 'message' => 'User Cannot'
             ], 404);
@@ -269,14 +276,17 @@ class PegawaiController extends Controller
         if ($request->has('name')  && $request->name != null) {
             $updateData['name'] = $request->name;
         }
-        if ($request->has('noTelp')  && $request->noTelp != null) {
-            $updateData['noTelp'] = $request->noTelp;
+        if ($request->has('no_telp')  && $request->no_telp != null) {
+            $updateData['no_telp'] = $request->no_telp;
         }
         if ($request->has('username')  && $request->username != null) {
             $updateData['username'] = $request->username;
         }
-        if ($request->has('Id_jabatan')  && $request->Id_jabatan != null) {
-            $updateData['Id_jabatan'] = $request->Id_jabatan;
+        if ($request->has('id_jabatan')  && $request->id_jabatan != null) {
+            $updateData['id_jabatan'] = $request->id_jabatan;
+        }
+        if ($request->has('tanggal_lahir')  && $request->tanggal_lahir != null) {
+            $updateData['tanggal_lahir'] = $request->tanggal_lahir;
         }
         $validate = Validator::make($updateData, [
             'name' => 'nullable',
@@ -286,8 +296,9 @@ class PegawaiController extends Controller
                 'string',
                 'min:6',
             ],
-            'noTelp' => 'nullable|min:10',
+            'no_telp' => 'nullable|min:10',
             'username' => 'nullable|unique:Pegawais',
+            'tanggal_lahir' => 'nullable',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -328,7 +339,8 @@ class PegawaiController extends Controller
                 'data' => null
             ], 404);
         }
-        $updateData['password'] = bcrypt("2000-01-05");
+        $formattedDate = Carbon::parse($User->tanggal_lahir)->format('Ymd');
+        $updateData['password'] = bcrypt($formattedDate);
         $User->update($updateData);
 
         return response([

@@ -16,9 +16,9 @@ class Detail_Donasi extends Model
      */
     public $timestamps = false;
     protected $fillable = [
-        'Id_donasi',
-        'Id_barang',
-        'Id_penitip',
+        'id_donasi',
+        'id_barang',
+        'id_penitip',
     ];
     /**
      * The attributes that should be hidden for serialization.
@@ -33,15 +33,15 @@ class Detail_Donasi extends Model
     // kurang relationship
     public function Barang()
     {
-        return $this->belongsTo(Penitipan_Barang::class, 'Id_barang');
+        return $this->belongsTo(Penitipan_Barang::class, 'id_barang');
     }
     public function Donasi()
     {
-        return $this->belongsTo(Donasi::class, 'Id_donasi');
+        return $this->belongsTo(Donasi::class, 'id_donasi');
     }
     public function Penitip()
     {
-        return $this->belongsTo(Penitip::class, 'Id_penitip');
+        return $this->belongsTo(Penitip::class, 'id_penitip');
     }
     /**
      * Get the attributes that should be cast.

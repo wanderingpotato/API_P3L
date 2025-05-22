@@ -15,15 +15,15 @@ class Diskusi extends Model
      * @var list<string>
      */
     public $timestamps = false;
-    protected $primaryKey = 'Id_diskusi';
+    protected $primaryKey = 'id_diskusi';
     protected $fillable = [
-        'Id_diskusi',
-        'Id_Pembeli',
-        'Id_Penitip',
-        'Id_Pegawai',
-        'Id_Barang',
-        'Title',
-        'Deskripsi',
+        'id_diskusi',
+        'id_pembeli',
+        'id_penitip',
+        'id_pegawai',
+        'id_barang',
+        'title',
+        'deskripsi',
     ];
     /**
      * The attributes that should be hidden for serialization.
@@ -38,19 +38,19 @@ class Diskusi extends Model
     //relationships
     public function Pembeli()
     {
-        return $this->belongsTo(Pembeli::class, 'Id_Pembeli');
+        return $this->belongsTo(Pembeli::class, 'id_pembeli');
     }
     public function Penitip()
     {
-        return $this->belongsTo(Penitip::class, 'Id_Penitip');
+        return $this->belongsTo(Penitip::class, 'id_penitip');
     }
     public function Pegawai()
     {
-        return $this->belongsTo(Pegawai::class, 'Id_Pegawai');
+        return $this->belongsTo(Pegawai::class, 'id_pegawai');
     }
     public function Barang()
     {
-        return $this->belongsTo(Penitipan_Barang::class, 'Id_Barang');
+        return $this->belongsTo(Penitipan_Barang::class, 'id_barang');
     }
     /**
      * Get the attributes that should be cast.
@@ -60,7 +60,7 @@ class Diskusi extends Model
     protected function casts(): array
     {
         return [
-            'Id_diskusi' => 'string',
+            'id_diskusi' => 'string',
         ];
     }
 }

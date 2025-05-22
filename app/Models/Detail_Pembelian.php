@@ -16,9 +16,9 @@ class Detail_Pembelian extends Model
      */
     public $timestamps = false;
     protected $fillable = [
-        'Id_pembelian',
-        'Id_barang',
-        'Id_penitip',
+        'id_pembelian',
+        'id_barang',
+        'id_penitip',
     ];
     /**
      * The attributes that should be hidden for serialization.
@@ -33,15 +33,15 @@ class Detail_Pembelian extends Model
     //relationship
     public function Barang()
     {
-        return $this->belongsTo(Penitipan_Barang::class, 'Id_barang');
+        return $this->belongsTo(Penitipan_Barang::class, 'id_barang');
     }
     public function Pembelian()
     {
-        return $this->belongsTo(Pembelian::class, 'Id_pembelian');
+        return $this->belongsTo(Pembelian::class, 'id_pembelian');
     }
     public function Penitip()
     {
-        return $this->belongsTo(Penitip::class, 'Id_penitip');
+        return $this->belongsTo(Penitip::class, 'id_penitip');
     }
     /**
      * Get the attributes that should be cast.

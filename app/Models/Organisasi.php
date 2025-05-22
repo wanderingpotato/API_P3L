@@ -18,16 +18,17 @@ class Organisasi extends Authenticatable
      */
     protected $table = 'Organisasis';
     public $timestamps = false;
-    protected $primaryKey = 'Id_organisasi';
+    protected $primaryKey = 'id_organisasi';
     protected $fillable = [
-        'Id_organisasi',
+        'id_organisasi',
         'name',
         'username',
-        'noTelp',
-        'Alamat',
+        'no_telp',
+        'alamat',
         'email',
         'password',
-        'Deskripsi',
+        'deskripsi',
+        'foto',
     ];
 
     /**
@@ -43,7 +44,7 @@ class Organisasi extends Authenticatable
     //relationship
     public function Donasi()
     {
-        return $this->hasMany(Donasi::class,'Id_organisasi');
+        return $this->hasMany(Donasi::class,'id_organisasi');
     }
     /**
      * Get the attributes that should be cast.
@@ -53,7 +54,7 @@ class Organisasi extends Authenticatable
     protected function casts(): array
     {
         return [
-            'Id_organisasi' => 'string',
+            'id_organisasi' => 'string',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];

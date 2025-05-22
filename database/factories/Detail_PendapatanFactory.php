@@ -17,13 +17,13 @@ class Detail_PendapatanFactory extends Factory
      */
     public function definition(): array
     {
-        $PenitipId = Penitip::pluck('Id_penitip')->toArray();
+        $PenitipId = Penitip::pluck('id_penitip')->toArray();
         return [
-            'Id_DetailPendapatan' => fake()->unique()->numerify('DP-####'),
-            'Id_penitip' => fake()->randomElement($PenitipId),
+            'id_detail_pendapatan' => fake()->unique()->numerify('DP-####'),
+            'id_penitip' => fake()->randomElement($PenitipId),
             'month'=>fake()->unique()->date(),
             'total'=>fake()->randomFloat(2),
-            'Bonus_Pendapatan'=>fake()->randomFloat(2),
+            'bonus_pendapatan'=>fake()->randomFloat(2),
         ];
     }
 }

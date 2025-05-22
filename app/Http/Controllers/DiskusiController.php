@@ -18,9 +18,9 @@ class DiskusiController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Diskusi::query();
+        $query = Diskusi::all();
         if ($request->has('search') && $request->search != '') {
-            $query->where('id_Diskusi', 'like', '%' . $request->search . '%');
+            $query->where('id_diskusi', 'like', '%' . $request->search . '%');
         }
         $perPage = $request->query('per_page', 7);
         $Diskusi = $query->paginate($perPage);
@@ -49,7 +49,7 @@ class DiskusiController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        $data = Diskusi::where('Id_penitip', $idUser)->get();
+        $data = Diskusi::where('id_penitip', $idUser)->get();
         if ($data->isNotEmpty()) {
             return response([
                 'message' => 'Data Retrieved Successfully',
@@ -71,7 +71,7 @@ class DiskusiController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        $data = Diskusi::where('Id_Pembeli', $idUser)->get();
+        $data = Diskusi::where('id_pembeli', $idUser)->get();
         if ($data->isNotEmpty()) {
             return response([
                 'message' => 'Data Retrieved Successfully',
@@ -93,7 +93,7 @@ class DiskusiController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        $data = Diskusi::where('Id_Pegawai', $idUser)->get();
+        $data = Diskusi::where('id_pegawai', $idUser)->get();
         if ($data->isNotEmpty()) {
             return response([
                 'message' => 'Data Retrieved Successfully',
@@ -108,7 +108,7 @@ class DiskusiController extends Controller
     }
     public function getDataByBarangId($id)
     {
-        $data = Diskusi::where('Id_Barang', $id)->get();
+        $data = Diskusi::where('id_barang', $id)->get();
         if ($data->isNotEmpty()) {
             return response([
                 'message' => 'Data Retrieved Successfully',
@@ -129,19 +129,19 @@ class DiskusiController extends Controller
         $storeData = $request->all();
 
         $validate = Validator::make($storeData, [
-            'Id_Pembeli' => 'nullable',
-            'Id_Penitip' => 'nullable',
-            'Id_Pegawai' => 'nullable',
-            'Id_Barang' => 'required',
-            'Title' => 'required',
-            'Deskripsi' => 'required',
+            'id_pembeli' => 'nullable',
+            'id_penitip' => 'nullable',
+            'id_pegawai' => 'nullable',
+            'id_barang' => 'required',
+            'title' => 'required',
+            'deskripsi' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
         }
-        $lastId = Diskusi::latest('Id_diskusi')->first();
-        $newId = $lastId ? 'DS' . str_pad((int) substr($lastId->Id_diskusi, 1) + 1, 3, '0', STR_PAD_LEFT) : 'DS-001';
-        $storeData['Id_diskusi'] = $newId;
+        $lastId = Diskusi::latest('id_diskusi')->first();
+        $newId = $lastId ? 'DS' . str_pad((int) substr($lastId->id_diskusi, 1) + 1, 3, '0', STR_PAD_LEFT) : 'DS-001';
+        $storeData['id_diskusi'] = $newId;
 
         $idUser = Auth::id();
         $user = Pembeli::find($idUser);
@@ -152,9 +152,9 @@ class DiskusiController extends Controller
                     'message' => 'User Not Found'
                 ], 404);
             }
-            $storeData['Id_penitip'] = $user->Id_penitip;
+            $storeData['id_penitip'] = $user->id_penitip;
         } else {
-            $storeData['Id_Pembeli'] = $user->Id_Pembeli;
+            $storeData['id_pembeli'] = $user->id_pembeli;
         }
 
         $Diskusi = Diskusi::create($storeData);
@@ -169,19 +169,19 @@ class DiskusiController extends Controller
         $storeData = $request->all();
 
         $validate = Validator::make($storeData, [
-            'Id_Pembeli' => 'nullable',
-            'Id_Penitip' => 'nullable',
-            'Id_Pegawai' => 'nullable',
-            'Id_Barang' => 'required',
-            'Title' => 'required',
-            'Deskripsi' => 'required',
+            'id_pembeli' => 'nullable',
+            'id_penitip' => 'nullable',
+            'id_pegawai' => 'nullable',
+            'id_barang' => 'required',
+            'title' => 'required',
+            'deskripsi' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
         }
-        $lastId = Diskusi::latest('Id_diskusi')->first();
-        $newId = $lastId ? 'DS' . str_pad((int) substr($lastId->Id_diskusi, 1) + 1, 3, '0', STR_PAD_LEFT) : 'DS-001';
-        $storeData['Id_diskusi'] = $newId;
+        $lastId = Diskusi::latest('id_diskusi')->first();
+        $newId = $lastId ? 'DS' . str_pad((int) substr($lastId->id_diskusi, 1) + 1, 3, '0', STR_PAD_LEFT) : 'DS-001';
+        $storeData['id_diskusi'] = $newId;
 
         $idUser = Auth::id();
         $user = Pegawai::find($idUser);
@@ -239,12 +239,12 @@ class DiskusiController extends Controller
         $updateData = $request->all();
 
         $validate = Validator::make($updateData, [
-            'Id_Pembeli' => 'nullable',
-            'Id_Penitip' => 'nullable',
-            'Id_Pegawai' => 'nullable',
-            'Id_Barang' => 'required',
-            'Title' => 'required',
-            'Deskripsi' => 'required',
+            'id_pembeli' => 'nullable',
+            'id_penitip' => 'nullable',
+            'id_pegawai' => 'nullable',
+            'id_barang' => 'required',
+            'title' => 'required',
+            'deskripsi' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -258,9 +258,9 @@ class DiskusiController extends Controller
                     'message' => 'User Not Found'
                 ], 404);
             }
-            $updateData['Id_penitip'] = $user->Id_penitip;
+            $updateData['id_penitip'] = $user->id_penitip;
         } else {
-            $updateData['Id_Pembeli'] = $user->Id_Pembeli;
+            $updateData['id_pembeli'] = $user->id_pembeli;
         }
 
         $Diskusi->update($updateData);
@@ -284,12 +284,12 @@ class DiskusiController extends Controller
         $updateData = $request->all();
 
         $validate = Validator::make($updateData, [
-            'Id_Pembeli' => 'nullable',
-            'Id_Penitip' => 'nullable',
-            'Id_Pegawai' => 'nullable',
-            'Id_Barang' => 'required',
-            'Title' => 'required',
-            'Deskripsi' => 'required',
+            'id_pembeli' => 'nullable',
+            'id_penitip' => 'nullable',
+            'id_pegawai' => 'nullable',
+            'id_barang' => 'required',
+            'title' => 'required',
+            'deskripsi' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);

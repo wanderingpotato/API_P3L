@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Alamat extends Model
+class gallery extends Model
 {
-    ////
+    //
     use HasFactory;
     public $incrementing=false;
     /**
@@ -15,16 +16,14 @@ class Alamat extends Model
      * @var list<string>
      */
     public $timestamps = false;
-    protected $primaryKey = 'id_alamat';
+    protected $primaryKey = 'id_gallery';
     protected $fillable = [
-        'id_alamat',
-        'id_pembeli',
-        'no_telp',
+        'id_gallery',
         'title',
-        'default',
-        'deskripsi',
-        'alamat',
+        'foto',
+        'id_barang',
     ];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -36,9 +35,9 @@ class Alamat extends Model
     // ];
 
     //relationship
-    public function Pembeli()
+    public function Penitipan_Barang()
     {
-        return $this->belongsTo(Pembeli::class, 'id_pembeli');
+        return $this->belongsTo(Penitipan_Barang::class,'id_barang');
     }
     
     /**
@@ -49,8 +48,7 @@ class Alamat extends Model
     protected function casts(): array
     {
         return [
-            'id_alamat' => 'string',
-            'Default' => 'boolean'
+            'id_gallery' => 'string',
         ];
     }
 }

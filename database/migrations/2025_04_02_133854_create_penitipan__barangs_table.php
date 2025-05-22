@@ -12,28 +12,27 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('penitipan__barangs', function (Blueprint $table) {
-            $table->string('Id_barang')->primary();
-            $table->string('Id_kategori');
-            $table->foreign('Id_kategori')->references('Id_kategori')->on('kategori__barangs')->onDelete('cascade');
-            $table->bigInteger('Id_Penitip')->unsigned();
-            $table->foreign('Id_Penitip')->references('Id_Penitip')->on('penitips')->onDelete('cascade');
-            $table->bigInteger('Id_Pegawai')->unsigned();
-            $table->foreign('Id_Pegawai')->references('Id_Pegawai')->on('pegawais')->onDelete('cascade');
-            $table->string('Nama_Barang');
-            $table->boolean('DiPerpanjang');
-            $table->boolean('DiliverHere');
-            $table->boolean('Hunter');
-            $table->enum('Status',['DiJual','DiDonasikan','DiKembalikan','DiBeli']);
-            $table->double('Harga_barang');
-            $table->double('Rating')->nullable();
-            $table->dateTime('Tanggal_penitipan');
-            $table->dateTime('Tanggal_kadaluarsa');
-            $table->dateTime('Batas_ambil');
-            $table->dateTime('Tanggal_laku')->nullable();
-            $table->dateTime('Tanggal_rating')->nullable();
-            $table->dateTime('Garansi')->nullable();
-            $table->text('Foto_Barang')->nullable();
-            $table->text('Deskripsi')->nullable();
+            $table->string('id_barang')->primary();
+            $table->string('id_kategori');
+            $table->foreign('id_kategori')->references('id_kategori')->on('kategori__barangs')->onDelete('cascade');
+            $table->bigInteger('id_Penitip')->unsigned();
+            $table->foreign('id_Penitip')->references('id_Penitip')->on('penitips')->onDelete('cascade');
+            $table->bigInteger('id_Pegawai')->unsigned();
+            $table->foreign('id_Pegawai')->references('id_Pegawai')->on('pegawais')->onDelete('cascade');
+            $table->string('nama_barang');
+            $table->boolean('di_perpanjang');
+            $table->boolean('diliver_here');
+            $table->boolean('hunter');
+            $table->enum('status',['DiJual','DiDonasikan','DiKembalikan','DiBeli']);
+            $table->double('harga_barang');
+            $table->double('rating')->nullable();
+            $table->dateTime('tanggal_penitipan');
+            $table->dateTime('tanggal_kadaluarsa');
+            $table->dateTime('batas_ambil');
+            $table->dateTime('tanggal_laku')->nullable();
+            $table->dateTime('tanggal_rating')->nullable();
+            $table->dateTime('garansi')->nullable();
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
         });
     }

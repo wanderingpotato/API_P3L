@@ -19,7 +19,7 @@ class AlamatController extends Controller
     {
         $query = Alamat::query();
         if ($request->has('search') && $request->search != '') {
-            $query->where('Nama', 'like', '%' . $request->search . '%');
+            $query->where('title', 'like', '%' . $request->search . '%');
         }
         $perPage = $request->query('per_page', 7);
         $Alamat = $query->paginate($perPage);
@@ -47,7 +47,7 @@ class AlamatController extends Controller
                 'data' => null
             ], 404);
         }
-        $Alamat = Alamat::where('Id_Pembeli', $user->id)->get();
+        $Alamat = Alamat::where('id_pembeli', $user->id_pembeli)->get();
         return response([
             'message' => 'Penitipan Barang of ' . $user->name . ' Retrieved',
             'data' => $Alamat
@@ -69,12 +69,12 @@ class AlamatController extends Controller
         $storeData = $request->all();
 
         $validate = Validator::make($storeData, [
-            'Id_Pembeli' => 'required',
-            'NoTelp' => 'required',
-            'Title' => 'required',
-            'Default'=> 'required',
-            'Deskripsi'=> 'required',
-            'Alamat'=> 'required',
+            'id_pembeli' => 'required',
+            'no_telp' => 'required',
+            'title' => 'required',
+            'default'=> 'required',
+            'deskripsi'=> 'required',
+            'alamat'=> 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -92,9 +92,9 @@ class AlamatController extends Controller
             ], 404);
         }
 
-        $lastId = Alamat::latest('Id_Alamat')->first();
-        $newId = $lastId ? 'A-' . str_pad((int) substr($lastId->Id_Alamat, 2) + 1, 3, '0', STR_PAD_LEFT) : 'A-001';
-        $storeData['Id_Alamat'] = $newId;
+        $lastId = Alamat::latest('id_alamat')->first();
+        $newId = $lastId ? 'A-' . str_pad((int) substr($lastId->id_alamat, 2) + 1, 3, '0', STR_PAD_LEFT) : 'A-001';
+        $storeData['id_alamat'] = $newId;
 
         $Alamat = Alamat::create($storeData);
         return response([
@@ -108,11 +108,11 @@ class AlamatController extends Controller
         $storeData = $request->all();
 
         $validate = Validator::make($storeData, [
-            'NoTelp' => 'required',
-            'Title' => 'required',
-            'Default'=> 'required',
-            'Deskripsi'=> 'required',
-            'Alamat'=> 'required',
+            'no_telp' => 'required',
+            'title' => 'required',
+            'default'=> 'required',
+            'deskripsi'=> 'required',
+            'alamat'=> 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -124,10 +124,10 @@ class AlamatController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        $storeData['Id_Pembeli']=$user->Id_pembeli;
-        $lastId = Alamat::latest('Id_Alamat')->first();
-        $newId = $lastId ? 'A-' . str_pad((int) substr($lastId->Id_Alamat, 2) + 1, 3, '0', STR_PAD_LEFT) : 'A-001';
-        $storeData['Id_Alamat'] = $newId;
+        $storeData['id_pembeli']=$user->id_pembeli;
+        $lastId = Alamat::latest('id_alamat')->first();
+        $newId = $lastId ? 'A-' . str_pad((int) substr($lastId->id_alamat, 2) + 1, 3, '0', STR_PAD_LEFT) : 'A-001';
+        $storeData['id_alamat'] = $newId;
 
         $Alamat = Alamat::create($storeData);
         return response([
@@ -172,12 +172,12 @@ class AlamatController extends Controller
         $updateData = $request->all();
 
         $validate = Validator::make($updateData, [
-            'Id_Pembeli' => 'required',
-            'NoTelp' => 'required',
-            'Title' => 'required',
-            'Default'=> 'required',
-            'Deskripsi'=> 'required',
-            'Alamat'=> 'required',
+            'id_pembeli' => 'required',
+            'no_telp' => 'required',
+            'title' => 'required',
+            'default'=> 'required',
+            'deskripsi'=> 'required',
+            'alamat'=> 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -215,11 +215,11 @@ class AlamatController extends Controller
         $updateData = $request->all();
 
         $validate = Validator::make($updateData, [
-            'NoTelp' => 'required',
-            'Title' => 'required',
-            'Default'=> 'required',
-            'Deskripsi'=> 'required',
-            'Alamat'=> 'required',
+            'no_telp' => 'required',
+            'title' => 'required',
+            'default'=> 'required',
+            'deskripsi'=> 'required',
+            'alamat'=> 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);

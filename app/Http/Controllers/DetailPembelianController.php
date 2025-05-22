@@ -43,7 +43,7 @@ class DetailPembelianController extends Controller
                 'data' => null
             ],404);
         }
-        $DetailPembelian =Detail_Pembelian::where('Id_Pembelian', $user->id)->get();
+        $DetailPembelian =Detail_Pembelian::where('id_pembelian', $user->id_pembelian)->get();
         return response([
             'message' => 'DetailPembelian of '.$user->name.' Retrieved',
             'data' => $DetailPembelian
@@ -57,9 +57,9 @@ class DetailPembelianController extends Controller
         $storeData = $request->all();
 
         $validate = Validator::make($storeData,[
-            'Id_pembelian' => 'required',
-            'Id_barang' => 'required',
-            'Id_penitip' => 'required',
+            'id_pembelian' => 'required',
+            'id_barang' => 'required',
+            'id_penitip' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message'=> $validate->errors()],400);
@@ -117,9 +117,9 @@ class DetailPembelianController extends Controller
         $updateData = $request->all();
 
         $validate = Validator::make($updateData,[
-            'Id_pembelian' => 'required',
-            'Id_barang' => 'required',
-            'Id_penitip' => 'required',
+            'id_pembelian' => 'required',
+            'id_barang' => 'required',
+            'id_penitip' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message'=> $validate->errors()],400);

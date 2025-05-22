@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('detail__donasis', function (Blueprint $table) {
-            $table->string('id_donasi');
-            $table->foreign('id_donasi')->references('id_donasi')->on('donasis')->onDelete('cascade');
+        Schema::create('galleries', function (Blueprint $table) {
+            $table->string('id_gallery')->primary();
+            $table->string('title');
+            $table->text('foto');
             $table->string('id_barang');
             $table->foreign('id_barang')->references('id_barang')->on('penitipan__barangs')->onDelete('cascade');
-            $table->primary(['id_donasi','id_barang']);
-            $table->bigInteger('id_penitip')->unsigned();
-            $table->foreign('id_penitip')->references('id_penitip')->on('penitips')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('detail__donasis');
+        Schema::dropIfExists('galleries');
     }
 };

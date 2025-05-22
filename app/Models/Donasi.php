@@ -15,15 +15,15 @@ class Donasi extends Model
     * @var list<string>
     */
     public $timestamps = false;
-    protected $primaryKey = 'Id_donasi';
+    protected $primaryKey = 'id_donasi';
    protected $fillable = [
-       'Id_donasi',
-       'Id_organisasi',
-       'Nama_Penerima',
-       'Konfirmasi',
-       'Tanggal_diberikan',
-       'Tanggal_request',
-       'Deskripsi',
+       'id_donasi',
+       'id_organisasi',
+       'nama_penerima',
+       'konfirmasi',
+       'tanggal_diberikan',
+       'tanggal_request',
+       'deskripsi',
    ];
 
    /**
@@ -39,15 +39,15 @@ class Donasi extends Model
    //relationships
     public function Organisasi()
     {
-        return $this->belongsTo(Organisasi::class, 'Id_organisasi');
+        return $this->belongsTo(Organisasi::class, 'id_organisasi');
     }
     public function Detail_Donasi()
     {
         return $this->belongsToMany(
             Penitipan_Barang::class,
             'detail__donasis',
-            'Id_donasi',
-            'Id_barang' 
+            'id_donasi',
+            'id_barang' 
             
         );
     }
@@ -59,8 +59,8 @@ class Donasi extends Model
    protected function casts(): array
    {
        return [
-           'Id_donasi' => 'string',
-           'Konfirmasi' => 'boolean',
+           'id_donasi' => 'string',
+           'konfirmasi' => 'boolean',
        ];
    }
 }

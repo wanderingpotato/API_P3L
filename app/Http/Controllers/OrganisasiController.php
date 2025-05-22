@@ -26,11 +26,11 @@ class OrganisasiController extends Controller
             'name' => 'required',
             'email' => 'required|email:rfc,dns|unique:Organisasis',
             'password' => 'required|min:8',
-            'noTelp' => 'required|min:10',
+            'no_telp' => 'required|min:10',
             'username' => 'required|unique:Organisasis',
         ]);
-        $registrationData['Deskripsi'] = 'null';
-        $registrationData['Alamat'] = 'null';
+        $registrationData['deskripsi'] = 'null';
+        $registrationData['alamat'] = 'null';
 
         if ($validate->fails()) {
             return response(['message' => $validate->errors()->first()], 400);
@@ -118,7 +118,7 @@ class OrganisasiController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        if ($userCheck->Id_jabatan == 'J-003') {
+        if ($userCheck->id_jabatan == 'J-003') {
             return response([
                 'message' => 'User Cannot'
             ], 404);
@@ -129,11 +129,11 @@ class OrganisasiController extends Controller
             'name' => 'required',
             'email' => 'required|email:rfc,dns|unique:Organisasis',
             'password' => 'required|min:8',
-            'noTelp' => 'required|min:10',
+            'no_telp' => 'required|min:10',
             'username' => 'required|unique:Organisasis',
         ]);
-        $storeData['Deskripsi'] = 'null';
-        $storeData['Alamat'] = 'null';
+        $storeData['deskripsi'] = 'null';
+        $storeData['alamat'] = 'null';
 
         if ($validate->fails()) {
             return response(['message' => $validate->errors()->first()], 400);
@@ -200,17 +200,17 @@ class OrganisasiController extends Controller
         if ($request->has('name')  && $request->name != null) {
             $updateData['name'] = $request->name;
         }
-        if ($request->has('noTelp')  && $request->noTelp != null) {
-            $updateData['noTelp'] = $request->noTelp;
+        if ($request->has('no_telp')  && $request->no_telp != null) {
+            $updateData['no_telp'] = $request->no_telp;
         }
         if ($request->has('username')  && $request->username != null && $request->username != $user->username) {
             $updateData['username'] = $request->username;
         }
-        if ($request->has('Deskripsi')  && $request->Deskripsi != null) {
-            $updateData['Deskripsi'] = $request->Deskripsi;
+        if ($request->has('deskripsi')  && $request->deskripsi != null) {
+            $updateData['deskripsi'] = $request->deskripsi;
         }
-        if ($request->has('Alamat')  && $request->Alamat != null) {
-            $updateData['Alamat'] = $request->Alamat;
+        if ($request->has('alamat')  && $request->alamat != null) {
+            $updateData['alamat'] = $request->alamat;
         }
         $validate = Validator::make($updateData, [
             'name' => 'nullable',
@@ -220,7 +220,7 @@ class OrganisasiController extends Controller
                 'string',
                 'min:6',
             ],
-            'noTelp' => 'nullable|min:10',
+            'no_telp' => 'nullable|min:10',
             'username' => 'nullable|unique:Organisasis',
         ]);
         if ($validate->fails()) {
@@ -233,7 +233,7 @@ class OrganisasiController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        if ($userCheck->Id_jabatan == 'J-003') {
+        if ($userCheck->id_jabatan == 'J-003') {
             return response([
                 'message' => 'User Cannot'
             ], 404);
@@ -274,17 +274,17 @@ class OrganisasiController extends Controller
         if ($request->has('name')  && $request->name != null) {
             $updateData['name'] = $request->name;
         }
-        if ($request->has('noTelp')  && $request->noTelp != null) {
-            $updateData['noTelp'] = $request->noTelp;
+        if ($request->has('no_telp')  && $request->no_telp != null) {
+            $updateData['no_telp'] = $request->no_telp;
         }
         if ($request->has('username')  && $request->username != null && $request->username != $user->username) {
             $updateData['username'] = $request->username;
         }
-        if ($request->has('Deskripsi')  && $request->Deskripsi != null) {
-            $updateData['Deskripsi'] = $request->Deskripsi;
+        if ($request->has('deskripsi')  && $request->deskripsi != null) {
+            $updateData['deskripsi'] = $request->deskripsi;
         }
-        if ($request->has('Alamat')  && $request->Alamat != null) {
-            $updateData['Alamat'] = $request->Alamat;
+        if ($request->has('alamat')  && $request->alamat != null) {
+            $updateData['alamat'] = $request->alamat;
         }
         $validate = Validator::make($updateData, [
             'name' => 'nullable',
@@ -294,7 +294,7 @@ class OrganisasiController extends Controller
                 'string',
                 'min:6',
             ],
-            'noTelp' => 'nullable|min:10',
+            'no_telp' => 'nullable|min:10',
             'username' => 'nullable|unique:Organisasis',
         ]);
         if ($validate->fails()) {

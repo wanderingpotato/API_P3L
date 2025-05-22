@@ -18,14 +18,14 @@ class Pegawai extends Authenticatable
      */
     protected $table = 'Pegawais';
     public $timestamps = false;
-    protected $primaryKey = 'Id_pegawai';
+    protected $primaryKey = 'id_pegawai';
     protected $fillable = [
-        'Id_pegawai',
-        'Id_jabatan',
+        'id_pegawai',
+        'id_jabatan',
         'name',
         'username',
         'email',
-        'noTelp',
+        'no_telp',
         'password',
         'foto',
     ];
@@ -43,23 +43,23 @@ class Pegawai extends Authenticatable
     //relationship
     public function Diskusi()
     {
-        return $this->hasMany(Diskusi::class,'Id_pegawai');
+        return $this->hasMany(Diskusi::class,'id_pegawai');
     }
     public function Komisi()
     {
-        return $this->hasMany(Komisi::class,'Id_pegawai');
+        return $this->hasMany(Komisi::class,'id_pegawai');
     }
     public function Penitipan()
     {
-        return $this->hasMany(Penitipan_Barang::class,'Id_pegawai');
+        return $this->hasMany(Penitipan_Barang::class,'id_pegawai');
     }
     public function Pembelian()
     {
-        return $this->hasMany(Pembelian::class,'Id_pegawai');
+        return $this->hasMany(Pembelian::class,'id_pegawai');
     }
     public function Jabatan()
     {
-        return $this->belongsTo(Jabatan::class, 'Id_jabatan');
+        return $this->belongsTo(Jabatan::class, 'id_jabatan');
     }
     /**
      * Get the attributes that should be cast.
@@ -69,7 +69,7 @@ class Pegawai extends Authenticatable
     protected function casts(): array
     {
         return [
-            'Id_pegawai' => 'string',
+            'id_pegawai' => 'string',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];

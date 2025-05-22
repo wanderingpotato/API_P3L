@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('pegawais', function (Blueprint $table) {
             // $table->string('Id_pegawai')->primary();
-            $table->id('Id_pegawai');
-            $table->string('Id_jabatan');
-            $table->foreign('Id_jabatan')->references('Id_jabatan')->on('jabatans')->onDelete('cascade');
+            $table->id('id_pegawai');
+            $table->string('id_jabatan');
+            $table->foreign('id_jabatan')->references('id_jabatan')->on('jabatans')->onDelete('cascade');
             $table->string('name');
             $table->string('username')->unique();
             $table->string('email')->unique();
-            $table->string('noTelp');
+            $table->string('no_telp');
             $table->string('password');
+            $table->date('tanggal_lahir');
             $table->text('foto')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

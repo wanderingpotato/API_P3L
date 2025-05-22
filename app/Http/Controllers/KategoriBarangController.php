@@ -18,13 +18,13 @@ class KategoriBarangController extends Controller
     {
         $query = Kategori_Barang::query();
         if ($request->has('search') && $request->search != '') {
-            $query->where('Nama_Kategori', 'like', '%' . $request->search . '%');
+            $query->where('nama_kategori', 'like', '%' . $request->search . '%');
         }
         $perPage = $request->query('per_page', 7);
         $Kategori_Barang = $query->paginate($perPage);
 
         return response([
-            'message' => 'All Kategori_Barang Retrieved',
+            'message' => 'All Kategori Barang Retrieved',
             'data' => $Kategori_Barang
         ], 200);
     }
@@ -33,7 +33,7 @@ class KategoriBarangController extends Controller
         $data = Kategori_Barang::get();
 
         return response([
-            'message' => 'All JenisKamar Retrieved',
+            'message' => 'All Kategori Barang Retrieved',
             'data' => $data
         ], 200);
     }
@@ -46,26 +46,26 @@ class KategoriBarangController extends Controller
     }
     public function showKategoriBarangWithPenitipanBarangByKategori_BarangId(string $id)
     {
-        $Kategori_Barang = Kategori_Barang::with('Penitipan_Barang')->find($id);
+        $Kategori_Barang = Kategori_Barang::with('penitipan__barangs')->find($id);
 
         if ($Kategori_Barang) {
             return response([
-                'message' => 'Kategori_Barang Found',
+                'message' => 'Kategori Barang Found',
                 'data' => $Kategori_Barang
             ], 200);
         }
 
         return response([
-            'message' => 'Kategori_Barang Not Found',
+            'message' => 'Kategori Barang Not Found',
             'data' => null
         ], 404);
     }
     public function showKategoriBarangWithPenitipanBarang()
     {
-        $data = Kategori_Barang::with('Penitipan_Barang')->get();
+        $data = Kategori_Barang::with('penitipan__barangs')->get();
 
         return response([
-            'message' => 'All JenisKamar Retrieved',
+            'message' => 'All Kategori Barang Retrieved',
             'data' => $data
         ], 200);
     }
@@ -77,8 +77,8 @@ class KategoriBarangController extends Controller
         $storeData = $request->all();
 
         $validate = Validator::make($storeData, [
-            'Nama_Kategori' => 'required',
-            'Sub_Kategori' => 'required',
+            'nama_kategori' => 'required',
+            'sub_kategori' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -90,19 +90,19 @@ class KategoriBarangController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        if ($user->Id_Jabatan == 'J-001') {
+        if ($user->id_jabatan == 'J-001') {
             return response([
                 'message' => 'User Cannot'
             ], 404);
         }
 
-        $lastId = Kategori_Barang::latest('Id_kategori')->first();
-        $newId = $lastId ? 'K-' . str_pad((int) substr($lastId->Id_kategori, 2) + 1, 3, '0', STR_PAD_LEFT) : 'K-001';
-        $storeData['Id_kategori'] = $newId;
+        $lastId = Kategori_Barang::latest('id_kategori')->first();
+        $newId = $lastId ? 'K-' . str_pad((int) substr($lastId->id_kategori, 2) + 1, 3, '0', STR_PAD_LEFT) : 'K-001';
+        $storeData['id_kategori'] = $newId;
 
         $Kategori_Barang = Kategori_Barang::create($storeData);
         return response([
-            'message' => 'Penitipan Barang Added Successfully',
+            'message' => 'Kategori Barang Added Successfully',
             'data' => $Kategori_Barang,
         ], 200);
     }
@@ -116,13 +116,13 @@ class KategoriBarangController extends Controller
 
         if ($Kategori_Barang) {
             return response([
-                'message' => 'Kategori_Barang Found',
+                'message' => 'Kategori Barang Found',
                 'data' => $Kategori_Barang
             ], 200);
         }
 
         return response([
-            'message' => 'Kategori_Barang Not Found',
+            'message' => 'Kategori Barang Not Found',
             'data' => null
         ], 404);
     }
@@ -135,7 +135,7 @@ class KategoriBarangController extends Controller
         $Kategori_Barang = Kategori_Barang::find($id);
         if (is_null($Kategori_Barang)) {
             return response([
-                'message' => 'Kategori_Barang Not Found',
+                'message' => 'Kategori Barang Not Found',
                 'data' => null
             ], 404);
         }
@@ -143,8 +143,8 @@ class KategoriBarangController extends Controller
         $updateData = $request->all();
 
         $validate = Validator::make($updateData, [
-            'Nama_Kategori' => 'required',
-            'Sub_Kategori' => 'required',
+            'nama_kategori' => 'required',
+            'sub_kategori' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -156,7 +156,7 @@ class KategoriBarangController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        if ($user->Id_Jabatan == 'J-001') {
+        if ($user->id_jabatan == 'J-001') {
             return response([
                 'message' => 'User Cannot'
             ], 404);
@@ -165,7 +165,7 @@ class KategoriBarangController extends Controller
         $Kategori_Barang->update($updateData);
 
         return response([
-            'message' => 'Kategori_Barang Updated Successfully',
+            'message' => 'Kategori Barang Updated Successfully',
             'data' => $Kategori_Barang,
         ], 200);
     }
@@ -180,20 +180,20 @@ class KategoriBarangController extends Controller
 
         if (is_null($Kategori_Barang)) {
             return response([
-                'message' => 'Kategori_Barang Not Found',
+                'message' => 'Kategori Barang Not Found',
                 'data' => null
             ], 404);
         }
 
         if ($Kategori_Barang->delete()) {
             return response([
-                'message' => 'Kategori_Barang Deleted Successfully',
+                'message' => 'Kategori Barang Deleted Successfully',
                 'data' => $Kategori_Barang,
             ], 200);
         }
 
         return response([
-            'message' => 'Delete Kategori_Barang Failed',
+            'message' => 'Delete Kategori Barang Failed',
             'data' => null,
         ], 400);
     }

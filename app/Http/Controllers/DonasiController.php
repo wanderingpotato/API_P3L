@@ -19,9 +19,9 @@ class DonasiController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Donasi::with('Detail_Donasi');
+        $query = Donasi::with('Detail__Donasi');
         if ($request->has('search') && $request->search != '') {
-            $query->where('id_Donasi', 'like', '%' . $request->search . '%');
+            $query->where('id_donasi', 'like', '%' . $request->search . '%');
         }
         $perPage = $request->query('per_page', 7);
         $Donasi = $query->paginate($perPage);
@@ -49,7 +49,7 @@ class DonasiController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        $data = Donasi::with('Detail_Donasi')->where('Id_Organisasi', $idUser)->get();
+        $data = Donasi::with('detail__donasis')->where('id_organisasi', $idUser)->get();
         if ($data->isNotEmpty()) {
             return response([
                 'message' => 'Data Retrieved Successfully',
@@ -80,7 +80,7 @@ class DonasiController extends Controller
         if (is_null($user)) {
             return response(['message' => 'User Not Found'], 404);
         }
-        $count = Donasi::where('Id_Organisasi', $idUser)->count();
+        $count = Donasi::where('id_organisasi', $idUser)->count();
         return response([
             'message' => 'Count Retrieved Successfully',
             'count' => $count
@@ -92,21 +92,21 @@ class DonasiController extends Controller
         $storeData = $request->all();
 
         $validate = Validator::make($storeData, [
-            'Nama_Penerima' => 'nullable',
-            'Tanggal_diberikan' => 'nullable',
-            'Tanggal_request' => 'required',
-            'Deskripsi' => 'required',
+            'nama_penerima' => 'nullable',
+            'tanggal_diberikan' => 'nullable',
+            'tanggal_request' => 'required',
+            'deskripsi' => 'required',
         ]);
-        $storeData['Konfirmasi'] = 0;
-        $storeData['Tanggal_diberikan'] = '2000-01-01'; //tanggal Null kitas
+        $storeData['konfirmasi'] = 0;
+        $storeData['tanggal_diberikan'] = '2000-01-01'; //tanggal Null kitas
 
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
         }
 
-        $lastId = Donasi::latest('Id_donasi')->first();
-        $newId = $lastId ? 'D-' . str_pad((int) substr($lastId->Id_donasi, 1) + 1, 3, '0', STR_PAD_LEFT) : 'D-001';
-        $storeData['Id_donasi'] = $newId;
+        $lastId = Donasi::latest('id_donasi')->first();
+        $newId = $lastId ? 'D-' . str_pad((int) substr($lastId->id_donasi, 1) + 1, 3, '0', STR_PAD_LEFT) : 'D-001';
+        $storeData['id_donasi'] = $newId;
 
         $idUser = Auth::id();
         $user = Organisasi::find($idUser);
@@ -118,7 +118,7 @@ class DonasiController extends Controller
                 ], 404);
             }
         }
-        $storeData['Id_organisasi'] = $user->Id_organisasi;
+        $storeData['id_organisasi'] = $user->id_organisasi;
 
 
         $Donasi = Donasi::create($storeData);
@@ -133,19 +133,19 @@ class DonasiController extends Controller
         $storeData = $request->all();
 
         $validate = Validator::make($storeData, [
-            'Nama_Penerima' => 'nullable',
-            'Tanggal_diberikan' => 'nullable',
-            'Tanggal_request' => 'required',
-            'Deskripsi' => 'required',
+            'nama_penerima' => 'nullable',
+            'tanggal_diberikan' => 'nullable',
+            'tanggal_request' => 'required',
+            'deskripsi' => 'required',
         ]);
-        $storeData['Konfirmasi'] = 0;
-        $storeData['Tanggal_diberikan'] = '2000-01-01'; //tanggal Null kitas
+        $storeData['konfirmasi'] = 0;
+        $storeData['tanggal_diberikan'] = '2000-01-01'; //tanggal Null kitas
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
         }
-        $lastId = Donasi::latest('Id_donasi')->first();
-        $newId = $lastId ? 'D-' . str_pad((int) substr($lastId->Id_donasi, 1) + 1, 3, '0', STR_PAD_LEFT) : 'D-001';
-        $storeData['Id_donasi'] = $newId;
+        $lastId = Donasi::latest('id_donasi')->first();
+        $newId = $lastId ? 'D-' . str_pad((int) substr($lastId->id_donasi, 1) + 1, 3, '0', STR_PAD_LEFT) : 'D-001';
+        $storeData['id_donasi'] = $newId;
 
         $idUser = Auth::id();
         $user = Pegawai::find($idUser);
@@ -154,7 +154,7 @@ class DonasiController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        if ($user->Id_jabatan == 'J-003') {
+        if ($user->id_jabatan == 'J-003') {
             return response([
                 'message' => 'User Cannot'
             ], 404);
@@ -203,7 +203,7 @@ class DonasiController extends Controller
         $updateData = $request->all();
 
         $validate = Validator::make($updateData, [
-            'Deskripsi' => 'required',
+            'deskripsi' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -218,7 +218,7 @@ class DonasiController extends Controller
                 ], 404);
             }
         }
-        $storeData['Id_Organisasi'] = $user->Id_Organisasi;
+        $storeData['id_organisasi'] = $user->id_organisasi;
 
         $Donasi->update($updateData);
         return response([
@@ -236,7 +236,7 @@ class DonasiController extends Controller
         }
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
-            'Nama_Penerima' => 'nullable',
+            'nama_penerima' => 'nullable',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -248,7 +248,7 @@ class DonasiController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        if ($user->Id_jabatan == 'J-004') {
+        if ($user->id_jabatan == 'J-004') {
             return response([
                 'message' => 'User Cannot'
             ], 404);
@@ -272,10 +272,10 @@ class DonasiController extends Controller
         $updateData = $request->all();
 
         $validate = Validator::make($updateData, [
-            'Nama_Penerima' => 'nullable',
-            'Tanggal_diberikan' => 'nullable',
+            'nama_penerima' => 'nullable',
+            'tanggal_diberikan' => 'nullable',
         ]);
-        $storeData['Konfirmasi'] = 1;
+        $storeData['konfirmasi'] = 1;
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
         }
@@ -286,7 +286,7 @@ class DonasiController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        if ($user->Id_jabatan == 'J-001') {
+        if ($user->id_jabatan == 'J-001') {
             return response([
                 'message' => 'User Cannot'
             ], 404);
@@ -294,18 +294,18 @@ class DonasiController extends Controller
         $Donasi->update($updateData);
         foreach ($request->Data as $items) {
             $storeChildData = $items;
-            $storeChildData['Id_Donasi'] = $id;
-            $Detail_Pembelian = Penitipan_Barang::find($items['Id_Barang']);
+            $storeChildData['id_donasi'] = $id;
+            $Detail_Pembelian = Penitipan_Barang::find($items['id_barang']);
             if (is_null($Detail_Pembelian)) {
                 return response([
                     'message' => 'Barber Not found',
                 ], 404);
             }
             $validate = Validator::make($storeChildData, [
-                'Id_Donasi' => 'required',
-                'Id_Barang' => 'required',
+                'id_donasi' => 'required',
+                'id_barang' => 'required',
             ]);
-            $storeChildData['Id_Penitip']=$Detail_Pembelian->Id_Penitip;
+            $storeChildData['id_penitip']=$Detail_Pembelian->id_penitip;
             if ($validate->fails()) {
                 return response(['message' => $validate->errors()], 400);
             }
@@ -328,10 +328,10 @@ class DonasiController extends Controller
         $updateData = $request->all();
 
         $validate = Validator::make($updateData, [
-            'Nama_Penerima' => 'nullable',
-            'Tanggal_diberikan' => 'nullable',
+            'nama_penerima' => 'nullable',
+            'tanggal_diberikan' => 'nullable',
         ]);
-        $storeData['Konfirmasi'] = 1;
+        $storeData['konfirmasi'] = 1;
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
         }
@@ -342,27 +342,27 @@ class DonasiController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        if ($user->Id_jabatan == 'J-001') {
+        if ($user->id_jabatan == 'J-001') {
             return response([
                 'message' => 'User Cannot'
             ], 404);
         }
         $Donasi->update($updateData);
-        if ($request->has('Id_Barang') && $request->Id_Barang != '') {
-            Detail_Donasi::where('Id_Donasi', $id)->delete();
-            $storeChildData['Id_Barang'] = $updateData['Id_Barang'];
-            $storeChildData['Id_Donasi'] = $id;
-            $Detail_Pembelian = Penitipan_Barang::find($storeChildData['Id_Barangs']);
-             $storeChildData['Id_Penitip']=$Detail_Pembelian->Id_Penitip;
+        if ($request->has('id_barang') && $request->id_barang != '') {
+            Detail_Donasi::where('id_donasi', $id)->delete();
+            $storeChildData['id_barang'] = $updateData['id_barang'];
+            $storeChildData['id_donasi'] = $id;
+            $Detail_Pembelian = Penitipan_Barang::find($storeChildData['id_barang']);
+             $storeChildData['id_penitip']=$Detail_Pembelian->id_penitip;
             if (is_null($Detail_Pembelian)) {
                 return response([
                     'message' => 'Barber Not found',
                 ], 404);
             }
             $validate = Validator::make($storeChildData, [
-                'Id_Donasi' => 'required',
-                'Id_Barang' => 'required',
-                'Id_Penitip' => 'required',
+                'id_donasi' => 'required',
+                'id_barang' => 'required',
+                'id_penitip' => 'required',
             ]);
             if ($validate->fails()) {
                 return response(['message' => $validate->errors()], 400);
@@ -387,11 +387,11 @@ class DonasiController extends Controller
         $updateData = $request->all();
 
         $validate = Validator::make($updateData, [
-            'Nama_Penerima' => 'nullable',
-            'Tanggal_diberikan' => 'nullable',
-            'Tanggal_request' => 'required',
-            'Deskripsi' => 'required',
-            'Konfirmasi'=>'required',
+            'nama_penerima' => 'nullable',
+            'tanggal_diberikan' => 'nullable',
+            'tanggal_request' => 'required',
+            'deskripsi' => 'required',
+            'konfirmasi'=>'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -403,7 +403,7 @@ class DonasiController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        if ($user->Id_jabatan == 'J-003') {
+        if ($user->id_jabatan == 'J-003') {
             return response([
                 'message' => 'User Cannot'
             ], 404);

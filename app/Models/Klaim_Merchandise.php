@@ -15,15 +15,15 @@ class Klaim_Merchandise extends Model
      * @var list<string>
      */
     public $timestamps = false;
-    protected $primaryKey = 'Id_klaim';
+    protected $primaryKey = 'id_klaim';
     protected $fillable = [
-        'Id_klaim',
-        'Id_merchandise',
-        'Id_Pembeli',
-        'Id_penitip',
-        'Jumlah',
-        'Tanggal_ambil',
-        'Status',
+        'id_klaim',
+        'id_merchandise',
+        'id_pembeli',
+        'id_penitip',
+        'jumlah',
+        'tanggal_ambil',
+        'status',
     ];
 
     /**
@@ -39,15 +39,15 @@ class Klaim_Merchandise extends Model
     //relationship
     public function Pembeli()
     {
-        return $this->belongsTo(Pembeli::class, 'Id_Pembeli');
+        return $this->belongsTo(Pembeli::class, 'id_pembeli');
     }
     public function Penitip()
     {
-        return $this->belongsTo(Penitip::class, 'Id_penitip');
+        return $this->belongsTo(Penitip::class, 'id_penitip');
     }
     public function Merchandise()
     {
-        return $this->belongsTo(Merchandise::class, 'Id_merchandise');
+        return $this->belongsTo(Merchandise::class, 'id_merchandise');
     }
     /**
      * Get the attributes that should be cast.
@@ -57,7 +57,7 @@ class Klaim_Merchandise extends Model
     protected function casts(): array
     {
         return [
-            'Id_klaim' => 'string',
+            'id_klaim' => 'string',
         ];
     }
 }

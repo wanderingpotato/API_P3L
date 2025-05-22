@@ -12,27 +12,27 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pembelians', function (Blueprint $table) {
-            $table->string('Id_pembelian')->primary();
-            $table->string('Id_alamat');
-            $table->foreign('Id_alamat')->references('Id_alamat')->on('alamats')->onDelete('cascade');
-            $table->bigInteger('Id_Pembeli')->unsigned();
-            $table->foreign('Id_Pembeli')->references('Id_Pembeli')->on('pembelis')->onDelete('cascade');
-            $table->bigInteger('Id_Pegawai')->unsigned()->nullable();
-            $table->foreign('Id_Pegawai')->references('Id_Pegawai')->on('pegawais')->onDelete('cascade');
-            $table->boolean('Dilivery');
-            $table->enum('Status',['Proses','Batal','Selesai']);
-            $table->enum('Status_Pengiriman',['DiProses','Pegiriman','Sampai'])->nullable();
-            $table->double('PointYgDidapat')->nullable();
-            $table->double('PointCurrent');
-            $table->double('PointDigunakan')->nullable();
-            $table->double('Potongan_Harga')->nullable();
-            $table->double('Harga_Barang');
-            $table->double('Ongkir');
-            $table->dateTime('Batas_Waktu');
-            $table->dateTime('Tanggal_Pembelian');
-            $table->dateTime('Tanggal_Lunas');
-            $table->dateTime('Tanggal_Pengiriman-Pengambilan')->nullable();
-            $table->text('Bukti_Pembayaran')->nullable();
+            $table->string('id_pembelian')->primary();
+            $table->string('id_alamat');
+            $table->foreign('id_alamat')->references('id_alamat')->on('alamats')->onDelete('cascade');
+            $table->bigInteger('id_pembeli')->unsigned();
+            $table->foreign('id_pembeli')->references('id_pembeli')->on('pembelis')->onDelete('cascade');
+            $table->bigInteger('id_pegawai')->unsigned()->nullable();
+            $table->foreign('id_pegawai')->references('id_pegawai')->on('pegawais')->onDelete('cascade');
+            $table->boolean('dilivery');
+            $table->enum('status',['Proses','Batal','Selesai']);
+            $table->enum('status_pengiriman',['DiProses','Pegiriman','Sampai'])->nullable();
+            $table->double('point_yg_didapat')->nullable();
+            $table->double('point_current');
+            $table->double('point_digunakan')->nullable();
+            $table->double('potongan_harga')->nullable();
+            $table->double('harga_barang');
+            $table->double('ongkir');
+            $table->dateTime('batas_waktu');
+            $table->dateTime('tanggal_pembelian');
+            $table->dateTime('tanggal_lunas');
+            $table->dateTime('tanggal_pengiriman-pengambilan')->nullable();
+            $table->text('bukti_pembayaran')->nullable();
             $table->timestamps();
         });
     }

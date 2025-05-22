@@ -15,25 +15,25 @@ class Pembelian extends Model
      * @var list<string>
      */
     public $timestamps = false;
-    protected $primaryKey = 'Id_pembelian';
+    protected $primaryKey = 'id_pembelian';
     protected $fillable = [
-        'Id_pembelian',
-        'Id_alamat',
-        'Id_Pembeli',
-        'Id_Pegawai',
-        'Dilivery',
-        'Status',
-        'Status_Pengiriman',
-        'PointYgDidapat',
-        'PointCurrent',
-        'PointDigunakan',
-        'Potongan_Harga',
-        'Harga_Barang',
-        'Ongkir',
-        'Batas_Waktu',
-        'Tanggal_Pembelian',
-        'Tanggal_Lunas',
-        'Tanggal_Pengiriman-Pengambilan',
+        'id_pembelian',
+        'id_alamat',
+        'id_pembeli',
+        'id_pegawai',
+        'dilivery',
+        'status',
+        'status_pengiriman',
+        'point_yg_didapat',
+        'point_current',
+        'point_digunakan',
+        'potongan_harga',
+        'harga_barang',
+        'ongkir',
+        'batas_waktu',
+        'tanggal_pembelian',
+        'tanggal_lunas',
+        'tanggal_pengiriman-pengambilan',
         'Bukti_Pembayaran',
     ];
     /**
@@ -52,22 +52,22 @@ class Pembelian extends Model
         return $this->belongsToMany(
             Penitipan_Barang::class,
             'detail__pembelians',
-            'Id_pembelian',
-            'Id_barang' 
+            'id_pembelian',
+            'id_barang' 
             
         );
     }
     public function Alamat()
     {
-        return $this->belongsTo(Alamat::class, 'Id_alamat');
+        return $this->belongsTo(Alamat::class, 'id_alamat');
     }
     public function Pegawai()
     {
-        return $this->belongsTo(Pegawai::class, 'Id_Pegawai');
+        return $this->belongsTo(Pegawai::class, 'id_pegawai');
     }
     public function Pembeli()
     {
-        return $this->belongsTo(Pembeli::class, 'Id_Pembeli');
+        return $this->belongsTo(Pembeli::class, 'id_pembeli');
     }
     /**
      * Get the attributes that should be cast.
@@ -77,8 +77,8 @@ class Pembelian extends Model
     protected function casts(): array
     {
         return [
-            'Id_pembelian' => 'string',
-            'Dilivery' => 'boolean',
+            'id_pembelian' => 'string',
+            'dilivery' => 'boolean',
             
         ];
     }

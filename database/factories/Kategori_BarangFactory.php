@@ -17,9 +17,9 @@ class Kategori_BarangFactory extends Factory
     public function definition(): array
     {
         return [
-            'Id_kategori' => fake()->unique()->numerify('K-####'),
-            'Nama_Kategori' => fake()->unique()->randomElement(['Elektronik-&-Gadget','Pakaian-&-Aksesori','Perabotan-Rumah-Tangga','Buku,-Alat-Tulis,-&-Peralatan Sekolah','Hobi,-Mainan,-&-Koleksi','Perlengkapan-Bayi-&-Anak','Otomotif-&-Aksesori','Perlengkapan-Taman-&-Outdoor','Peralatan-Kantor-&-Industri','Kosmetik-&-Perawatan Diri']),
-            'Sub_Kategori'=>fake()->unique()->word(),
+            'id_kategori' => fake()->unique()->numerify('K-####'),
+            'nama_kategori' => fake()->unique()->randomElement(['Elektronik-&-Gadget','Pakaian-&-Aksesori','Perabotan-Rumah-Tangga','Buku,-Alat-Tulis,-&-Peralatan Sekolah','Hobi,-Mainan,-&-Koleksi','Perlengkapan-Bayi-&-Anak','Otomotif-&-Aksesori','Perlengkapan-Taman-&-Outdoor','Peralatan-Kantor-&-Industri','Kosmetik-&-Perawatan Diri']),
+            'sub_kategori'=>fake()->unique()->word(),
         ];
     }
 }

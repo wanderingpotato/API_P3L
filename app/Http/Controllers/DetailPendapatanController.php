@@ -46,7 +46,7 @@ class DetailPendapatanController extends Controller
             ], 404);
         }
 
-        $DetailPendapatan = Detail_Pendapatan::where('Id_penitip', $user->id)->get();
+        $DetailPendapatan = Detail_Pendapatan::where('id_penitip', $user->id_penitip)->get();
         return response([
             'message' => 'DetailPendapatan of ' . $user->name . ' Retrieved',
             'data' => $DetailPendapatan
@@ -59,10 +59,10 @@ class DetailPendapatanController extends Controller
         $storeData = $request->all();
 
         $validate = Validator::make($storeData, [
-            'Id_penitip' => 'required',
+            'id_penitip' => 'required',
             'total' => 'required',
             'month' => 'required',
-            'Bonus_Pendapatan' => 'required',
+            'bonus_pendapatan' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -76,9 +76,9 @@ class DetailPendapatanController extends Controller
             ], 404);
         }
 
-        $lastId = Detail_Pendapatan::latest('Id_DetailPendapatan')->first();
-        $newId = $lastId ? 'DP-' . str_pad((int) substr($lastId->Id_DetailPendapatan, 2) + 1, 3, '0', STR_PAD_LEFT) : 'DP-001';
-        $storeData['Id_DetailPendapatan'] = $newId;
+        $lastId = Detail_Pendapatan::latest('id_detail_pendapatan')->first();
+        $newId = $lastId ? 'DP-' . str_pad((int) substr($lastId->id_detail_pendapatan, 2) + 1, 3, '0', STR_PAD_LEFT) : 'DP-001';
+        $storeData['id_detail_pendapatan'] = $newId;
         $DetailPendapatan = Detail_Pendapatan::create($storeData);
         return response([
             'message' => 'DetailPendapatan Added Successfully',
@@ -122,10 +122,10 @@ class DetailPendapatanController extends Controller
         $updateData = $request->all();
 
         $validate = Validator::make($updateData, [
-            'Id_penitip' => 'required',
+            'id_penitip' => 'required',
             'total' => 'required',
             'month' => 'required',
-            'Bonus_Pendapatan' => 'required',
+            'bonus_pendapatan' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);

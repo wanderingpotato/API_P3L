@@ -12,16 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('klaim__merchandises', function (Blueprint $table) {
-            $table->string('Id_klaim')->primary();
-            $table->string('Id_merchandise');
-            $table->foreign('Id_merchandise')->references('Id_merchandise')->on('merchandises')->onDelete('cascade');
-            $table->bigInteger('Id_Pembeli')->unsigned()->nullable();
-            $table->foreign('Id_Pembeli')->references('Id_Pembeli')->on('pembelis')->onDelete('cascade');
-            $table->bigInteger('Id_penitip')->unsigned()->nullable();
-            $table->foreign('Id_penitip')->references('Id_penitip')->on('penitips')->onDelete('cascade');
-            $table->integer('Jumlah');
-            $table->dateTime('Tanggal_ambil');
-            $table->enum('Status',['On-Progress','Claimed','Canceled']);
+            $table->string('id_klaim')->primary();
+            $table->string('id_merchandise');
+            $table->foreign('id_merchandise')->references('id_merchandise')->on('merchandises')->onDelete('cascade');
+            $table->bigInteger('id_pembeli')->unsigned()->nullable();
+            $table->foreign('id_pembeli')->references('id_pembeli')->on('pembelis')->onDelete('cascade');
+            $table->bigInteger('id_penitip')->unsigned()->nullable();
+            $table->foreign('id_penitip')->references('id_penitip')->on('penitips')->onDelete('cascade');
+            $table->integer('jumlah');
+            $table->dateTime('tanggal_ambil');
+            $table->enum('status',['On-Progress','Claimed','Canceled']);
             $table->timestamps();
         });
     }

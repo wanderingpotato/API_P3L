@@ -17,7 +17,7 @@ class MerchandiseController extends Controller
     {
         $query = Merchandise::query();
         if ($request->has('search') && $request->search != '') {
-            $query->where('Nama', 'like', '%' . $request->search . '%');
+            $query->where('nama', 'like', '%' . $request->search . '%');
         }
         $perPage = $request->query('per_page', 7);
         $Merchandise = $query->paginate($perPage);
@@ -32,7 +32,7 @@ class MerchandiseController extends Controller
         $data = Merchandise::get();
 
         return response([
-            'message' => 'All JenisKamar Retrieved',
+            'message' => 'All Merchandise Retrieved',
             'data' => $data
         ], 200);
     }
@@ -45,9 +45,9 @@ class MerchandiseController extends Controller
                 'data' => null
             ], 404);
         }
-        $Merchandise = Merchandise::where('Id_penitip', $user->id)->get();
+        $Merchandise = Merchandise::where('id_penitip', $user->id_penitip)->get();
         return response([
-            'message' => 'Penitipan Barang of ' . $user->name . ' Retrieved',
+            'message' => 'Merchandise of ' . $user->name . ' Retrieved',
             'data' => $Merchandise
         ], 200);
     }
@@ -60,9 +60,9 @@ class MerchandiseController extends Controller
                 'data' => null
             ], 404);
         }
-        $Merchandise = Merchandise::where('Id_Pembeli', $user->id)->get();
+        $Merchandise = Merchandise::where('id_Pembeli', $user->id_Pembeli)->get();
         return response([
-            'message' => 'Penitipan Barang of ' . $user->name . ' Retrieved',
+            'message' => 'Merchandise of ' . $user->name . ' Retrieved',
             'data' => $Merchandise
         ], 200);
     }
@@ -82,10 +82,10 @@ class MerchandiseController extends Controller
         $storeData = $request->all();
 
         $validate = Validator::make($storeData, [
-            'Nama' => 'required',
-            'Poin' => 'required',
-            'Kategori' => 'required',
-            'Stock' => 'required',
+            'nama' => 'required',
+            'poin' => 'required',
+            'kategori' => 'required',
+            'stock' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -97,19 +97,19 @@ class MerchandiseController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        if ($user->Id_jabatan == 'J-001') {
+        if ($user->id_jabatan == 'J-001') {
             return response([
                 'message' => 'User Cannot'
             ], 404);
         }
 
-        $lastId = Merchandise::latest('Id_merchandise')->first();
-        $newId = $lastId ? 'M-' . str_pad((int) substr($lastId->Id_merchandise, 2) + 1, 3, '0', STR_PAD_LEFT) : 'M-001';
-        $storeData['Id_merchandise'] = $newId;
+        $lastId = Merchandise::latest('id_merchandise')->first();
+        $newId = $lastId ? 'M-' . str_pad((int) substr($lastId->id_merchandise, 2) + 1, 3, '0', STR_PAD_LEFT) : 'M-001';
+        $storeData['id_merchandise'] = $newId;
 
         $Merchandise = Merchandise::create($storeData);
         return response([
-            'message' => 'Penitipan Barang Added Successfully',
+            'message' => 'Merchandise Added Successfully',
             'data' => $Merchandise,
         ], 200);
     }
@@ -150,10 +150,10 @@ class MerchandiseController extends Controller
         $updateData = $request->all();
 
         $validate = Validator::make($updateData, [
-            'Nama' => 'required',
-            'Poin' => 'required',
-            'Kategori' => 'required',
-            'Stock' => 'required',
+            'nama' => 'required',
+            'poin' => 'required',
+            'kategori' => 'required',
+            'stock' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -165,7 +165,7 @@ class MerchandiseController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        if ($user->Id_jabatan == 'J-001') {
+        if ($user->id_jabatan == 'J-001') {
             return response([
                 'message' => 'User Cannot'
             ], 404);

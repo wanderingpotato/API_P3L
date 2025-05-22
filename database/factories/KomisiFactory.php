@@ -19,32 +19,32 @@ class KomisiFactory extends Factory
      */
     public function definition(): array
     {
-        $BarangId = Penitipan_Barang::pluck('Id_barang')->toArray();
-        $PenitipId = Penitip::pluck('Id_penitip')->toArray();
-        $PegawaiId = Pegawai::pluck('Id_pegawai')->toArray();
+        $BarangId = Penitipan_Barang::pluck('id_barang')->toArray();
+        $PenitipId = Penitip::pluck('id_penitip')->toArray();
+        $PegawaiId = Pegawai::pluck('id_pegawai')->toArray();
         if (fake()->randomDigitNotNull() % 2 == 0) {
             return [
-                'Id_komisi' => fake()->unique()->numerify('K-####'),
-                'Id_penitip' => fake()->randomElement($PenitipId),
-                'Id_barang' => fake()->randomElement($BarangId),
-                'Bonus_Penitip'=>fake()->randomFloat(2),
-                'Komisi_Penitip'=>fake()->randomFloat(2),
-                'Komisi_Toko'=>fake()->randomFloat(2),
-                'Komisi_Hunter'=>null,
-                'Tanggal_Komisi'=> fake()->dateTime(),
-                'Id_pegawai' => null,
+                'id_komisi' => fake()->unique()->numerify('K-####'),
+                'id_penitip' => fake()->randomElement($PenitipId),
+                'id_barang' => fake()->randomElement($BarangId),
+                'bonus_penitip'=>fake()->randomFloat(2),
+                'komisi_penitip'=>fake()->randomFloat(2),
+                'komisi_toko'=>fake()->randomFloat(2),
+                'komisi_hunter'=>null,
+                'tanggal_komisi'=> fake()->dateTime(),
+                'id_pegawai' => null,
             ];
         } else {
             return [
-                'Id_komisi' => fake()->unique()->numerify('K-####'),
-                'Id_pegawai' => fake()->randomElement($PegawaiId),
-                'Id_barang' => fake()->randomElement($BarangId),
-                'Bonus_Penitip'=>null,
-                'Komisi_Penitip'=>fake()->randomFloat(2),
-                'Komisi_Toko'=>fake()->randomFloat(2),
-                'Komisi_Hunter'=>fake()->randomFloat(2),
-                'Tanggal_Komisi'=> fake()->dateTime(),
-                'Id_penitip' => null,
+                'id_komisi' => fake()->unique()->numerify('K-####'),
+                'id_pegawai' => fake()->randomElement($PegawaiId),
+                'id_barang' => fake()->randomElement($BarangId),
+                'bonus_penitip'=>null,
+                'komisi_penitip'=>fake()->randomFloat(2),
+                'komisi_toko'=>fake()->randomFloat(2),
+                'komisi_hunter'=>fake()->randomFloat(2),
+                'tanggal_komisi'=> fake()->dateTime(),
+                'id_penitip' => null,
             ];
         }
     }

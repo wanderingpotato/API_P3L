@@ -45,7 +45,7 @@ class DetailDonasiController extends Controller
                 'data' => null
             ],404);
         }
-        $DetailDonasi =Detail_Donasi::where('Id_donasi', $user->id)->get();
+        $DetailDonasi =Detail_Donasi::where('id_donasi', $user->id_donasi)->get();
         return response([
             'message' => 'DetailDonasi of '.$user->name.' Retrieved',
             'data' => $DetailDonasi
@@ -59,9 +59,9 @@ class DetailDonasiController extends Controller
         $storeData = $request->all();
 
         $validate = Validator::make($storeData,[
-            'Id_donasi' => 'required',
-            'Id_barang' => 'required',
-            'Id_penitip' => 'required',
+            'id_donasi' => 'required',
+            'id_barang' => 'required',
+            'id_penitip' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message'=> $validate->errors()],400);
@@ -119,9 +119,9 @@ class DetailDonasiController extends Controller
         $updateData = $request->all();
 
         $validate = Validator::make($updateData,[
-            'Id_donasi' => 'required',
-            'Id_barang' => 'required',
-            'Id_penitip' => 'required',
+            'id_donasi' => 'required',
+            'id_barang' => 'required',
+            'id_penitip' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message'=> $validate->errors()],400);

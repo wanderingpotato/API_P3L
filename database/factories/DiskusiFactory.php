@@ -20,42 +20,42 @@ class DiskusiFactory extends Factory
      */
     public function definition(): array
     {
-        $BarangId = Penitipan_Barang::pluck('Id_barang')->toArray();
-        $PenitipId = Penitip::pluck('Id_penitip')->toArray();
-        $PegawaiId = Pegawai::pluck('Id_pegawai')->toArray();
-        $PembeliId = Pembeli::pluck('Id_Pembeli')->toArray();
+        $BarangId = Penitipan_Barang::pluck('id_barang')->toArray();
+        $PenitipId = Penitip::pluck('id_penitip')->toArray();
+        $PegawaiId = Pegawai::pluck('id_pegawai')->toArray();
+        $PembeliId = Pembeli::pluck('id_Pembeli')->toArray();
         if (fake()->numberBetween(1, 3) == 1){
             return [
-                'Id_diskusi' => fake()->unique()->numerify('DS-####'),
-                'Id_barang' => fake()->randomElement($BarangId),
-                'Id_Pembeli' => null,
-                'Id_Penitip' => null,
-                'Id_Pegawai' => fake()->randomElement($PegawaiId),
-                'Title'=>fake()->unique()->sentence(),
-                'Deskripsi'=>fake()->text(),
+                'id_diskusi' => fake()->unique()->numerify('DS-####'),
+                'id_barang' => fake()->randomElement($BarangId),
+                'id_pembeli' => null,
+                'id_penitip' => null,
+                'id_pegawai' => fake()->randomElement($PegawaiId),
+                'title'=>fake()->unique()->sentence(),
+                'deskripsi'=>fake()->text(),
                 //
             ];
         }
         else if(fake()->numberBetween(1, 3) == 2){
             return [
-                'Id_diskusi' => fake()->unique()->numerify('DS-####'),
-                'Id_barang' => fake()->randomElement($BarangId),
-                'Id_Pembeli' => fake()->randomElement($PembeliId),
-                'Id_Penitip' => null,
-                'Id_Pegawai' => null,
-                'Title'=>fake()->unique()->sentence(),
-                'Deskripsi'=>fake()->text(),
+                'id_diskusi' => fake()->unique()->numerify('DS-####'),
+                'id_barang' => fake()->randomElement($BarangId),
+                'id_pembeli' => fake()->randomElement($PembeliId),
+                'id_penitip' => null,
+                'id_pegawai' => null,
+                'title'=>fake()->unique()->sentence(),
+                'deskripsi'=>fake()->text(),
                 //
             ];
         }else{
             return [
-                'Id_diskusi' => fake()->unique()->numerify('DS-####'),
-                'Id_barang' => fake()->randomElement($BarangId),
-                'Id_Pembeli' => null,
-                'Id_Penitip' => fake()->randomElement($PenitipId),
-                'Id_Pegawai' => null,
-                'Title'=>fake()->unique()->sentence(),
-                'Deskripsi'=>fake()->text(),
+                'id_diskusi' => fake()->unique()->numerify('DS-####'),
+                'id_barang' => fake()->randomElement($BarangId),
+                'id_pembeli' => null,
+                'id_penitip' => fake()->randomElement($PenitipId),
+                'id_pegawai' => null,
+                'title'=>fake()->unique()->sentence(),
+                'deskripsi'=>fake()->text(),
                 //
             ];
         }

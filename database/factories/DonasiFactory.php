@@ -17,15 +17,15 @@ class DonasiFactory extends Factory
      */
     public function definition(): array
     {
-        $OrganisasiId = Organisasi::pluck('Id_organisasi')->toArray();
+        $OrganisasiId = Organisasi::pluck('id_organisasi')->toArray();
         return [
-            'Id_donasi' => fake()->unique()->numerify('D-####'),
-            'Id_organisasi' => fake()->randomElement($OrganisasiId),
-            'Nama_Penerima'=>fake()->unique()->name(),
-            'Tanggal_diberikan'=> fake()->dateTime(),
-            'Tanggal_request'=> fake()->dateTime(),
-            'Deskripsi'=>fake()->text(),
-            'Konfirmasi'=>fake()->numberBetween(0, 1),
+            'id_donasi' => fake()->unique()->numerify('D-####'),
+            'id_organisasi' => fake()->randomElement($OrganisasiId),
+            'nama_penerima'=>fake()->unique()->name(),
+            'tanggal_diberikan'=> fake()->dateTime(),
+            'tanggal_request'=> fake()->dateTime(),
+            'deskripsi'=>fake()->text(),
+            'konfirmasi'=>fake()->numberBetween(0, 1),
             //
         ];
     }

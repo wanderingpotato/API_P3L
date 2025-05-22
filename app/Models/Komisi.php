@@ -15,17 +15,17 @@ class Komisi extends Model
      * @var list<string>
      */
     public $timestamps = false;
-    protected $primaryKey = 'Id_komisi';
+    protected $primaryKey = 'id_komisi';
     protected $fillable = [
-        'Id_komisi',
-        'Id_barang',
-        'Id_pegawai',
-        'Id_penitip',
-        'Bonus_Penitip',
-        'Komisi_Penitip',
-        'Komisi_Toko',
-        'Komisi_Hunter',
-        'Tanggal_Komisi',
+        'id_komisi',
+        'id_barang',
+        'id_pegawai',
+        'id_penitip',
+        'bonus_penitip',
+        'komisi_penitip',
+        'komisi_toko',
+        'komisi_hunter',
+        'tanggal_komisi',
     ];
     /**
      * The attributes that should be hidden for serialization.
@@ -40,15 +40,15 @@ class Komisi extends Model
     //relationships
     public function Penitip()
     {
-        return $this->belongsTo(Penitip::class, 'Id_penitip');
+        return $this->belongsTo(Penitip::class, 'id_penitip');
     }
     public function Pegawai()
     {
-        return $this->belongsTo(Pegawai::class, 'Id_pegawai');
+        return $this->belongsTo(Pegawai::class, 'id_pegawai');
     }
     public function Barang()
     {
-        return $this->belongsTo(Penitipan_Barang::class, 'Id_barang');
+        return $this->belongsTo(Penitipan_Barang::class, 'id_barang');
     }
     /**
      * Get the attributes that should be cast.
@@ -58,7 +58,7 @@ class Komisi extends Model
     protected function casts(): array
     {
         return [
-            'Id_komisi' => 'string',
+            'id_komisi' => 'string',
         ];
     }
 }

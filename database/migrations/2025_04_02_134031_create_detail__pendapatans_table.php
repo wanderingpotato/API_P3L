@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('detail__pendapatans', function (Blueprint $table) {
-            $table->string('Id_DetailPendapatan')->primary();
-            $table->bigInteger('Id_penitip')->unsigned();
-            $table->foreign('Id_penitip')->references('Id_penitip')->on('penitips')->onDelete('cascade');
+            $table->string('id_detail_pendapatan')->primary();
+            $table->bigInteger('id_penitip')->unsigned();
+            $table->foreign('id_penitip')->references('id_penitip')->on('penitips')->onDelete('cascade');
             $table->double('total');
             $table->date('month');
-            $table->double('Bonus_Pendapatan');
+            $table->double('bonus_pendapatan');
             $table->timestamps();
         });
     }

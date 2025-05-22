@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('pembelis', function (Blueprint $table) {
             // $table->string('Id_Pembeli')->primary();
-            $table->id('Id_Pembeli');
+            $table->id('id_pembeli');
             $table->string('name');
             $table->string('username')->unique();
             $table->string('email')->unique();
-            $table->string('noTelp');
+            $table->string('no_telp');
             $table->string('password');
-            $table->double('Poin');
+            $table->double('poin');
             $table->text('foto')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

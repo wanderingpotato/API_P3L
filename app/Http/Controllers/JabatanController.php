@@ -43,7 +43,7 @@ class JabatanController extends Controller
     }
     public function showJabatanWithPegawaiByJabatanId(string $id)
     {
-        $Jabatan = Jabatan::with('Pegawai')->find($id);
+        $Jabatan = Jabatan::with('pegawais')->find($id);
 
         if ($Jabatan) {
             return response([
@@ -59,7 +59,7 @@ class JabatanController extends Controller
     }
     public function showJabatanWithPegawai()
     {
-        $data = Jabatan::with('Pegawai')->get();
+        $data = Jabatan::with('pegawais')->get();
 
         return response([
             'message' => 'All JenisKamar Retrieved',
@@ -87,15 +87,15 @@ class JabatanController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        if ($user->Id_jabatan == 'J-001') {
+        if ($user->id_jabatan == 'J-001') {
             return response([
                 'message' => 'User Cannot'
             ], 404);
         }
 
-        $lastId = Jabatan::latest('Id_jabatan')->first();
-        $newId = $lastId ? 'J-' . str_pad((int) substr($lastId->Id_jabatan, 2) + 1, 3, '0', STR_PAD_LEFT) : 'J-001';
-        $storeData['Id_jabatan'] = $newId;
+        $lastId = Jabatan::latest('id_jabatan')->first();
+        $newId = $lastId ? 'J-' . str_pad((int) substr($lastId->id_jabatan, 2) + 1, 3, '0', STR_PAD_LEFT) : 'J-001';
+        $storeData['id_jabatan'] = $newId;
 
         $Jabatan = Jabatan::create($storeData);
         return response([
@@ -152,7 +152,7 @@ class JabatanController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        if ($user->Id_jabatan == 'J-001') {
+        if ($user->id_jabatan == 'J-001') {
             return response([
                 'message' => 'User Cannot'
             ], 404);

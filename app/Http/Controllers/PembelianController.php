@@ -23,9 +23,9 @@ class PembelianController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Pembelian::with('Detail_Pembelian');
+        $query = Pembelian::with('detail__pembelians');
         if ($request->has('search') && $request->search != '') {
-            $query->where('id_Pembelian', 'like', '%' . $request->search . '%');
+            $query->where('id_pembelian', 'like', '%' . $request->search . '%');
         }
         $perPage = $request->query('per_page', 7);
         $Pembelian = $query->paginate($perPage);
@@ -79,7 +79,7 @@ class PembelianController extends Controller
                 'data' => null
             ], 404);
         }
-        $Pembelian = Pembelian::with('detail__pembelians')->where('Id_Pembeli', $user->Id_Pembeli)->get();
+        $Pembelian = Pembelian::with('detail__pembelians')->where('id_pembeli', $user->id_pembeli)->get();
         return response([
             'message' => 'Pembelian of ' . $user->name . ' Retrieved',
             'data' => $Pembelian
@@ -95,7 +95,7 @@ class PembelianController extends Controller
                 'data' => null
             ], 404);
         }
-        $Pembelian = Pembelian::with(['detail__pembelians', 'alamat'])->where('Id_Pembelian', $id)->get();
+        $Pembelian = Pembelian::with(['detail__pembelians', 'alamat'])->where('id_pembelian', $id)->get();
         return response([
             'message' => 'Pembelian of ' . $user->name . ' Retrieved',
             'data' => $Pembelian
@@ -116,7 +116,7 @@ class PembelianController extends Controller
         if (is_null($user)) {
             return response(['message' => 'User Not Found'], 404);
         }
-        $count = Pembelian::where('Id_Pembeli', $idUser)->count();
+        $count = Pembelian::where('id_pembeli', $idUser)->count();
         return response([
             'message' => 'Count Retrieved Successfully',
             'count' => $count
@@ -141,15 +141,15 @@ class PembelianController extends Controller
         }
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
-            'Bukti_Pembayaran' => 'required',
+            'bukti_pembayaran' => 'required',
         ]);
-        if ($request->hasFile('Bukti_Pembayaran')) {
+        if ($request->hasFile('bukti_pembayaran')) {
             $uploadFolder = 'BuktiPembayaran';
-            $image = $request->file('Bukti_Pembayaran');
+            $image = $request->file('bukti_pembayaran');
             $image_uploaded_path = $image->store($uploadFolder, 'public');
             $uploadedImageResponse = basename($image_uploaded_path);
-            Storage::disk('public')->delete('BuktiPembayaran/' . $Pembelian->Bukti_Pembayaran);
-            $updateData['Bukti_Pembayaran'] = $uploadedImageResponse;
+            Storage::disk('public')->delete('BuktiPembayaran/' . $Pembelian->bukti_pembayaran);
+            $updateData['bukti_pembayaran'] = $uploadedImageResponse;
         }
         $Pembelian->update($updateData);
         if ($validate->fails()) {
@@ -167,7 +167,7 @@ class PembelianController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        if ($user->Id_jabatan == 'J-003') {
+        if ($user->id_jabatan == 'J-003') {
             return response([
                 'message' => 'User Cannot'
             ], 404);
@@ -181,82 +181,82 @@ class PembelianController extends Controller
         }
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
-            'Status' => 'required',
-            'Status_Pengiriman' => 'required',
-            'Tanggal_Lunas' => 'required',
-            'Tanggal_Pengiriman-Pengambilan' => 'required',
+            'status' => 'required',
+            'status_pengiriman' => 'required',
+            'tanggal_lunas' => 'required',
+            'tanggal_pengiriman-pengambilan' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
         }
         $Pembelian->update($updateData);
         foreach ($request->Data as $item) {
-            $Penitipan_Barang = Penitipan_Barang::find($item['Id_barang']);
+            $Penitipan_Barang = Penitipan_Barang::find($item['id_barang']);
             if (is_null($Penitipan_Barang)) {
                 return response([
                     'message' => 'Penitipan_Barang Not found',
                 ], 404);
             }
-            $UpdateChild['Status'] = 'DiBeli';
-            $UpdateChild['Tanggal_Laku'] = $updateData['Tanggal_Lunas'];
+            $UpdateChild['status'] = 'DiBeli';
+            $UpdateChild['tanggal_laku'] = $updateData['tanggal_lunas'];
             $validate = Validator::make($UpdateChild, [
-                'Tanggal_Laku' => 'required',
-                'Status' => 'required',
+                'tanggal_laku' => 'required',
+                'status' => 'required',
             ]);
             if ($validate->fails()) {
                 return response(['message' => $validate->errors()], 400);
             }
             $Penitipan_Barang->update($UpdateChild);
             if ($Pembelian->status == "Selesai") {
-                $storeChildData['Id_barang'] = $Penitipan_Barang->Id_barang;
-                $storeChildData['Bonus_Penitip'] = 0;
-                $storeChildData['Komisi_Hunter'] = 0;
-                $storeChildData['Komisi_Toko'] = $Penitipan_Barang->Harga_Barang * (20 / 100);
-                $KomisiTemp = $Penitipan_Barang->Harga_Barang * (20 / 100);
+                $storeChildData['id_barang'] = $Penitipan_Barang->id_barang;
+                $storeChildData['bonus_penitip'] = 0;
+                $storeChildData['komisi_hunter'] = 0;
+                $storeChildData['komisi_toko'] = $Penitipan_Barang->harga_barang * (20 / 100);
+                $KomisiTemp = $Penitipan_Barang->harga_barang * (20 / 100);
                 if ($Penitipan_Barang->Hunter == 1) {
-                    $storeChildData['Id_pegawai'] = $Penitipan_Barang->Id_pegawai;
-                    $storeChildData['Komisi_Hunter'] = $KomisiTemp * (5 / 100);
-                    $storeChildData['Komisi_Toko'] = $storeChildData['Komisi_Toko'] - $storeChildData['Komisi_Hunter'];
+                    $storeChildData['id_pegawai'] = $Penitipan_Barang->id_pegawai;
+                    $storeChildData['komisi_hunter'] = $KomisiTemp * (5 / 100);
+                    $storeChildData['komisi_toko'] = $storeChildData['komisi_toko'] - $storeChildData['komisi_hunter'];
                 }
-                if (Carbon::parse($Penitipan_Barang->Tanggal_penitipan)->diffInDays(Carbon::parse($Penitipan_Barang->Tanggal_Laku)) <= 7) {
-                    $storeChildData['Id_penitip'] = $Penitipan_Barang->Id_penitip;
-                    $storeChildData['Bonus_Penitip'] = $KomisiTemp * (10 / 100);
-                    $storeChildData['Komisi_Toko'] = $storeChildData['Komisi_Toko'] - $storeChildData['Bonus_Penitip'];
+                if (Carbon::parse($Penitipan_Barang->Tanggal_penitipan)->diffInDays(Carbon::parse($Penitipan_Barang->tanggal_laku)) <= 7) {
+                    $storeChildData['id_penitip'] = $Penitipan_Barang->id_penitip;
+                    $storeChildData['bonus_penitip'] = $KomisiTemp * (10 / 100);
+                    $storeChildData['komisi_toko'] = $storeChildData['komisi_toko'] - $storeChildData['bonus_penitip'];
                 }
-                $storeChildData['Komisi_Penitip'] = $Penitipan_Barang->Harga_Barang - ($storeChildData['Komisi_Toko'] + $storeChildData['Komisi_Hunter']);
+                $storeChildData['komisi_penitip'] = $Penitipan_Barang->harga_barang - ($storeChildData['komisi_toko'] + $storeChildData['komisi_hunter']);
 
-                $lastId = Komisi::latest('Id_komisi')->first();
-                $newId = $lastId ? 'K-' . str_pad((int) substr($lastId->Id_komisi, 2) + 1, 3, '0', STR_PAD_LEFT) : 'K-001';
-                $storeChildData['Id_komisi'] = $newId;
+                $lastId = Komisi::latest('id_komisi')->first();
+                $newId = $lastId ? 'K-' . str_pad((int) substr($lastId->id_komisi, 2) + 1, 3, '0', STR_PAD_LEFT) : 'K-001';
+                $storeChildData['id_komisi'] = $newId;
 
-                $storeChildData['Tanggal_Komisi'] = $request->Tanggal_Komisi;
+                $storeChildData['tanggal_komisi'] = $request->tanggal_komisi;
                 $validate = Validator::make($storeChildData, [
-                    'Id_barang' => 'required',
-                    'Komisi_Penitip' => 'required',
-                    'Komisi_Toko' => 'required',
-                    'Tanggal_Komisi' => 'required',
+                    'id_barang' => 'required',
+                    'komisi_penitip' => 'required',
+                    'komisi_toko' => 'required',
+                    'tanggal_komisi' => 'required',
                 ]);
                 Komisi::create($storeChildData);
 
-                if ($storeChildData['Id_penitip'] != null && $Penitipan_Barang->Id_penitip != null) {
-                    $Penitip = Penitip::where('Id_penitip', $Penitipan_Barang->Id_penitip)->get();
-                    $UpdateDataPenitip['saldo'] = $Penitip->saldo + $storeChildData['Komisi_Penitip'];
-                    $total =  $storeChildData['Komisi_Penitip'];
-                    if ($storeChildData['Bonus_Penitip'] != 0) {
-                        $UpdateDataPenitip['saldo'] = $UpdateDataPenitip['saldo'] +  $storeChildData['Bonus_Penitip'];
-                        $total = $total +  $storeChildData['Bonus_Penitip'];
+                if ($storeChildData['id_penitip'] != null && $Penitipan_Barang->id_penitip != null) {
+                    $Penitip = Penitip::where('id_penitip', $Penitipan_Barang->id_penitip)->get();
+                    $UpdateDataPenitip['saldo'] = $Penitip->saldo + $storeChildData['komisi_penitip'];
+                    $total =  $storeChildData['komisi_penitip'];
+                    if ($storeChildData['bonus_penitip'] != 0) {
+                        $UpdateDataPenitip['saldo'] = $UpdateDataPenitip['saldo'] +  $storeChildData['bonus_penitip'];
+                        $total = $total +  $storeChildData['bonus_penitip'];
                     }
                     $Penitip->update($UpdateDataPenitip);
                     $currentDate = Carbon::now();
                     $DataPenjualan = Detail_Pendapatan::whereMonth('month', $currentDate->month())->get();
                     if (is_null($DataPenjualan)) {
-                        $StoreTambah['Id_penitip'] = $request->Id_penitip;
+                        $StoreTambah['id_penitip'] = $request->id_penitip;
                         $StoreTambah['total'] = $total;
                         $StoreTambah['month'] = $currentDate->toDateString();
-                        $StoreTambah['Bonus_Pendapatan'] = 0;
+                        $StoreTambah['bonus_pendapatan'] = 0;
                         Detail_Pendapatan::create($StoreTambah);
                     } else {
-                        $StoreTambah['Id_penitip'] = $request->Id_penitip;
+                        $StoreTambah['id_penitip'] = $request->id_penitip;
                         $StoreTambah['total'] = $DataPenjualan->total + $total;
                         $DataPenjualan->update($StoreTambah);
                     }
@@ -268,38 +268,47 @@ class PembelianController extends Controller
             'data' => $Pembelian,
         ], 200);
     }
+    public function filterbymonth()
+    {
+        $data = Pembelian::whereMonth("tanggal_pembelian",9)->get();
+
+        return response([
+            'message' => 'All JenisKamar Retrieved',
+            'data' => $data
+        ], 200);
+    }
     public function store(Request $request)
     {
         $storeData = $request->all();
 
         $validate = Validator::make($storeData, [
-            'Id_alamat' => 'required',
-            'Id_Pegawai' => '',
-            'Dilivery' => 'required',
-            'Status' => 'required',
-            'Status_Pengiriman' => 'required',
-            'PointYgDidapat' => '',
-            'PointCurrent' => '',
-            'PointDigunakan' => 'required',
-            'Potongan_Harga' => '',
-            'Harga_Barang' => '',
-            'Ongkir' => 'required',
-            'Batas_Waktu' => 'required',
-            'Tanggal_Pembelian' => 'required',
-            'Tanggal_Lunas' => '',
-            'Tanggal_Pengiriman-Pengambilan' => '',
-            'Bukti_Pembayaran' => '',
+            'id_alamat' => 'required',
+            'id_pegawai' => '',
+            'dilivery' => 'required',
+            'status' => 'required',
+            'status_pengiriman' => 'required',
+            'point_yg_didapat' => '',
+            'point_current' => '',
+            'point_digunakan' => 'required',
+            'potongan_harga' => '',
+            'harga_barang' => '',
+            'ongkir' => 'required',
+            'batas_waktu' => 'required',
+            'tanggal_pembelian' => 'required',
+            'tanggal_lunas' => '',
+            'tanggal_pengiriman-pengambilan' => '',
+            'bukti_pembayaran' => '',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
         }
-        $storeData['Tanggal_Lunas'] = '2000-01-01';
-        $storeData['Tanggal_Pengiriman-Pengambilan'] = '2000-01-01';
-        $storeData['Potongan_Harga'] = intdiv($storeData['PointDigunakan'], 100) * 10000;
+        $storeData['tanggal_lunas'] = '2000-01-01';
+        $storeData['tanggal_pengiriman-pengambilan'] = '2000-01-01';
+        $storeData['potongan_harga'] = intdiv($storeData['point_digunakan'], 100) * 10000;
 
-        $lastId = Pembelian::latest('Id_pembelian')->first();
-        $newId = $lastId ? 'PM-' . str_pad((int) substr($lastId->Id_pembelian, 1) + 1, 3, '0', STR_PAD_LEFT) : 'PM-001';
-        $storeData['Id_pembelian'] = $newId;
+        $lastId = Pembelian::latest('id_pembelian')->first();
+        $newId = $lastId ? 'PM-' . str_pad((int) substr($lastId->id_pembelian, 1) + 1, 3, '0', STR_PAD_LEFT) : 'PM-001';
+        $storeData['id_pembelian'] = $newId;
 
         //Nyari Sesuai User
         $idUser = Auth::id();
@@ -309,56 +318,56 @@ class PembelianController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        $storeData['PointCurrent'] = $user->poin;
-        $storeData['Id_Pembeli'] = $user->Id_Pembeli;
+        $storeData['point_current'] = $user->poin;
+        $storeData['id_pembeli'] = $user->id_pembeli;
 
         //Ngitung Total Harga
-        $storeData['Harga_Barang'] = 0;
+        $storeData['harga_barang'] = 0;
         $p = 0;
         foreach ($request->Data as $item) {
-            $Penitipan_Barang = Penitipan_Barang::find($item['Id_barang']);
+            $Penitipan_Barang = Penitipan_Barang::find($item['id_barang']);
             if (is_null($Penitipan_Barang)) {
                 return response([
                     'message' => 'Penitipan_Barang Not found',
                 ], 404);
             }
-            $p += (int)$Penitipan_Barang->Harga_Barang;
+            $p += (int)$Penitipan_Barang->harga_barang;
         }
-        $storeData['Harga_Barang'] = $p;
+        $storeData['harga_barang'] = $p;
 
 
-        if ($request->hasFile('Bukti_Pembayaran')) {
+        if ($request->hasFile('bukti_pembayaran')) {
             $uploadFolder = 'BuktiPembayaran';
-            $image = $request->file('Bukti_Pembayaran');
+            $image = $request->file('bukti_pembayaran');
             $image_uploaded_path = $image->store($uploadFolder, 'public');
             $uploadedImageResponse = basename($image_uploaded_path);
 
-            $storeData['Bukti_Pembayaran'] = $uploadedImageResponse;
+            $storeData['bukti_pembayaran'] = $uploadedImageResponse;
         }
 
         $Pembelian = Pembelian::create($storeData);
         foreach ($request->Data as $items) {
             $storeChildData = $items;
-            $storeChildData['id_Pembelian'] = $newId;
-            $Penitipan_Barang = Penitipan_Barang::find($item['Id_barang']);
+            $storeChildData['id_pembelian'] = $newId;
+            $Penitipan_Barang = Penitipan_Barang::find($item['id_barang']);
             if (is_null($Penitipan_Barang)) {
                 return response([
                     'message' => 'Barber Not found',
                 ], 404);
             }
-            $storeChildData['Id_barang'] = $Penitipan_Barang->Id_barang;
-            $storeChildData['Id_penitip'] = $Penitipan_Barang->Id_penitip;
+            $storeChildData['id_barang'] = $Penitipan_Barang->id_barang;
+            $storeChildData['id_penitip'] = $Penitipan_Barang->id_penitip;
             $validate = Validator::make($storeChildData, [
-                'id_Pembelian' => 'required',
-                'Id_barang' => 'required',
-                'Id_penitip' => 'required',
+                'id_pembelian' => 'required',
+                'id_barang' => 'required',
+                'id_penitip' => 'required',
             ]);
             if ($validate->fails()) {
                 return response(['message' => $validate->errors()], 400);
             }
 
             Detail_Pembelian::create($storeChildData);
-            $UpdateChild['Status'] = 'DiBeli';
+            $UpdateChild['status'] = 'DiBeli';
             $Penitipan_Barang->update($UpdateChild);
         }
         return response([
@@ -372,31 +381,31 @@ class PembelianController extends Controller
         $storeData = $request->all();
 
         $validate = Validator::make($storeData, [
-            'Id_alamat' => 'required',
-            'Id_Pegawai' => '',
-            'Dilivery' => 'required',
-            'Status' => 'required',
-            'Status_Pengiriman' => 'required',
-            'PointYgDidapat' => '',
-            'PointCurrent' => 'required',
-            'PointDigunakan' => 'required',
-            'Potongan_Harga' => '',
-            'Harga_Barang' => '',
-            'Ongkir' => 'required',
-            'Batas_Waktu' => 'required',
-            'Tanggal_Pembelian' => 'required',
-            'Tanggal_Lunas' => '',
-            'Tanggal_Pengiriman-Pengambilan' => '',
-            'Bukti_Pembayaran' => '',
+            'id_alamat' => 'required',
+            'id_pegawai' => '',
+            'dilivery' => 'required',
+            'status' => 'required',
+            'status_pengiriman' => 'required',
+            'point_yg_didapat' => '',
+            'point_current' => 'required',
+            'point_digunakan' => 'required',
+            'potongan_harga' => '',
+            'harga_barang' => '',
+            'ongkir' => 'required',
+            'batas_waktu' => 'required',
+            'tanggal_pembelian' => 'required',
+            'tanggal_lunas' => '',
+            'tanggal_pengiriman-pengambilan' => '',
+            'bukti_pembayaran' => '',
         ]);
-        $storeData['Tanggal_Lunas'] = '2000-01-01';
-        $storeData['Tanggal_Pengiriman-Pengambilan'] = '2000-01-01';
+        $storeData['tanggal_lunas'] = '2000-01-01';
+        $storeData['tanggal_pengiriman-pengambilan'] = '2000-01-01';
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
         }
-        $lastId = Pembelian::latest('Id_pembelian')->first();
-        $newId = $lastId ? 'PM-' . str_pad((int) substr($lastId->Id_pembelian, 1) + 1, 3, '0', STR_PAD_LEFT) : 'PM-001';
-        $storeData['Id_pembelian'] = $newId;
+        $lastId = Pembelian::latest('id_pembelian')->first();
+        $newId = $lastId ? 'PM-' . str_pad((int) substr($lastId->id_pembelian, 1) + 1, 3, '0', STR_PAD_LEFT) : 'PM-001';
+        $storeData['id_pembelian'] = $newId;
 
         $idUser = Auth::id();
         $user = Pegawai::find($idUser);
@@ -405,29 +414,29 @@ class PembelianController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        if ($user->Id_jabatan == 'J-003') {
+        if ($user->id_jabatan == 'J-003') {
             return response([
                 'message' => 'User Cannot'
             ], 404);
         }
-        $storeData['Potongan_Harga'] = intdiv($storeData['PointDigunakan'], 100) * 10000;
+        $storeData['potongan_harga'] = intdiv($storeData['point_digunakan'], 100) * 10000;
 
 
-        $storeChildData['Id_barang'] = $storeData['Id_barang'];
-        $storeChildData['id_Pembelian'] = $newId;
-        $Penitipan_Barang = Penitipan_Barang::find($storeChildData['Id_barang']);
+        $storeChildData['id_barang'] = $storeData['id_barang'];
+        $storeChildData['id_pembelian'] = $newId;
+        $Penitipan_Barang = Penitipan_Barang::find($storeChildData['id_barang']);
         if (is_null($Penitipan_Barang)) {
             return response([
                 'message' => 'Barber Not found',
             ], 404);
         }
-        $storeChildData['Id_penitip'] = $Penitipan_Barang->Id_penitip;
-        $storeData['Harga_Barang'] = $Penitipan_Barang->Harga_Barang;
+        $storeChildData['id_penitip'] = $Penitipan_Barang->id_penitip;
+        $storeData['harga_barang'] = $Penitipan_Barang->harga_barang;
         $Pembelian = Pembelian::create($storeData);
         $validate = Validator::make($storeChildData, [
-            'id_Pembelian' => 'required',
-            'Id_barang' => 'required',
-            'Id_penitip' => 'required',
+            'id_pembelian' => 'required',
+            'id_barang' => 'required',
+            'id_penitip' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -475,22 +484,22 @@ class PembelianController extends Controller
         $updateData = $request->all();
 
         $validate = Validator::make($updateData, [
-            'Id_alamat' => 'required',
-            'Id_Pegawai' => '',
-            'Dilivery' => 'required',
-            'Status' => 'required',
-            'Status_Pengiriman' => 'required',
-            'PointYgDidapat' => '',
-            'PointCurrent' => '',
-            'PointDigunakan' => 'required',
-            'Potongan_Harga' => '',
-            'Harga_Barang' => '',
-            'Ongkir' => 'required',
-            'Batas_Waktu' => 'required',
-            'Tanggal_Pembelian' => 'required',
-            'Tanggal_Lunas' => '',
-            'Tanggal_Pengiriman-Pengambilan' => '',
-            'Bukti_Pembayaran' => '',
+            'id_alamat' => 'required',
+            'id_pegawai' => '',
+            'dilivery' => 'required',
+            'status' => 'required',
+            'status_pengiriman' => 'required',
+            'point_yg_didapat' => '',
+            'point_current' => '',
+            'point_digunakan' => 'required',
+            'potongan_harga' => '',
+            'harga_barang' => '',
+            'ongkir' => 'required',
+            'batas_waktu' => 'required',
+            'tanggal_pembelian' => 'required',
+            'tanggal_lunas' => '',
+            'tanggal_pengiriman-pengambilan' => '',
+            'bukti_pembayaran' => '',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -502,38 +511,38 @@ class PembelianController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        $updateData['Harga_Barang'] = 0;
+        $updateData['harga_barang'] = 0;
         $p = 0;
-        Detail_Pembelian::where('id_Pembelian', $id)->delete();
+        Detail_Pembelian::where('id_pembelian', $id)->delete();
         foreach ($request->Data as $item) {
-            $Penitipan_Barang = Penitipan_Barang::find($item['Id_barang']);
+            $Penitipan_Barang = Penitipan_Barang::find($item['id_barang']);
             if (is_null($Penitipan_Barang)) {
                 return response([
                     'message' => 'Penitipan_Barang Not found',
                 ], 404);
             }
-            $p += (int)$Penitipan_Barang->Harga_Barang;
+            $p += (int)$Penitipan_Barang->harga_barang;
             $storeChildData = $item;
-            $storeChildData['id_Pembelian'] = $id;
-            $storeChildData['Id_penitip'] = $Penitipan_Barang->Id_penitip;
+            $storeChildData['id_pembelian'] = $id;
+            $storeChildData['id_penitip'] = $Penitipan_Barang->id_penitip;
             $validate = Validator::make($storeChildData, [
-                'id_Pembelian' => 'required',
-                'Id_barang' => 'required',
-                'Id_penitip' => 'required',
+                'id_pembelian' => 'required',
+                'id_barang' => 'required',
+                'id_penitip' => 'required',
             ]);
             if ($validate->fails()) {
                 return response(['message' => $validate->errors()], 400);
             }
             Detail_Pembelian::create($storeChildData);
         }
-        $updateData['Potongan_Harga'] = intdiv($updateData['PointDigunakan'], 100) * 10000;
-        if ($request->hasFile('Bukti_Pembayaran')) {
+        $updateData['potongan_harga'] = intdiv($updateData['point_digunakan'], 100) * 10000;
+        if ($request->hasFile('bukti_pembayaran')) {
             $uploadFolder = 'BuktiPembayaran';
-            $image = $request->file('Bukti_Pembayaran');
+            $image = $request->file('bukti_pembayaran');
             $image_uploaded_path = $image->store($uploadFolder, 'public');
             $uploadedImageResponse = basename($image_uploaded_path);
-            Storage::disk('public')->delete('BuktiPembayaran/' . $Pembelian->Bukti_Pembayaran);
-            $updateData['Bukti_Pembayaran'] = $uploadedImageResponse;
+            Storage::disk('public')->delete('BuktiPembayaran/' . $Pembelian->bukti_pembayaran);
+            $updateData['bukti_pembayaran'] = $uploadedImageResponse;
         }
         $Pembelian->update($updateData);
 
@@ -557,22 +566,22 @@ class PembelianController extends Controller
         $updateData = $request->all();
 
         $validate = Validator::make($updateData, [
-            'Id_alamat' => 'required',
-            'Id_Pegawai' => '',
-            'Dilivery' => 'required',
-            'Status' => 'required',
-            'Status_Pengiriman' => 'required',
-            'PointYgDidapat' => '',
-            'PointCurrent' => '',
-            'PointDigunakan' => 'required',
-            'Potongan_Harga' => '',
-            'Harga_Barang' => '',
-            'Ongkir' => 'required',
-            'Batas_Waktu' => 'required',
-            'Tanggal_Pembelian' => 'required',
-            'Tanggal_Lunas' => '',
-            'Tanggal_Pengiriman-Pengambilan' => '',
-            'Bukti_Pembayaran' => '',
+            'id_alamat' => 'required',
+            'id_pegawai' => '',
+            'dilivery' => 'required',
+            'status' => 'required',
+            'status_pengiriman' => 'required',
+            'point_yg_didapat' => '',
+            'point_current' => '',
+            'point_digunakan' => 'required',
+            'potongan_harga' => '',
+            'harga_barang' => '',
+            'ongkir' => 'required',
+            'batas_waktu' => 'required',
+            'tanggal_pembelian' => 'required',
+            'tanggal_lunas' => '',
+            'tanggal_pengiriman-pengambilan' => '',
+            'bukti_pembayaran' => '',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -586,35 +595,35 @@ class PembelianController extends Controller
         }
 
         if ($request->has('id_barang') && $request->id_barang != '') {
-            Detail_Pembelian::where('id_Pembelian', $id)->delete();
-            $storeChildData['Id_barang'] = $updateData['Id_barang'];
-            $storeChildData['id_Pembelian'] = $id;
-            $Penitipan_Barang = Penitipan_Barang::find($storeChildData['Id_barang']);
-            $updateData['Harga_Barang'] = $Penitipan_Barang->Harga_Barang;
-            $updateData['Potongan_Harga'] = intdiv($updateData['PointDigunakan'], 100) * 10000;
-            $storeChildData['Id_penitip'] = $Penitipan_Barang->Id_penitip;
+            Detail_Pembelian::where('id_pembelian', $id)->delete();
+            $storeChildData['id_barang'] = $updateData['id_barang'];
+            $storeChildData['id_pembelian'] = $id;
+            $Penitipan_Barang = Penitipan_Barang::find($storeChildData['id_barang']);
+            $updateData['harga_barang'] = $Penitipan_Barang->harga_barang;
+            $updateData['potongan_harga'] = intdiv($updateData['point_digunakan'], 100) * 10000;
+            $storeChildData['id_penitip'] = $Penitipan_Barang->id_penitip;
             if (is_null($Penitipan_Barang)) {
                 return response([
                     'message' => 'Barber Not found',
                 ], 404);
             }
             $validate = Validator::make($storeChildData, [
-                'id_Pembelian' => 'required',
-                'Id_barang' => 'required',
-                'Id_penitip' => 'required',
+                'id_pembelian' => 'required',
+                'id_barang' => 'required',
+                'id_penitip' => 'required',
             ]);
             if ($validate->fails()) {
                 return response(['message' => $validate->errors()], 400);
             }
             Detail_Pembelian::create($storeChildData);
         }
-        if ($request->hasFile('Bukti_Pembayaran')) {
+        if ($request->hasFile('bukti_pembayaran')) {
             $uploadFolder = 'BuktiPembayaran';
-            $image = $request->file('Bukti_Pembayaran');
+            $image = $request->file('bukti_pembayaran');
             $image_uploaded_path = $image->store($uploadFolder, 'public');
             $uploadedImageResponse = basename($image_uploaded_path);
-            Storage::disk('public')->delete('BuktiPembayaran/' . $Pembelian->Bukti_Pembayaran);
-            $updateData['Bukti_Pembayaran'] = $uploadedImageResponse;
+            Storage::disk('public')->delete('BuktiPembayaran/' . $Pembelian->bukti_pembayaran);
+            $updateData['bukti_pembayaran'] = $uploadedImageResponse;
         }
 
         $Pembelian->update($updateData);

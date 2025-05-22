@@ -12,14 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('alamats', function (Blueprint $table) {
-            $table->string('Id_alamat')->primary();
-            $table->bigInteger('Id_Pembeli')->unsigned();
-            $table->foreign('Id_Pembeli')->references('Id_Pembeli')->on('pembelis')->onDelete('cascade');
-            $table->string('NoTelp');
-            $table->string('Title');
-            $table->boolean('Default');
-            $table->text('Deskripsi');
-            $table->text('Alamat');
+            $table->string('id_alamat')->primary();
+            $table->bigInteger('id_pembeli')->unsigned();
+            $table->foreign('id_pembeli')->references('id_pembeli')->on('pembelis')->onDelete('cascade');
+            $table->string('no_telp');
+            $table->string('title');
+            $table->boolean('default');
+            $table->text('deskripsi');
+            $table->text('alamat');
             $table->timestamps();
         });
     }

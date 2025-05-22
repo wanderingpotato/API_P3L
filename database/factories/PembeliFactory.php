@@ -21,7 +21,7 @@ class PembeliFactory extends Factory
         return [
             // 'Id_Pembeli' => 'P' . fake()->numberBetween(1, 100),
             // 'Id_Pembeli' => fake()->numerify('P-####'),,
-            'noTelp'=> fake()->numerify('08##########'),
+            'no_telp'=> fake()->numerify('08##########'),
             'username' => fake()->unique()->firstName(),
             'poin'=>fake()->randomNumber(3, true),
             'foto'=>fake()->word() . '.png',

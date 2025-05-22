@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('merchandises', function (Blueprint $table) {
-            $table->string('Id_merchandise')->primary();
-            $table->string('Nama');
-            $table->string('Poin');
-            $table->enum('Kategori',['Ballpoin','Stiker','Mug','Topi','Tumblr','T-shirt','Jam-Dinding','Tas-Travel','Payung']);
-            $table->double('Stock');
+            $table->string('id_merchandise')->primary();
+            $table->string('nama');
+            $table->string('poin');
+            $table->enum('kategori',['Ballpoin','Stiker','Mug','Topi','Tumblr','T-shirt','Jam-Dinding','Tas-Travel','Payung']);
+            $table->double('stock');
             $table->timestamps();
         });
     }

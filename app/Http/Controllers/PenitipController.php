@@ -26,14 +26,14 @@ class PenitipController extends Controller
             'name' => 'required',
             'email' => 'required|email:rfc,dns|unique:Penitips',
             'password' => 'required|min:8',
-            'noTelp' => 'required|min:10',
+            'no_telp' => 'required|min:10',
             'username' => 'required|unique:Penitips',
         ]);
-        $registrationData['Saldo'] = 0;
-        $registrationData['Poin'] = 0;
-        $registrationData['RataRating'] = 0;
-        $registrationData['Badge'] = 0;
-        $registrationData['Alamat'] = 'null';
+        $registrationData['saldo'] = 0;
+        $registrationData['poin'] = 0;
+        $registrationData['rata_rating'] = 0;
+        $registrationData['badge'] = 0;
+        $registrationData['alamat'] = 'null';
 
         if ($validate->fails()) {
             return response(['message' => $validate->errors()->first()], 400);
@@ -132,14 +132,15 @@ class PenitipController extends Controller
             'name' => 'required',
             'email' => 'required|email:rfc,dns|unique:Penitips',
             'password' => 'required|min:8',
-            'noTelp' => 'required|min:10',
+            'no_telp' => 'required|min:10',
             'username' => 'required|unique:Penitips',
+            'nik' => 'required|unique:Penitips',
         ]);
-        $storeData['Saldo'] = 0;
-        $storeData['Poin'] = 0;
-        $storeData['RataRating'] = 0;
-        $storeData['Badge'] = 0;
-        $storeData['Alamat'] = 'null';
+        $storeData['saldo'] = 0;
+        $storeData['poin'] = 0;
+        $storeData['rata_rating'] = 0;
+        $storeData['badge'] = 0;
+        $storeData['alamat'] = 'null';
 
         if ($validate->fails()) {
             return response(['message' => $validate->errors()->first()], 400);
@@ -206,26 +207,26 @@ class PenitipController extends Controller
         if ($request->has('name')  && $request->name != null) {
             $updateData['name'] = $request->name;
         }
-        if ($request->has('noTelp')  && $request->noTelp != null) {
-            $updateData['noTelp'] = $request->noTelp;
+        if ($request->has('no_telp')  && $request->no_telp != null) {
+            $updateData['no_telp'] = $request->no_telp;
         }
         if ($request->has('username')  && $request->username != null && $request->username != $user->username) {
             $updateData['username'] = $request->username;
         }
-        if ($request->has('Saldo')  && $request->Saldo != null) {
-            $updateData['Saldo'] = $request->Saldo;
+        if ($request->has('saldo')  && $request->saldo != null) {
+            $updateData['saldo'] = $request->saldo;
         }
-        if ($request->has('Poin')  && $request->Poin != null) {
-            $updateData['Poin'] = $request->Poin;
+        if ($request->has('poin')  && $request->poin != null) {
+            $updateData['poin'] = $request->poin;
         }
-        if ($request->has('RataRating')  && $request->RataRating != null) {
-            $updateData['RataRating'] = $request->RataRating;
+        if ($request->has('rata_rating')  && $request->rata_rating != null) {
+            $updateData['rata_rating'] = $request->rata_rating;
         }
-        if ($request->has('Badge')  && $request->Badge != null) {
-            $updateData['Badge'] = $request->Badge;
+        if ($request->has('badge')  && $request->badge != null) {
+            $updateData['badge'] = $request->badge;
         }
-        if ($request->has('Alamat')  && $request->Alamat != null) {
-            $updateData['Alamat'] = $request->Alamat;
+        if ($request->has('alamat')  && $request->alamat != null) {
+            $updateData['alamat'] = $request->alamat;
         }
         $validate = Validator::make($updateData, [
             'name' => 'nullable',
@@ -235,7 +236,7 @@ class PenitipController extends Controller
                 'string',
                 'min:6',
             ],
-            'noTelp' => 'nullable|min:10',
+            'no_telp' => 'nullable|min:10',
             'username' => 'nullable|unique:Penitips',
         ]);
         if ($validate->fails()) {
@@ -289,26 +290,29 @@ class PenitipController extends Controller
         if ($request->has('name')  && $request->name != null) {
             $updateData['name'] = $request->name;
         }
-        if ($request->has('noTelp')  && $request->noTelp != null) {
-            $updateData['noTelp'] = $request->noTelp;
+        if ($request->has('no_telp')  && $request->no_telp != null) {
+            $updateData['no_telp'] = $request->no_telp;
         }
         if ($request->has('username')  && $request->username != null && $request->username != $user->username) {
             $updateData['username'] = $request->username;
         }
-        if ($request->has('Saldo')  && $request->Saldo != null) {
-            $updateData['Saldo'] = $request->Saldo;
+        if ($request->has('saldo')  && $request->saldo != null) {
+            $updateData['saldo'] = $request->saldo;
         }
-        if ($request->has('Poin')  && $request->Poin != null) {
-            $updateData['Poin'] = $request->Poin;
+        if ($request->has('poin')  && $request->poin != null) {
+            $updateData['poin'] = $request->poin;
         }
-        if ($request->has('RataRating')  && $request->RataRating != null) {
-            $updateData['RataRating'] = $request->RataRating;
+        if ($request->has('rata_rating')  && $request->rata_rating != null) {
+            $updateData['rata_rating'] = $request->rata_rating;
         }
-        if ($request->has('Badge')  && $request->Badge != null) {
-            $updateData['Badge'] = $request->Badge;
+        if ($request->has('badge')  && $request->badge != null) {
+            $updateData['badge'] = $request->badge;
         }
-        if ($request->has('Alamat')  && $request->Alamat != null) {
-            $updateData['Alamat'] = $request->Alamat;
+        if ($request->has('alamat')  && $request->alamat != null) {
+            $updateData['alamat'] = $request->alamat;
+        }
+        if ($request->has('nik')  && $request->nik != null) {
+            $updateData['nik'] = $request->nik;
         }
         $validate = Validator::make($updateData, [
             'name' => 'nullable',
@@ -318,8 +322,9 @@ class PenitipController extends Controller
                 'string',
                 'min:6',
             ],
-            'noTelp' => 'nullable|min:10',
+            'no_telp' => 'nullable|min:10',
             'username' => 'nullable|unique:Penitips',
+            'nik' => 'nullable|unique:Penitips',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);

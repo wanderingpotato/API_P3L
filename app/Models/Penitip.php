@@ -18,19 +18,20 @@ class Penitip extends Authenticatable
      */
     protected $table = 'Penitips';
     public $timestamps = false;
-    protected $primaryKey = 'Id_penitip';
+    protected $primaryKey = 'id_penitip';
     protected $fillable = [
-        'Id_penitip',
+        'id_penitip',
         'name',
-        'noTelp',
+        'no_telp',
         'username',
         'email',
         'password',
-        'Saldo',
-        'Poin',
-        'RataRating',
-        'Badge',
-        'Alamat',
+        'saldo',
+        'nik',
+        'poin',
+        'rata_rating',
+        'badge',
+        'alamat',
         'foto',
     ];
     /**
@@ -46,31 +47,31 @@ class Penitip extends Authenticatable
     //Relationship
     public function Diskusi()
     {
-        return $this->hasMany(Diskusi::class,'Id_penitip');
+        return $this->hasMany(Diskusi::class,'id_penitip');
     }
     public function Komisi()
     {
-        return $this->hasMany(Komisi::class,'Id_penitip');
+        return $this->hasMany(Komisi::class,'id_penitip');
     }
     public function Penitipan()
     {
-        return $this->hasMany(Penitipan_Barang::class,'Id_penitip');
+        return $this->hasMany(Penitipan_Barang::class,'id_penitip');
     }
     public function Klaim()
     {
-        return $this->hasMany(Klaim_Merchandise::class,'Id_penitip');
+        return $this->hasMany(Klaim_Merchandise::class,'id_penitip');
     }
     public function Detail_Pembelian()
     {
-        return $this->hasMany(Detail_Pembelian::class,'Id_penitip');
+        return $this->hasMany(Detail_Pembelian::class,'id_penitip');
     }
     public function Detail_Donasi()
     {
-        return $this->hasMany(Detail_Donasi::class,'Id_penitip');
+        return $this->hasMany(Detail_Donasi::class,'id_penitip');
     }
     public function Detail_Pendapatan()
     {
-        return $this->hasMany(Detail_Pendapatan::class,'Id_penitip');
+        return $this->hasMany(Detail_Pendapatan::class,'id_penitip');
     }
     /**
      * Get the attributes that should be cast.
@@ -80,10 +81,10 @@ class Penitip extends Authenticatable
     protected function casts(): array
     {
         return [
-            'Id_penitip' => 'string',
+            'id_penitip' => 'string',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'Badge' => 'boolean'
+            'badge' => 'boolean'
         ];
     }
 }

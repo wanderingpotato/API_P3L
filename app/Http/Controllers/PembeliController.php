@@ -25,10 +25,10 @@ class PembeliController extends Controller
             'name' => 'required',
             'email' => 'required|email:rfc,dns|unique:Pembelis',
             'password' => 'required|min:8',
-            'noTelp' => 'required|min:10',
+            'no_telp' => 'required|min:10',
             'username' => 'required|unique:Pembelis',
         ]);
-        $registrationData['Poin'] = 0;
+        $registrationData['poin'] = 0;
 
         if ($validate->fails()) {
             return response(['message' => $validate->errors()->first()], 400);
@@ -127,10 +127,10 @@ class PembeliController extends Controller
             'name' => 'required',
             'email' => 'required|email:rfc,dns|unique:Pembelis',
             'password' => 'required|min:8',
-            'noTelp' => 'required|min:10',
+            'no_telp' => 'required|min:10',
             'username' => 'required|unique:Pembelis',
         ]);
-        $registrationData['Poin'] = 0;
+        $registrationData['poin'] = 0;
 
         if ($validate->fails()) {
             return response(['message' => $validate->errors()->first()], 400);
@@ -197,11 +197,11 @@ class PembeliController extends Controller
         if ($request->has('name')  && $request->name != null) {
             $updateData['name'] = $request->name;
         }
-        if ($request->has('noTelp')  && $request->noTelp != null) {
-            $updateData['noTelp'] = $request->noTelp;
+        if ($request->has('no_telp')  && $request->no_telp != null) {
+            $updateData['no_telp'] = $request->no_telp;
         }
-        if ($request->has('Poin')  && $request->Poin != null) {
-            $updateData['Poin'] = $request->Poin;
+        if ($request->has('poin')  && $request->poin != null) {
+            $updateData['poin'] = $request->poin;
         }
         if ($request->has('username')  && $request->username != null && $request->username != $user->username) {
             $updateData['username'] = $request->username;
@@ -214,7 +214,7 @@ class PembeliController extends Controller
                 'string',
                 'min:6',
             ],
-            'noTelp' => 'nullable|min:10',
+            'no_telp' => 'nullable|min:10',
             'username' => 'nullable|unique:Pembelis',
         ]);
         if ($validate->fails()) {
@@ -268,8 +268,8 @@ class PembeliController extends Controller
         if ($request->has('name')  && $request->name != null) {
             $updateData['name'] = $request->name;
         }
-        if ($request->has('noTelp')  && $request->noTelp != null) {
-            $updateData['noTelp'] = $request->noTelp;
+        if ($request->has('no_telp')  && $request->no_telp != null) {
+            $updateData['no_telp'] = $request->no_telp;
         }
         if ($request->has('username')  && $request->username != null && $request->username != $user->username) {
             $updateData['username'] = $request->username;
@@ -283,7 +283,7 @@ class PembeliController extends Controller
                 'string',
                 'min:6',
             ],
-            'noTelp' => 'nullable|min:10',
+            'no_telp' => 'nullable|min:10',
             'username' => 'nullable|unique:Pembelis',
         ]);
         if ($validate->fails()) {

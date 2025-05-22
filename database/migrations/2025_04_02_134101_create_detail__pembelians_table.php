@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('detail__pembelians', function (Blueprint $table) {
-            $table->string('Id_pembelian');
-            $table->foreign('Id_pembelian')->references('Id_pembelian')->on('pembelians')->onDelete('cascade');
-            $table->string('Id_barang');
-            $table->foreign('Id_barang')->references('Id_barang')->on('penitipan__barangs')->onDelete('cascade');
-            $table->primary(['Id_pembelian','Id_barang']);
-            $table->bigInteger('Id_penitip')->unsigned();
-            $table->foreign('Id_penitip')->references('Id_penitip')->on('penitips')->onDelete('cascade');
+            $table->string('id_pembelian');
+            $table->foreign('id_pembelian')->references('id_pembelian')->on('pembelians')->onDelete('cascade');
+            $table->string('id_barang');
+            $table->foreign('id_barang')->references('id_barang')->on('penitipan__barangs')->onDelete('cascade');
+            $table->primary(['id_pembelian','id_barang']);
+            $table->bigInteger('id_penitip')->unsigned();
+            $table->foreign('id_penitip')->references('id_penitip')->on('penitips')->onDelete('cascade');
             $table->timestamps();
         });
     }

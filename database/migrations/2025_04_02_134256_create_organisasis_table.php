@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('organisasis', function (Blueprint $table) {
             // $table->string('Id_organisasi')->primary();
-            $table->id('Id_organisasi');
+            $table->id('id_organisasi');
             $table->string('name');
             $table->string('username')->unique();
             $table->string('email')->unique();
-            $table->string('noTelp');
+            $table->string('no_telp');
             $table->string('password');
-            $table->text('Alamat');
-            $table->text('Deskripsi')->nullable();
+            $table->text('alamat');
+            $table->text('foto')->nullable();
+            $table->text('deskripsi')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

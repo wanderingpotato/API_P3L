@@ -15,27 +15,26 @@ class Penitipan_Barang extends Model
      * @var list<string>
      */
     public $timestamps = false;
-    protected $primaryKey = 'Id_barang';
+    protected $primaryKey = 'id_barang';
     protected $fillable = [
-        'Id_barang',
-        'Id_kategori',
-        'Id_Penitip',
-        'Id_Pegawai',
-        'Nama_Barang',
-        'DiPerpanjang',
-        'DiliverHere',
-        'Hunter',
-        'Status',
-        'Harga_barang',
-        'Rating',
-        'Tanggal_penitipan',
-        'Tanggal_kadaluarsa',
-        'Batas_ambil',
-        'Tanggal_laku',
-        'Tanggal_rating',
-        'Garansi',
-        'Foto_Barang',
-        'Deskripsi',
+        'id_barang',
+        'id_kategori',
+        'id_penitip',
+        'id_pegawai',
+        'nama_barang',
+        'di_perpanjang',
+        'diliver_here',
+        'hunter',
+        'status',
+        'harga_barang',
+        'rating',
+        'tanggal_penitipan',
+        'tanggal_kadaluarsa',
+        'batas_ambil',
+        'tanggal_laku',
+        'tanggal_rating',
+        'garansi',
+        'deskripsi',
     ];
     /**
      * The attributes that should be hidden for serialization.
@@ -53,9 +52,8 @@ class Penitipan_Barang extends Model
         return $this->belongsToMany(
             Pembelian::class,
             'Detail_Pembelian',
-            'Id_barang',
-            'Id_pembelian',
-            
+            'id_barang',
+            'id_pembelian',
         );
     }
     public function Donasi()
@@ -63,22 +61,25 @@ class Penitipan_Barang extends Model
         return $this->belongsToMany(
             Donasi::class,
             'Detail_Donasi',
-            'Id_barang' ,
-            'Id_donasi'
-            
+            'id_barang' ,
+            'id_donasi'
         );
     }
     public function Kategori_Barang()
     {
-        return $this->belongsTo(Kategori_Barang::class, 'Id_kategori');
+        return $this->belongsTo(Kategori_Barang::class, 'id_kategori');
     }
     public function Pegawai()
     {
-        return $this->belongsTo(Pegawai::class, 'Id_Pegawai');
+        return $this->belongsTo(Pegawai::class, 'id_pegawai');
     }
     public function Penitip()
     {
-        return $this->belongsTo(Penitip::class, 'Id_Penitip');
+        return $this->belongsTo(Penitip::class, 'id_penitip');
+    }
+    public function Gallery()
+    {
+        return $this->hasMany(Penitip::class, 'id_barang');
     }
     /**
      * Get the attributes that should be cast.
@@ -88,10 +89,10 @@ class Penitipan_Barang extends Model
     protected function casts(): array
     {
         return [
-            'Id_barang' => 'string',
-            'DiPerpanjang' => 'boolean',
-            'DiliverHere' => 'boolean',
-            'Hunter' => 'boolean',
+            'id_barang' => 'string',
+            'di_perpanjang' => 'boolean',
+            'diliver_here' => 'boolean',
+            'hunter' => 'boolean',
         ];
     }
 }

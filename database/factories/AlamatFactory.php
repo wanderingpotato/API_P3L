@@ -17,15 +17,15 @@ class AlamatFactory extends Factory
      */
     public function definition(): array
     {
-        $PembeliId = Pembeli::pluck('Id_Pembeli')->toArray();
+        $PembeliId = Pembeli::pluck('id_Pembeli')->toArray();
         return [
-            'Id_alamat' => fake()->unique()->numerify('A-####'),
-            'Id_Pembeli' => fake()->randomElement($PembeliId),
-            'Title'=>'Rumah' . fake()->unique()->name(),
-            'NoTelp'=> fake()->numerify('08##########'),
-            'Deskripsi'=>fake()->text(),
-            'Default'=>fake()->numberBetween(0, 1),
-            'Alamat'=>fake()->address(),
+            'id_alamat' => fake()->unique()->numerify('A-####'),
+            'id_pembeli' => fake()->randomElement($PembeliId),
+            'title'=>'Rumah' . fake()->unique()->name(),
+            'no_telp'=> fake()->numerify('08##########'),
+            'deskripsi'=>fake()->text(),
+            'default'=>fake()->numberBetween(0, 1),
+            'alamat'=>fake()->address(),
             //
         ];
     }

@@ -12,14 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('donasis', function (Blueprint $table) {
-            $table->string('Id_donasi')->primary();
-            $table->bigInteger('Id_organisasi')->unsigned();
-            $table->foreign('Id_organisasi')->references('Id_organisasi')->on('organisasis')->onDelete('cascade');
-            $table->string('Nama_Penerima');
-            $table->boolean('Konfirmasi');
-            $table->dateTime('Tanggal_diberikan');
-            $table->dateTime('Tanggal_request');
-            $table->text('Deskripsi');
+            $table->string('id_donasi')->primary();
+            $table->bigInteger('id_organisasi')->unsigned();
+            $table->foreign('id_organisasi')->references('id_organisasi')->on('organisasis')->onDelete('cascade');
+            $table->string('nama_penerima');
+            $table->boolean('konfirmasi');
+            $table->dateTime('tanggal_diberikan');
+            $table->dateTime('tanggal_request');
+            $table->text('deskripsi');
             $table->timestamps();
         });
     }

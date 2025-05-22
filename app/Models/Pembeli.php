@@ -18,15 +18,15 @@ class Pembeli extends Authenticatable
      */
     protected $table = 'Pembelis';
     public $timestamps = false;
-    protected $primaryKey = 'Id_Pembeli';
+    protected $primaryKey = 'id_pembeli';
     protected $fillable = [
-        'Id_Pembeli',
+        'id_pembeli',
         'name',
         'username',
         'email',
-        'noTelp',
+        'no_telp',
         'password',
-        'Poin',
+        'poin',
         'foto',
     ];
     /**
@@ -42,19 +42,19 @@ class Pembeli extends Authenticatable
     //Relationship
     public function Diskusi()
     {
-        return $this->hasMany(Diskusi::class,'Id_Pembeli');
+        return $this->hasMany(Diskusi::class,'id_pembeli');
     }
     public function Alamat()
     {
-        return $this->hasMany(Alamat::class,'Id_Pembeli');
+        return $this->hasMany(Alamat::class,'id_pembeli');
     }
     public function Klaim()
     {
-        return $this->hasMany(Klaim_Merchandise::class,'Id_Pembeli');
+        return $this->hasMany(Klaim_Merchandise::class,'id_pembeli');
     }
     public function Pembelian()
     {
-        return $this->hasMany(Pembelian::class,'Id_Pembeli');
+        return $this->hasMany(Pembelian::class,'id_pembeli');
     }
     /**
      * Get the attributes that should be cast.
@@ -64,7 +64,7 @@ class Pembeli extends Authenticatable
     protected function casts(): array
     {
         return [
-            'Id_Pembeli' => 'string',
+            'id_pembeli' => 'string',
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];

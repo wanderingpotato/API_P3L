@@ -21,7 +21,7 @@ class PenitipFactory extends Factory
         return [
             // 'Id_penitip' => 'P' . fake()->numberBetween(1, 100),
             // 'Id_penitip' => fake()->numerify('P-####'),,
-            'noTelp'=> fake()->numerify('08##########'),
+            'no_telp'=> fake()->numerify('08##########'),
             'username' => fake()->unique()->firstName(),
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
@@ -29,9 +29,10 @@ class PenitipFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'saldo'=>fake()->randomFloat(2),
             'poin'=>fake()->randomNumber(3, true),
-            'RataRating'=>fake()->randomFloat(2, 1, 5),
-            'Badge'=>fake()->numberBetween(0, 1),
-            'Alamat'=>fake()->address(),
+            'nik'=>fake()->randomNumber(16, true),
+            'rata_rating'=>fake()->randomFloat(2, 1, 5),
+            'badge'=>fake()->numberBetween(0, 1),
+            'alamat'=>fake()->address(),
             'foto'=>fake()->word() . '.png',
             'remember_token' => Str::random(10),
         ];

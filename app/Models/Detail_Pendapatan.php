@@ -15,13 +15,13 @@ class Detail_Pendapatan extends Model
      * @var list<string>
      */
     public $timestamps = false;
-    protected $primaryKey = 'Id_DetailPendapatan';
+    protected $primaryKey = 'id_detail_pendapatan';
     protected $fillable = [
-        'Id_DetailPendapatan',
-        'Id_penitip',
+        'id_detail_pendapatan',
+        'id_penitip',
         'total',
         'month',
-        'Bonus_Pendapatan',
+        'bonus_pendapatan',
     ];
     /**
      * The attributes that should be hidden for serialization.
@@ -36,7 +36,7 @@ class Detail_Pendapatan extends Model
     //relationships
     public function Penitip()
     {
-        return $this->belongsTo(Penitip::class, 'Id_penitip');
+        return $this->belongsTo(Penitip::class, 'id_penitip');
     }
     
     /**
@@ -47,7 +47,7 @@ class Detail_Pendapatan extends Model
     protected function casts(): array
     {
         return [
-            'Id_DetailPendapatan' => 'string',
+            'id_detail_pendapatan' => 'string',
         ];
     }
 }

@@ -15,13 +15,13 @@ class Merchandise extends Model
      * @var list<string>
      */
     public $timestamps = false;
-    protected $primaryKey = 'Id_merchandise';
+    protected $primaryKey = 'id_merchandise';
     protected $fillable = [
-        'Id_merchandise',
-        'Nama',
-        'Poin',
-        'Kategori',
-        'Stock',
+        'id_merchandise',
+        'nama',
+        'poin',
+        'kategori',
+        'stock',
     ];
 
     /**
@@ -37,7 +37,7 @@ class Merchandise extends Model
     //relationship
     public function Klaim()
     {
-        return $this->hasMany(Klaim_Merchandise::class,'Id_merchandise');
+        return $this->hasMany(Klaim_Merchandise::class,'id_merchandise');
     }
     /**
      * Get the attributes that should be cast.
@@ -47,7 +47,7 @@ class Merchandise extends Model
     protected function casts(): array
     {
         return [
-            'Id_merchandise' => 'string',
+            'id_merchandise' => 'string',
         ];
     }
 }

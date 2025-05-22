@@ -21,13 +21,14 @@ class OrganisasiFactory extends Factory
         return [
             // 'Id_organisasi' => 'O' . fake()->numberBetween(1, 100),
             // 'Id_organisasi' =>  fake()->numerify('O-####'),
-            'noTelp'=> fake()->numerify('08##########'),
+            'no_telp'=> fake()->numerify('08##########'),
             'username' => fake()->unique()->word(),
-            'Alamat'=>fake()->address(),
-            'Deskripsi'=>fake()->text(),
+            'alamat'=>fake()->address(),
+            'deskripsi'=>fake()->text(),
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
+            'foto'=>fake()->word() . '.png',
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];

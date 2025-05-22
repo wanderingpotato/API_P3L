@@ -17,11 +17,11 @@ class MerchandiseFactory extends Factory
     public function definition(): array
     {
         return [
-            'Id_merchandise' => fake()->unique()->numerify('M-####'),
-            'Kategori' => fake()->randomElement(['Ballpoin','Stiker','Mug','Topi','Tumblr','T-shirt','Jam-Dinding','Tas-Travel','Payung']),
-            'Nama'=>fake()->unique()->word(),
-            'Poin'=>fake()->randomNumber(3, true),
-            'Stock'=>fake()->randomNumber(2, true),
+            'id_merchandise' => fake()->unique()->numerify('M-####'),
+            'kategori' => fake()->randomElement(['Ballpoin','Stiker','Mug','Topi','Tumblr','T-shirt','Jam-Dinding','Tas-Travel','Payung']),
+            'nama'=>fake()->unique()->word(),
+            'poin'=>fake()->randomNumber(3, true),
+            'stock'=>fake()->randomNumber(2, true),
         ];
     }
 }
