@@ -61,6 +61,51 @@ class DonasiController extends Controller
             'data' => $data
         ], 200);
     }
+    public function getDataWithPenitipanBarang()
+    {
+        $data = Donasi::with('penitipan__barangs')->get();
+        if ($data->isNotEmpty()) {
+            return response([
+                'message' => 'Data Retrieved Successfully',
+                'data' => $data
+            ], 200);
+        } else {
+            return response([
+                'message' => 'No Booking Data Found',
+                'data' => null
+            ], 404);
+        }
+    }
+    public function getDataWithPenitipanBarangById($id)
+    {
+        $data = Donasi::with('penitipan__barangs')->where('id_donasi', $id)->get();
+        if ($data->isNotEmpty()) {
+            return response([
+                'message' => 'Data Retrieved Successfully',
+                'data' => $data
+            ], 200);
+        } else {
+            return response([
+                'message' => 'No Booking Data Found',
+                'data' => null
+            ], 404);
+        }
+    }
+    public function getDataWithPenitipanBarangByIdOrganisasi($id)
+    {
+        $data = Donasi::with('penitipan__barangs')->where('id_organisasi', $id)->get();
+        if ($data->isNotEmpty()) {
+            return response([
+                'message' => 'Data Retrieved Successfully',
+                'data' => $data
+            ], 200);
+        } else {
+            return response([
+                'message' => 'No Booking Data Found',
+                'data' => null
+            ], 404);
+        }
+    }
     public function getDataByOrganisasiId($idUser)
     {
         $user = Organisasi::find($idUser);
@@ -246,6 +291,7 @@ class DonasiController extends Controller
             'data' => $Donasi,
         ], 200);
     }
+
     public function PenerimaDonasi(Request $request, string $id)
     {
         $Donasi = Donasi::find($id);
@@ -280,6 +326,7 @@ class DonasiController extends Controller
             'data' => $Donasi,
         ], 200);
     }
+
     public function UpdateKorfirmasi(Request $request, string $id)
     {
         $Donasi = Donasi::find($id);
@@ -394,6 +441,7 @@ class DonasiController extends Controller
             'data' => $Donasi,
         ], 200);
     }
+    
     public function updateDashboard(Request $request, string $id)
     {
         $Donasi = Donasi::find($id);

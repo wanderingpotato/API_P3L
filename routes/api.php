@@ -88,6 +88,7 @@ Route::get('/Donasi', [DonasiController::class, 'index']);
 Route::get('/Donasi/all', [DonasiController::class, 'getData']);
 Route::get('/Donasi/Count', [DonasiController::class, 'countDonasi']);
 Route::get('/Donasi/{id}', [DonasiController::class, 'show']);
+Route::get('/Donasi/Barang', [DonasiController::class, 'getDataWithPenitipanBarang']);
 
 Route::get('/Pembelian', [PembelianController::class, 'index']);
 Route::get('/Pembelian/all', [PembelianController::class, 'getData']);
@@ -111,14 +112,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //Penitipan Barang
     Route::post('/PenitipanBarang', [PenitipanBarangController::class, 'store']);
-    Route::post('/PenitipanBarang/dashboard', [PenitipanBarangController::class, 'storeDashboard']);
+    // Route::post('/PenitipanBarang/dashboard', [PenitipanBarangController::class, 'storeDashboard']); -> ini knp ada ini
     // Route::get('/PenitipanBarang/User/Count', [PenitipanBarangController::class, 'countPenitipanBarangByUser']);
     Route::post('/PenitipanBarang/{id}', [PenitipanBarangController::class, 'update']);
-    Route::post('/PenitipanBarang/dashboard/{id}', [PenitipanBarangController::class, 'updateDashboard']);
+    // Route::post('/PenitipanBarang/dashboard/{id}', [PenitipanBarangController::class, 'updateDashboard']); -> ini juga knp
     Route::get('/PenitipanBarang/Penitip/{id}', [PenitipanBarangController::class, 'showPenitipanBarangbyPenitip']);
     Route::get('/PenitipanBarang/Pembeli/{id}', [PenitipanBarangController::class, 'showPenitipanBarangbyPembeli']);
     Route::get('/PenitipanBarang/user', [PenitipanBarangController::class, 'getDataByPenitipId']);
-    Route::post('/PenitipanBarang/UpdateRating', [PenitipanBarangController::class, 'UpdateRating']);
+    Route::post('/PenitipanBarang/UpdateRating/{id}', [PenitipanBarangController::class, 'UpdateRating']);
     Route::delete('/PenitipanBarang/{id}', [PenitipanBarangController::class, 'destroy']);
     
     //Donasi
@@ -129,10 +130,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/Donasi/Details/{id}', [DonasiController::class, 'UpdateDetailDonasi']);
     Route::post('/Donasi/dashboard/{id}', [DonasiController::class, 'updateDashboard']);
     Route::get('/Donasi/Organisasi/{id}', [DonasiController::class, 'getDataByOrganisasiId']);
-    Route::get('/Donasi/Organisasi/Count', [DonasiController::class, 'countDonasi']);
     Route::get('/Donasi/Organisasi/Count/{id}', [DonasiController::class, 'countDonasiByOrganisasi']);
+    Route::get('/Donasi/Barang/{id}', [DonasiController::class, 'getDataWithPenitipanBarangById']);
+    Route::get('/Donasi/Organisasi/Barang/{id}', [DonasiController::class, 'getDataWithPenitipanBarangByIdOrganisasi']);
     Route::delete('/Donasi/{id}', [DonasiController::class, 'destroy']);
-    Route::get('/Donasi/{id}', [DonasiController::class, 'getBarangDonasi']);
 
     //KategoriBarang
     Route::post('/KategoriBarang', [KategoriBarangController::class, 'store']);
