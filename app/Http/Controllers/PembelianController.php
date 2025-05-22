@@ -268,15 +268,15 @@ class PembelianController extends Controller
             'data' => $Pembelian,
         ], 200);
     }
-    public function filterbymonth()
-    {
-        $data = Pembelian::whereMonth("tanggal_pembelian", 9)->get();
+    // public function filterbymonth()
+    // {
+    //     $data = Pembelian::whereMonth("tanggal_pembelian", 9)->get();
 
-        return response([
-            'message' => 'All JenisKamar Retrieved',
-            'data' => $data
-        ], 200);
-    }
+    //     return response([
+    //         'message' => 'All JenisKamar Retrieved',
+    //         'data' => $data
+    //     ], 200);
+    // }
     public function store(Request $request)
     {
         $storeData = $request->all();
