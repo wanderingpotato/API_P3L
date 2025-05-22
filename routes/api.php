@@ -7,6 +7,7 @@ use App\Http\Controllers\DetailPembelianController;
 use App\Http\Controllers\DetailPendapatanController;
 use App\Http\Controllers\DiskusiController;
 use App\Http\Controllers\DonasiController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\KategoriBarangController;
 use App\Http\Controllers\KlaimMerchandiseController;
@@ -45,6 +46,10 @@ Route::get('/PenitipanBarang', [PenitipanBarangController::class, 'index']);
 Route::get('/PenitipanBarang/all', [PenitipanBarangController::class, 'getData']);
 Route::get('/PenitipanBarang/Count', [PenitipanBarangController::class, 'countPenitipanBarang']);
 Route::get('/PenitipanBarang/{id}', [PenitipanBarangController::class, 'show']);
+
+Route::get('/Gallery', [GalleryController::class, 'index']);
+Route::get('/Gallery/all', [GalleryController::class, 'getData']);
+Route::get('/Gallery/{id}', [GalleryController::class, 'show']);
 
 Route::get('/Alamat', [AlamatController::class, 'index']);
 Route::get('/Alamat/all', [AlamatController::class, 'getData']);
@@ -177,6 +182,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/Komisi/Penitip/{id}', [KomisiController::class, 'showKomisibyPenitip']);
     Route::delete('/Komisi/{id}', [KomisiController::class, 'destroy']);
 
+    //Gallery
+    Route::post('/Gallery', [GalleryController::class, 'store']);
+    Route::post('/Gallery/{id}', [GalleryController::class, 'update']);
+    Route::get('/Gallery/Barang/{id}', [GalleryController::class, 'getDataByBarangId']);
+    Route::delete('/Gallery/{id}', [GalleryController::class, 'destroy']);
+    
     //KlaimMerchandise
     Route::post('/KlaimMerchandise', [KlaimMerchandiseController::class, 'store']);
     Route::post('/KlaimMerchandise/Dashboard', [KlaimMerchandiseController::class, 'storeDashboard']);

@@ -27,6 +27,7 @@ class PegawaiFactory extends Factory
             'id_jabatan' => fake()->randomElement($jabatanId),
             'no_telp'=> fake()->numerify('08##########'),
             'username' => fake()->unique()->firstName(),
+            'tanggal_lahir' => fake()->date(),
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
