@@ -78,7 +78,7 @@ class DonasiController extends Controller
     }
     public function getDataWithPenitipanBarangById($id)
     {
-        $data = Donasi::with('penitipan__barangs')->where('id_donasi', $id)->get();
+        $data = Donasi::with('penitipan__barangs')->find($id);
         if ($data->isNotEmpty()) {
             return response([
                 'message' => 'Data Retrieved Successfully',
