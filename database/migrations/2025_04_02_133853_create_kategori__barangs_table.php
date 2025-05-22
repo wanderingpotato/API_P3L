@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('kategori__barangs', function (Blueprint $table) {
             $table->string('id_kategori')->primary();
             $table->enum('nama_kategori',['Elektronik-&-Gadget','Pakaian-&-Aksesori','Perabotan-Rumah-Tangga','Buku,-Alat-Tulis,-&-Peralatan Sekolah','Hobi,-Mainan,-&-Koleksi','Perlengkapan-Bayi-&-Anak','Otomotif-&-Aksesori','Perlengkapan-Taman-&-Outdoor','Peralatan-Kantor-&-Industri','Kosmetik-&-Perawatan Diri']);
-            $table->string('kub_kategori');
+            $table->string('sub_kategori');
             $table->timestamps();
         });
     }
