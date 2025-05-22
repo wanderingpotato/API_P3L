@@ -69,7 +69,7 @@ class GalleryController extends Controller
         $storeData = $request->all();
 
         $validate = Validator::make($storeData, [
-            'title' => 'required',
+            // 'title' => 'required',
             'foto' => 'required',
             'id_barang' => 'required',
         ]);

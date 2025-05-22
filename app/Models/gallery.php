@@ -19,7 +19,7 @@ class gallery extends Model
     protected $primaryKey = 'id_gallery';
     protected $fillable = [
         'id_gallery',
-        'title',
+        // 'title',
         'foto',
         'id_barang',
     ];
