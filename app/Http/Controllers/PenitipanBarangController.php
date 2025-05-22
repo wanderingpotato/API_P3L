@@ -18,7 +18,7 @@ class PenitipanBarangController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Penitipan_Barang::with('kategori__barangs');
+        $query = Penitipan_Barang::with('Kategori_Barang');
         if ($request->has('search') && $request->search != '') {
             $query->where('nama_barang', 'like', '%' . $request->search . '%');
         }
@@ -32,7 +32,7 @@ class PenitipanBarangController extends Controller
     }
     public function getData()
     {
-        $data = Penitipan_Barang::with('kategori__barangs')->get();
+        $data = Penitipan_Barang::with('Kategori_Barang')->get();
 
         return response([
             'message' => 'All JenisKamar Retrieved',
@@ -189,7 +189,7 @@ class PenitipanBarangController extends Controller
      */
     public function show(string $id)
     {
-        $PenitipanBarang = Penitipan_Barang::with(['kategori__barangs'])->find($id);
+        $PenitipanBarang = Penitipan_Barang::with(['Kategori_Barang'])->find($id);
 
         if ($PenitipanBarang) {
             return response([
