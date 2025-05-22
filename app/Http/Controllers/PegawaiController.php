@@ -28,7 +28,7 @@ class PegawaiController extends Controller
             'username' => 'required|unique:Pegawais',
             'tanggal_lahir' => 'required',
         ]);
-        $registrationData['id_jabatan'] = 'J-0000';
+        // $registrationData['id_jabatan'] = 'J-0000';
 
         if ($validate->fails()) {
             return response(['message' => $validate->errors()->first()], 400);

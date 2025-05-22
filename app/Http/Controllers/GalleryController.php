@@ -18,6 +18,7 @@ class GalleryController extends Controller
     public function index(Request $request)
     {
         $query = gallery::with('Penitipan_Barang');
+        $query = gallery::with('Penitipan_Barang');
         if ($request->has('search') && $request->search != '') {
             $query->where('id_gallery', 'like', '%' . $request->search . '%');
         }
@@ -55,11 +56,12 @@ class GalleryController extends Controller
             ], 200);
         } else {
             return response([
-                'message' => 'No Booking Data Found',
+                'message' => 'Gallery Not Found',
                 'data' => null
             ], 404);
         }
     }
+
 
     /**
      * Show the form for creating a new resource.
