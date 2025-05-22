@@ -17,7 +17,7 @@ class GalleryController extends Controller
      */
     public function index(Request $request)
     {
-        $query = gallery::with('penitipan__barangs');
+        $query = gallery::with('Penitipan_Barang');
         if ($request->has('search') && $request->search != '') {
             $query->where('id_gallery', 'like', '%' . $request->search . '%');
         }
@@ -41,13 +41,8 @@ class GalleryController extends Controller
     }
     public function getDataByBarangId($id)
     {
-        $user = Penitipan_Barang::find($id);
-        if (is_null($user)) {
-            return response([
-                'message' => 'User Not Found'
-            ], 404);
-        }
-        $data = gallery::with('penitipan__barangs')->where('id_barang', $id)->get();
+        $data = gallery::with('Penitipan_Barang')->where('id_barang', $id)->get();
+
         if ($data->isNotEmpty()) {
             return response([
                 'message' => 'Data Retrieved Successfully',
@@ -55,11 +50,12 @@ class GalleryController extends Controller
             ], 200);
         } else {
             return response([
-                'message' => 'No Booking Data Found',
+                'message' => 'Gallery Not Found',
                 'data' => null
             ], 404);
         }
     }
+
 
     /**
      * Show the form for creating a new resource.

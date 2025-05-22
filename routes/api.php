@@ -50,6 +50,7 @@ Route::get('/PenitipanBarang/{id}', [PenitipanBarangController::class, 'show']);
 Route::get('/Gallery', [GalleryController::class, 'index']);
 Route::get('/Gallery/all', [GalleryController::class, 'getData']);
 Route::get('/Gallery/{id}', [GalleryController::class, 'show']);
+Route::get('/Gallery/Barang/{id}', [GalleryController::class, 'getDataByBarangId']);
 
 Route::get('/Alamat', [AlamatController::class, 'index']);
 Route::get('/Alamat/all', [AlamatController::class, 'getData']);
