@@ -29,7 +29,7 @@ class PenitipFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'saldo'=>fake()->randomFloat(2),
             'poin'=>fake()->randomNumber(3, true),
-            'nik'=>fake()->randomNumber(16, true),
+            'nik'=>fake()->numerify('################'),
             'rata_rating'=>fake()->randomFloat(2, 1, 5),
             'badge'=>fake()->numberBetween(0, 1),
             'alamat'=>fake()->address(),
