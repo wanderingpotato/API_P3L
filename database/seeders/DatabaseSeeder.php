@@ -8,6 +8,7 @@ use App\Models\Detail_Pembelian;
 use App\Models\Detail_Pendapatan;
 use App\Models\Diskusi;
 use App\Models\Donasi;
+use App\Models\gallery;
 use App\Models\Jabatan;
 use App\Models\Kategori_Barang;
 use App\Models\Klaim_Merchandise;
@@ -48,6 +49,7 @@ class DatabaseSeeder extends Seeder
         Organisasi::factory(10)->create();
         Donasi::factory(10)->create();
         Detail_Donasi::factory(10)->create();
+        gallery::factory(10)->create();
 
         // User::factory()->create([
         //     'name' => 'Test User',

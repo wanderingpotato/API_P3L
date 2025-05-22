@@ -17,9 +17,15 @@ class KomisiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $Komisi = Komisi::inRandomOrder()->get();
+        $query = Komisi::query();
+        if ($request->has('search') && $request->search != '') {
+            $query->where('id_komisi', 'like', '%' . $request->search . '%');
+        }
+        $perPage = $request->query('per_page', 7);
+        $Komisi = $query->paginate($perPage);
+
 
         return response([
             'message' => 'All Komisi Retrieved',

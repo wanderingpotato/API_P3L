@@ -17,7 +17,7 @@ class GalleryController extends Controller
      */
     public function index(Request $request)
     {
-        $query = gallery::with('penitipan__barangs');
+        $query = gallery::with('Penitipan_Barang');
         if ($request->has('search') && $request->search != '') {
             $query->where('id_gallery', 'like', '%' . $request->search . '%');
         }
@@ -47,7 +47,7 @@ class GalleryController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        $data = gallery::with('penitipan__barangs')->where('id_barang', $id)->get();
+        $data = gallery::with('Penitipan_Barang')->where('id_barang', $id)->get();
         if ($data->isNotEmpty()) {
             return response([
                 'message' => 'Data Retrieved Successfully',
@@ -69,7 +69,7 @@ class GalleryController extends Controller
         $storeData = $request->all();
 
         $validate = Validator::make($storeData, [
-            'title' => 'required',
+            
             'foto' => 'required',
             'id_barang' => 'required',
         ]);
@@ -146,7 +146,7 @@ class GalleryController extends Controller
         $updateData = $request->all();
 
         $validate = Validator::make($updateData, [
-            'title' => 'required',
+            
             'id_barang' => 'required',
         ]);
         if ($validate->fails()) {

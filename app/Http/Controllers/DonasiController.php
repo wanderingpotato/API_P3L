@@ -23,7 +23,7 @@ class DonasiController extends Controller
     {
         // Menjalankan query untuk mendapatkan barang yang didonasikan ke organisasi tertentu
         $barang = DB::table('penitipan__barangs as b')
-            ->join('detail__donasis as dd', 'b.Id_barang', '=', 'dd.Id_barang')
+            ->join('Detail_Donasis] as dd', 'b.Id_barang', '=', 'dd.Id_barang')
             ->join('donasis as d', 'dd.Id_donasi', '=', 'd.Id_donasi')
             ->join('organisasis as o', 'd.Id_organisasi', '=', 'o.Id_organisasi')
             ->select('b.Nama_Barang', 'b.Harga_barang', 'b.Id_kategori', 'b.Deskripsi', 'b.Status', 'o.name')
@@ -39,7 +39,7 @@ class DonasiController extends Controller
 
     public function index(Request $request)
     {
-        $query = Donasi::with('Detail__Donasi');
+        $query = Donasi::with('Detail_Donasi');
         if ($request->has('search') && $request->search != '') {
             $query->where('id_donasi', 'like', '%' . $request->search . '%');
         }
@@ -63,18 +63,12 @@ class DonasiController extends Controller
     }
     public function getDataWithPenitipanBarang()
     {
-        $data = Donasi::with(['Detail_Donasi', 'DetailDonasis.Barang'])->get();
-        if ($data->isNotEmpty()) {
-            return response([
-                'message' => 'Data Retrieved Successfully',
-                'data' => $data
-            ], 200);
-        } else {
-            return response([
-                'message' => 'No Booking Data Found',
-                'data' => null
-            ], 404);
-        }
+        $data = Donasi::with('Detail_Donasi')->get();
+
+        return response([
+            'message' => 'Data Retrieved Successfully',
+            'data' => $data
+        ], 200);
     }
     public function getDataWithPenitipanBarangById($id)
     {
@@ -114,7 +108,7 @@ class DonasiController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        $data = Donasi::with('detail__donasis')->where('id_organisasi', $idUser)->get();
+        $data = Donasi::with('Detail_Donasi')->where('id_organisasi', $idUser)->get();
         if ($data->isNotEmpty()) {
             return response([
                 'message' => 'Data Retrieved Successfully',
@@ -441,7 +435,7 @@ class DonasiController extends Controller
             'data' => $Donasi,
         ], 200);
     }
-    
+
     public function updateDashboard(Request $request, string $id)
     {
         $Donasi = Donasi::find($id);

@@ -23,7 +23,7 @@ class Penitipan_BarangFactory extends Factory
         $PegawaiId = Pegawai::pluck('Id_pegawai')->toArray();
         $PenitipId = Penitip::pluck('Id_penitip')->toArray();
         return [
-            'id_barang' => fake()->unique()->numerify('B-####'),
+            'id_barang' => fake()->unique()->numerify('PB-####'),
             'id_kategori' => fake()->randomElement($KategoriId),
             'id_penitip' => fake()->randomElement($PenitipId),
             'id_pegawai' => fake()->randomElement($PegawaiId),

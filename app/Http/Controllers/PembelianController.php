@@ -109,6 +109,7 @@ class PembelianController extends Controller
             'count' => $count
         ], 200);
     }
+    
     public function countPembelianByUser()
     {
         $idUser = Auth::id();
@@ -381,6 +382,7 @@ class PembelianController extends Controller
         $storeData = $request->all();
 
         $validate = Validator::make($storeData, [
+            'id_pembeli' => 'required',
             'id_alamat' => 'required',
             'id_pegawai' => '',
             'dilivery' => 'required',
@@ -566,6 +568,7 @@ class PembelianController extends Controller
         $updateData = $request->all();
 
         $validate = Validator::make($updateData, [
+            'id_pembeli' => 'required',
             'id_alamat' => 'required',
             'id_pegawai' => '',
             'dilivery' => 'required',

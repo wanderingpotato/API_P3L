@@ -89,7 +89,7 @@ class DetailDonasiController extends Controller
      */
     public function show(string $id)
     {
-        $DetailDonasi = Detail_Donasi::find($id);
+        $DetailDonasi = Detail_Donasi::where('id_donasi', $id)->get();
 
         if ($DetailDonasi) {
             return response([

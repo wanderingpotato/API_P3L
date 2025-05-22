@@ -334,7 +334,7 @@ class PembeliController extends Controller
             ? response(['message' => __($status)], 200)
             : response(['error' => __($status)], 400);
     }
-    public function countUser()
+    public function countPembeli()
     {
         $count = Pembeli::count();
         return response([

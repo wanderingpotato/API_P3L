@@ -18,7 +18,7 @@ class DiskusiController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Diskusi::all();
+        $query = Diskusi::query();
         if ($request->has('search') && $request->search != '') {
             $query->where('id_diskusi', 'like', '%' . $request->search . '%');
         }
