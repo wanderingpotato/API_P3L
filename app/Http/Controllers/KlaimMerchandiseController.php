@@ -136,7 +136,7 @@ class KlaimMerchandiseController extends Controller
             return response(['message' => $validate->errors()], 400);
         }
         $lastId = Klaim_Merchandise::latest('id_klaim')->first();
-        $newId = $lastId ? 'KM' . str_pad((int) substr($lastId->id_klaim, 1) + 1, 3, '0', STR_PAD_LEFT) : 'KM-001';
+        $newId = $lastId ? 'KM-' . str_pad((int) substr($lastId->id_klaim, 3) + 1, 4, '0', STR_PAD_LEFT) : 'KM-0001';
         $storeData['id_klaim'] = $newId;
 
         $idUser = Auth::id();
@@ -181,7 +181,7 @@ class KlaimMerchandiseController extends Controller
             return response(['message' => $validate->errors()], 400);
         }
         $lastId = Klaim_Merchandise::latest('id_klaim')->first();
-        $newId = $lastId ? 'KM' . str_pad((int) substr($lastId->id_klaim, 1) + 1, 3, '0', STR_PAD_LEFT) : 'KM-001';
+        $newId = $lastId ? 'KM-' . str_pad((int) substr($lastId->id_klaim, 3) + 1, 4, '0', STR_PAD_LEFT) : 'KM-0001';
         $storeData['id_klaim'] = $newId;
 
         $idUser = Auth::id();

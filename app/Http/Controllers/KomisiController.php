@@ -98,7 +98,7 @@ class KomisiController extends Controller
         }
 
         $lastId = Komisi::latest('id_komisi')->first();
-        $newId = $lastId ? 'K-' . str_pad((int) substr($lastId->id_komisi, 2) + 1, 3, '0', STR_PAD_LEFT) : 'K-001';
+        $newId = $lastId ? 'K-' . str_pad((int) substr($lastId->id_komisi, 2) + 1, 4, '0', STR_PAD_LEFT) : 'K-0001';
         $storeData['id_komisi'] = $newId;
         $Komisi = Komisi::create($storeData);
 

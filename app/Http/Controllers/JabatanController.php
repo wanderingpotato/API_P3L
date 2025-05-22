@@ -94,7 +94,7 @@ class JabatanController extends Controller
         }
 
         $lastId = Jabatan::latest('id_jabatan')->first();
-        $newId = $lastId ? 'J-' . str_pad((int) substr($lastId->id_jabatan, 2) + 1, 3, '0', STR_PAD_LEFT) : 'J-001';
+        $newId = $lastId ? 'J-' . str_pad((int) substr($lastId->id_jabatan, 2) + 1, 4, '0', STR_PAD_LEFT) : 'J-0001';
         $storeData['id_jabatan'] = $newId;
 
         $Jabatan = Jabatan::create($storeData);

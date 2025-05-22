@@ -125,7 +125,7 @@ class DonasiController extends Controller
         }
 
         $lastId = Donasi::latest('id_donasi')->first();
-        $newId = $lastId ? 'D-' . str_pad((int) substr($lastId->id_donasi, 1) + 1, 3, '0', STR_PAD_LEFT) : 'D-001';
+        $newId = $lastId ? 'D-' . str_pad((int) substr($lastId->id_donasi, 2) + 1, 4, '0', STR_PAD_LEFT) : 'D-0001';
         $storeData['id_donasi'] = $newId;
 
         $idUser = Auth::id();
@@ -164,7 +164,7 @@ class DonasiController extends Controller
             return response(['message' => $validate->errors()], 400);
         }
         $lastId = Donasi::latest('id_donasi')->first();
-        $newId = $lastId ? 'D-' . str_pad((int) substr($lastId->id_donasi, 1) + 1, 3, '0', STR_PAD_LEFT) : 'D-001';
+        $newId = $lastId ? 'D-' . str_pad((int) substr($lastId->id_donasi, 2) + 1, 4, '0', STR_PAD_LEFT) : 'D-0001';
         $storeData['id_donasi'] = $newId;
 
         $idUser = Auth::id();

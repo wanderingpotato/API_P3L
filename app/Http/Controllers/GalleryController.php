@@ -79,7 +79,7 @@ class GalleryController extends Controller
         }
 
         $lastId = gallery::latest('id_gallery')->first();
-        $newId = $lastId ? 'GL-' . str_pad((int) substr($lastId->id_gallery, 1) + 1, 3, '0', STR_PAD_LEFT) : 'GL-001';
+        $newId = $lastId ? 'GL-' . str_pad((int) substr($lastId->id_gallery, 3) + 1, 4, '0', STR_PAD_LEFT) : 'GL-0001';
         $storeData['id_gallery'] = $newId;
 
         $idUser = Auth::id();

@@ -97,7 +97,7 @@ class KategoriBarangController extends Controller
         }
 
         $lastId = Kategori_Barang::latest('id_kategori')->first();
-        $newId = $lastId ? 'K-' . str_pad((int) substr($lastId->id_kategori, 2) + 1, 3, '0', STR_PAD_LEFT) : 'K-001';
+        $newId = $lastId ? 'K-' . str_pad((int) substr($lastId->id_kategori, 2) + 1, 4, '0', STR_PAD_LEFT) : 'K-0001';
         $storeData['id_kategori'] = $newId;
 
         $Kategori_Barang = Kategori_Barang::create($storeData);

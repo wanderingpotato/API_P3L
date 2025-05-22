@@ -104,7 +104,7 @@ class MerchandiseController extends Controller
         }
 
         $lastId = Merchandise::latest('id_merchandise')->first();
-        $newId = $lastId ? 'M-' . str_pad((int) substr($lastId->id_merchandise, 2) + 1, 3, '0', STR_PAD_LEFT) : 'M-001';
+        $newId = $lastId ? 'M-' . str_pad((int) substr($lastId->id_merchandise, 2) + 1, 4, '0', STR_PAD_LEFT) : 'M-0001';
         $storeData['id_merchandise'] = $newId;
 
         $Merchandise = Merchandise::create($storeData);

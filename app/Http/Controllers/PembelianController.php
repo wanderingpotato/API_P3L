@@ -226,7 +226,7 @@ class PembelianController extends Controller
                 $storeChildData['komisi_penitip'] = $Penitipan_Barang->harga_barang - ($storeChildData['komisi_toko'] + $storeChildData['komisi_hunter']);
 
                 $lastId = Komisi::latest('id_komisi')->first();
-                $newId = $lastId ? 'K-' . str_pad((int) substr($lastId->id_komisi, 2) + 1, 3, '0', STR_PAD_LEFT) : 'K-001';
+                $newId = $lastId ? 'K-' . str_pad((int) substr($lastId->id_komisi, 2) + 1, 4, '0', STR_PAD_LEFT) : 'K-0001';
                 $storeChildData['id_komisi'] = $newId;
 
                 $storeChildData['tanggal_komisi'] = $request->tanggal_komisi;
@@ -307,7 +307,7 @@ class PembelianController extends Controller
         $storeData['potongan_harga'] = intdiv($storeData['point_digunakan'], 100) * 10000;
 
         $lastId = Pembelian::latest('id_pembelian')->first();
-        $newId = $lastId ? 'PM-' . str_pad((int) substr($lastId->id_pembelian, 1) + 1, 3, '0', STR_PAD_LEFT) : 'PM-001';
+        $newId = $lastId ? 'PM-' . str_pad((int) substr($lastId->id_pembelian, 3) + 1, 4, '0', STR_PAD_LEFT) : 'PM-0001';
         $storeData['id_pembelian'] = $newId;
 
         //Nyari Sesuai User
@@ -404,7 +404,7 @@ class PembelianController extends Controller
             return response(['message' => $validate->errors()], 400);
         }
         $lastId = Pembelian::latest('id_pembelian')->first();
-        $newId = $lastId ? 'PM-' . str_pad((int) substr($lastId->id_pembelian, 1) + 1, 3, '0', STR_PAD_LEFT) : 'PM-001';
+        $newId = $lastId ? 'PM-' . str_pad((int) substr($lastId->id_pembelian, 3) + 1, 4, '0', STR_PAD_LEFT) : 'PM-0001';
         $storeData['id_pembelian'] = $newId;
 
         $idUser = Auth::id();

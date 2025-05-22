@@ -93,7 +93,7 @@ class AlamatController extends Controller
         }
 
         $lastId = Alamat::latest('id_alamat')->first();
-        $newId = $lastId ? 'A-' . str_pad((int) substr($lastId->id_alamat, 2) + 1, 3, '0', STR_PAD_LEFT) : 'A-001';
+        $newId = $lastId ? 'A-' . str_pad((int) substr($lastId->id_alamat, 2) + 1, 4, '0', STR_PAD_LEFT) : 'A-0001';
         $storeData['id_alamat'] = $newId;
 
         $Alamat = Alamat::create($storeData);
@@ -126,7 +126,7 @@ class AlamatController extends Controller
         }
         $storeData['id_pembeli']=$user->id_pembeli;
         $lastId = Alamat::latest('id_alamat')->first();
-        $newId = $lastId ? 'A-' . str_pad((int) substr($lastId->id_alamat, 2) + 1, 3, '0', STR_PAD_LEFT) : 'A-001';
+        $newId = $lastId ? 'A-' . str_pad((int) substr($lastId->id_alamat, 2) + 1, 4, '0', STR_PAD_LEFT) : 'A-0001';
         $storeData['id_alamat'] = $newId;
 
         $Alamat = Alamat::create($storeData);

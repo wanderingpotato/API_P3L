@@ -77,7 +77,7 @@ class DetailPendapatanController extends Controller
         }
 
         $lastId = Detail_Pendapatan::latest('id_detail_pendapatan')->first();
-        $newId = $lastId ? 'DP-' . str_pad((int) substr($lastId->id_detail_pendapatan, 2) + 1, 3, '0', STR_PAD_LEFT) : 'DP-001';
+        $newId = $lastId ? 'DP-' . str_pad((int) substr($lastId->id_detail_pendapatan, 3) + 1, 4, '0', STR_PAD_LEFT) : 'DP-0001';
         $storeData['id_detail_pendapatan'] = $newId;
         $DetailPendapatan = Detail_Pendapatan::create($storeData);
         return response([

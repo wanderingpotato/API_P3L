@@ -140,7 +140,7 @@ class DiskusiController extends Controller
             return response(['message' => $validate->errors()], 400);
         }
         $lastId = Diskusi::latest('id_diskusi')->first();
-        $newId = $lastId ? 'DS' . str_pad((int) substr($lastId->id_diskusi, 1) + 1, 3, '0', STR_PAD_LEFT) : 'DS-001';
+        $newId = $lastId ? 'DS-' . str_pad((int) substr($lastId->id_diskusi, 3) + 1, 4, '0', STR_PAD_LEFT) : 'DS-0001';
         $storeData['id_diskusi'] = $newId;
 
         $idUser = Auth::id();
@@ -180,7 +180,7 @@ class DiskusiController extends Controller
             return response(['message' => $validate->errors()], 400);
         }
         $lastId = Diskusi::latest('id_diskusi')->first();
-        $newId = $lastId ? 'DS' . str_pad((int) substr($lastId->id_diskusi, 1) + 1, 3, '0', STR_PAD_LEFT) : 'DS-001';
+        $newId = $lastId ? 'DS-' . str_pad((int) substr($lastId->id_diskusi, 3) + 1, 4, '0', STR_PAD_LEFT) : 'DS-0001';
         $storeData['id_diskusi'] = $newId;
 
         $idUser = Auth::id();
