@@ -210,7 +210,7 @@ class PenitipController extends Controller
         if ($request->has('no_telp')  && $request->no_telp != null) {
             $updateData['no_telp'] = $request->no_telp;
         }
-        if ($request->has('username')  && $request->username != null && $request->username != $user->username) {
+        if ($request->has('username')  && !is_null($request->username) && $request->username != $user->username) {
             $updateData['username'] = $request->username;
         }
         if ($request->has('saldo')  && $request->saldo != null) {
@@ -293,7 +293,7 @@ class PenitipController extends Controller
         if ($request->has('no_telp')  && $request->no_telp != null) {
             $updateData['no_telp'] = $request->no_telp;
         }
-        if ($request->has('username')  && $request->username != null && $request->username != $user->username) {
+        if ($request->has('username')  && $request->username != null) {
             $updateData['username'] = $request->username;
         }
         if ($request->has('saldo')  && $request->saldo != null) {

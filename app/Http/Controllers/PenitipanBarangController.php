@@ -86,7 +86,7 @@ class PenitipanBarangController extends Controller
     }
     public function getDataByPenitipId()
     {
-         $idUser = Auth::id();
+        $idUser = Auth::id();
         $user = Penitip::find($idUser);
         if (!$user) {
             return response([
@@ -149,15 +149,15 @@ class PenitipanBarangController extends Controller
             'garansi' => '',
             'deskripsi' => '',
         ]);
+
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
         }
-        $idUser =  Auth::id();
+
+        $idUser = Auth::id();
         $user = Pegawai::find($idUser);
         if (is_null($user)) {
-            return response([
-                'message' => 'User Not Found'
-            ], 404);
+            return response(['message' => 'User Not Found'], 403);
         }
         if ($user->id_jabatan == 'J-003') {
             return response([
@@ -166,7 +166,7 @@ class PenitipanBarangController extends Controller
         }
 
         $lastId = Penitipan_Barang::latest('id_barang')->first();
-        $newId = $lastId ? 'PB-' . str_pad((int) substr($lastId->id_barang, 2) + 1, 3, '0', STR_PAD_LEFT) : 'PB-001';
+        $newId = $lastId ? 'PB-' . str_pad((int) substr($lastId->id_barang, 3) + 1, 4, '0', STR_PAD_LEFT) : 'PB-0001';
         $storeData['id_barang'] = $newId;
         // if ($request->hasFile('foto')) {
         //     $uploadFolder = 'FotoBarang';
@@ -177,6 +177,7 @@ class PenitipanBarangController extends Controller
         //     $storeData['Foto_Barang'] = $uploadedImageResponse;
         // }
         $PenitipanBarang = Penitipan_Barang::create($storeData);
+
         return response([
             'message' => 'Penitipan Barang Added Successfully',
             'data' => $PenitipanBarang,

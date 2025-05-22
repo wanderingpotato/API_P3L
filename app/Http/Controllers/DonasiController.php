@@ -9,6 +9,7 @@ use App\Models\Pegawai;
 use App\Models\Penitipan_Barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,6 +18,25 @@ class DonasiController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    public function getBarangDonasi($id_organisasi)
+    {
+        // Menjalankan query untuk mendapatkan barang yang didonasikan ke organisasi tertentu
+        $barang = DB::table('penitipan__barangs as b')
+            ->join('detail__donasis as dd', 'b.Id_barang', '=', 'dd.Id_barang')
+            ->join('donasis as d', 'dd.Id_donasi', '=', 'd.Id_donasi')
+            ->join('organisasis as o', 'd.Id_organisasi', '=', 'o.Id_organisasi')
+            ->select('b.Nama_Barang', 'b.Harga_barang', 'b.Id_kategori', 'b.Deskripsi','b.Status', 'o.name')
+            ->where('o.Id_organisasi', 1)
+            ->get();
+
+        if ($barang->isEmpty()) {
+            return response()->json(['message' => 'Tidak ada barang yang didonasikan.'], 404);
+        }
+        return response()->json($barang);
+    }
+
+
     public function index(Request $request)
     {
         $query = Donasi::with('Detail__Donasi');
@@ -226,7 +246,8 @@ class DonasiController extends Controller
             'data' => $Donasi,
         ], 200);
     }
-    public function PenerimaDonasi(Request $request, string $id){
+    public function PenerimaDonasi(Request $request, string $id)
+    {
         $Donasi = Donasi::find($id);
         if (is_null($Donasi)) {
             return response([
@@ -258,7 +279,6 @@ class DonasiController extends Controller
             'message' => 'Donasi Updated Successfully',
             'data' => $Donasi,
         ], 200);
-
     }
     public function UpdateKorfirmasi(Request $request, string $id)
     {

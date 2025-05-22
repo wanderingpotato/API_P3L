@@ -131,6 +131,7 @@ class OrganisasiController extends Controller
             'password' => 'required|min:8',
             'no_telp' => 'required|min:10',
             'username' => 'required|unique:Organisasis',
+            'alamat' => 'required',
         ]);
         $storeData['deskripsi'] = 'null';
         $storeData['alamat'] = 'null';
@@ -203,7 +204,7 @@ class OrganisasiController extends Controller
         if ($request->has('no_telp')  && $request->no_telp != null) {
             $updateData['no_telp'] = $request->no_telp;
         }
-        if ($request->has('username')  && $request->username != null && $request->username != $user->username) {
+        if ($request->has('username')  && !is_null($request->username) && $request->username != $user->username) {
             $updateData['username'] = $request->username;
         }
         if ($request->has('deskripsi')  && $request->deskripsi != null) {
@@ -277,7 +278,7 @@ class OrganisasiController extends Controller
         if ($request->has('no_telp')  && $request->no_telp != null) {
             $updateData['no_telp'] = $request->no_telp;
         }
-        if ($request->has('username')  && $request->username != null && $request->username != $user->username) {
+        if ($request->has('username')  && $request->username != null) {
             $updateData['username'] = $request->username;
         }
         if ($request->has('deskripsi')  && $request->deskripsi != null) {
