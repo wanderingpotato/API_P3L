@@ -15,10 +15,10 @@ return new class extends Migration
             $table->string('id_barang')->primary();
             $table->string('id_kategori');
             $table->foreign('id_kategori')->references('id_kategori')->on('kategori__barangs')->onDelete('cascade');
-            $table->bigInteger('id_Penitip')->unsigned();
-            $table->foreign('id_Penitip')->references('id_Penitip')->on('penitips')->onDelete('cascade');
-            $table->bigInteger('id_Pegawai')->unsigned();
-            $table->foreign('id_Pegawai')->references('id_Pegawai')->on('pegawais')->onDelete('cascade');
+            $table->bigInteger('id_penitip')->unsigned();
+            $table->foreign('id_penitip')->references('id_penitip')->on('penitips')->onDelete('cascade');
+            $table->bigInteger('id_pegawai')->unsigned();
+            $table->foreign('id_pegawai')->references('id_pegawai')->on('pegawais')->onDelete('cascade');
             $table->string('nama_barang');
             $table->boolean('di_perpanjang');
             $table->boolean('diliver_here');
