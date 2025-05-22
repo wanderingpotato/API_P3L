@@ -21,11 +21,11 @@ class DonasiFactory extends Factory
         return [
             'id_donasi' => fake()->unique()->numerify('D-####'),
             'id_organisasi' => fake()->randomElement($OrganisasiId),
-            'nama_penerima'=>fake()->unique()->name(),
-            'tanggal_diberikan'=> fake()->dateTime(),
-            'tanggal_request'=> fake()->dateTime(),
-            'deskripsi'=>fake()->text(),
-            'konfirmasi'=>fake()->numberBetween(0, 1),
+            'nama_penerima' => fake()->unique()->name(),
+            'tanggal_diberikan' => fake()->dateTime(),
+            'tanggal_request' => fake()->dateTime(),
+            'deskripsi' => fake()->text(),
+            'konfirmasi' => fake()->numberBetween(0, 1),
             //
         ];
     }

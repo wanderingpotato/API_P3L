@@ -27,11 +27,11 @@ class KomisiFactory extends Factory
                 'id_komisi' => fake()->unique()->numerify('K-####'),
                 'id_penitip' => fake()->randomElement($PenitipId),
                 'id_barang' => fake()->randomElement($BarangId),
-                'bonus_penitip'=>fake()->randomFloat(2),
-                'komisi_penitip'=>fake()->randomFloat(2),
-                'komisi_toko'=>fake()->randomFloat(2),
-                'komisi_hunter'=>null,
-                'tanggal_komisi'=> fake()->dateTime(),
+                'bonus_penitip' => fake()->randomFloat(2),
+                'komisi_penitip' => fake()->randomFloat(2),
+                'komisi_toko' => fake()->randomFloat(2),
+                'komisi_hunter' => null,
+                'tanggal_komisi' => fake()->dateTime(),
                 'id_pegawai' => null,
             ];
         } else {
@@ -39,11 +39,11 @@ class KomisiFactory extends Factory
                 'id_komisi' => fake()->unique()->numerify('K-####'),
                 'id_pegawai' => fake()->randomElement($PegawaiId),
                 'id_barang' => fake()->randomElement($BarangId),
-                'bonus_penitip'=>null,
-                'komisi_penitip'=>fake()->randomFloat(2),
-                'komisi_toko'=>fake()->randomFloat(2),
-                'komisi_hunter'=>fake()->randomFloat(2),
-                'tanggal_komisi'=> fake()->dateTime(),
+                'bonus_penitip' => null,
+                'komisi_penitip' => fake()->randomFloat(2),
+                'komisi_toko' => fake()->randomFloat(2),
+                'komisi_hunter' => fake()->randomFloat(2),
+                'tanggal_komisi' => fake()->dateTime(),
                 'id_penitip' => null,
             ];
         }

@@ -21,11 +21,11 @@ class AlamatFactory extends Factory
         return [
             'id_alamat' => fake()->unique()->numerify('A-####'),
             'id_pembeli' => fake()->randomElement($PembeliId),
-            'title'=>'Rumah' . fake()->unique()->name(),
-            'no_telp'=> fake()->numerify('08##########'),
-            'deskripsi'=>fake()->text(),
-            'default'=>fake()->numberBetween(0, 1),
-            'alamat'=>fake()->address(),
+            'title' => 'Rumah' . fake()->unique()->name(),
+            'no_telp' => fake()->numerify('08##########'),
+            'deskripsi' => fake()->text(),
+            'default' => fake()->numberBetween(0, 1),
+            'alamat' => fake()->address(),
             //
         ];
     }

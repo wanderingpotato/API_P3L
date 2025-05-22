@@ -23,5 +23,4 @@ class JabatanFactory extends Factory
             'nama_jabatan' => fake()->unique()->jobTitle(),
         ];
     }
-    
 }

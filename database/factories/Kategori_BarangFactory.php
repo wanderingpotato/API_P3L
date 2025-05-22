@@ -18,8 +18,8 @@ class Kategori_BarangFactory extends Factory
     {
         return [
             'id_kategori' => fake()->unique()->numerify('K-####'),
-            'nama_kategori' => fake()->unique()->randomElement(['Elektronik-&-Gadget','Pakaian-&-Aksesori','Perabotan-Rumah-Tangga','Buku,-Alat-Tulis,-&-Peralatan Sekolah','Hobi,-Mainan,-&-Koleksi','Perlengkapan-Bayi-&-Anak','Otomotif-&-Aksesori','Perlengkapan-Taman-&-Outdoor','Peralatan-Kantor-&-Industri','Kosmetik-&-Perawatan Diri']),
-            'sub_kategori'=>fake()->unique()->word(),
+            'nama_kategori' => fake()->unique()->randomElement(['Elektronik-&-Gadget', 'Pakaian-&-Aksesori', 'Perabotan-Rumah-Tangga', 'Buku,-Alat-Tulis,-&-Peralatan Sekolah', 'Hobi,-Mainan,-&-Koleksi', 'Perlengkapan-Bayi-&-Anak', 'Otomotif-&-Aksesori', 'Perlengkapan-Taman-&-Outdoor', 'Peralatan-Kantor-&-Industri', 'Kosmetik-&-Perawatan Diri']),
+            'sub_kategori' => fake()->unique()->word(),
         ];
     }
 }

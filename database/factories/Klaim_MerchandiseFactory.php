@@ -27,9 +27,9 @@ class Klaim_MerchandiseFactory extends Factory
                 'id_klaim' => fake()->unique()->numerify('KM-####'),
                 'id_penitip' => fake()->randomElement($PenitipId),
                 'id_merchandise' => fake()->randomElement($MerchandiseId),
-                'jumlah'=>fake()->randomNumber(3, false),
-                'tanggal_ambil'=> fake()->dateTime(),
-                'status' => fake()->randomElement(['On-Progress','Claimed','Canceled']),
+                'jumlah' => fake()->randomNumber(3, false),
+                'tanggal_ambil' => fake()->dateTime(),
+                'status' => fake()->randomElement(['On-Progress', 'Claimed', 'Canceled']),
                 'id_pembeli' => null,
             ];
         } else {
@@ -37,9 +37,9 @@ class Klaim_MerchandiseFactory extends Factory
                 'id_klaim' => fake()->unique()->numerify('KM-####'),
                 'id_pembeli' => fake()->randomElement($PembeliId),
                 'id_merchandise' => fake()->randomElement($MerchandiseId),
-                'jumlah'=>fake()->randomNumber(3, false),
-                'tanggal_ambil'=> fake()->dateTime(),
-                'status' => fake()->randomElement(['On-Progress','Claimed','Canceled']),
+                'jumlah' => fake()->randomNumber(3, false),
+                'tanggal_ambil' => fake()->dateTime(),
+                'status' => fake()->randomElement(['On-Progress', 'Claimed', 'Canceled']),
                 'id_penitip' => null,
             ];
         }

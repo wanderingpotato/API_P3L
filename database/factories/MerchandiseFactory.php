@@ -18,10 +18,10 @@ class MerchandiseFactory extends Factory
     {
         return [
             'id_merchandise' => fake()->unique()->numerify('M-####'),
-            'kategori' => fake()->randomElement(['Ballpoin','Stiker','Mug','Topi','Tumblr','T-shirt','Jam-Dinding','Tas-Travel','Payung']),
-            'nama'=>fake()->unique()->word(),
-            'poin'=>fake()->randomNumber(3, true),
-            'stock'=>fake()->randomNumber(2, true),
+            'kategori' => fake()->randomElement(['Ballpoin', 'Stiker', 'Mug', 'Topi', 'Tumblr', 'T-shirt', 'Jam-Dinding', 'Tas-Travel', 'Payung']),
+            'nama' => fake()->unique()->word(),
+            'poin' => fake()->randomNumber(3, true),
+            'stock' => fake()->randomNumber(2, true),
         ];
     }
 }
