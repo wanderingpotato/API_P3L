@@ -187,7 +187,6 @@ Route::middleware('auth:sanctum')->group(function () {
   //Gallery
   Route::post('/Gallery', [GalleryController::class, 'store']);
   Route::post('/Gallery/{id}', [GalleryController::class, 'update']);
-  Route::get('/Gallery/Barang/{id}', [GalleryController::class, 'getDataByBarangId']);
   Route::delete('/Gallery/{id}', [GalleryController::class, 'destroy']);
 
   //Merchandise

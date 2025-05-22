@@ -42,12 +42,6 @@ class GalleryController extends Controller
     }
     public function getDataByBarangId($id)
     {
-        $user = Penitipan_Barang::find($id);
-        if (is_null($user)) {
-            return response([
-                'message' => 'User Not Found'
-            ], 404);
-        }
         $data = gallery::with('Penitipan_Barang')->where('id_barang', $id)->get();
         if ($data->isNotEmpty()) {
             return response([
