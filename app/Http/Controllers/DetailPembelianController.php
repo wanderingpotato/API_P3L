@@ -17,15 +17,16 @@ class DetailPembelianController extends Controller
      */
     public function index()
     {
-        $DetailPembelian =Detail_Pembelian::inRandomOrder()->get();
+        $DetailPembelian = Detail_Pembelian::inRandomOrder()->get();
 
         return response([
             'message' => 'AllDetail_Pembelian Retrieved',
             'data' => $DetailPembelian
         ], 200);
     }
-    public function getData(){
-        $data =Detail_Pembelian::all();
+    public function getData()
+    {
+        $data = Detail_Pembelian::all();
 
         return response([
             'message' => 'All JenisKamar Retrieved',
@@ -35,20 +36,20 @@ class DetailPembelianController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function showDetailPembelianbyUser($id) {
+    public function showDetailPembelianbyUser($id)
+    {
         $user = Pembelian::find($id);
-        if(!$user){
+        if (!$user) {
             return response([
                 'message' => 'User Not Found',
                 'data' => null
-            ],404);
+            ], 404);
         }
-        $DetailPembelian =Detail_Pembelian::where('id_pembelian', $user->id_pembelian)->get();
+        $DetailPembelian = Detail_Pembelian::where('id_pembelian', $user->id_pembelian)->get();
         return response([
-            'message' => 'DetailPembelian of '.$user->name.' Retrieved',
+            'message' => 'DetailPembelian of ' . $user->name . ' Retrieved',
             'data' => $DetailPembelian
-        ],200);
-
+        ], 200);
     }
 
 
@@ -56,29 +57,29 @@ class DetailPembelianController extends Controller
     {
         $storeData = $request->all();
 
-        $validate = Validator::make($storeData,[
+        $validate = Validator::make($storeData, [
             'id_pembelian' => 'required',
             'id_barang' => 'required',
             'id_penitip' => 'required',
         ]);
         if ($validate->fails()) {
-            return response(['message'=> $validate->errors()],400);
+            return response(['message' => $validate->errors()], 400);
         }
 
         $idUser = Auth::id();
         $user = Pegawai::find($idUser);
-        if(is_null($user)){
+        if (is_null($user)) {
             return response([
                 'message' => 'User Not Found'
-            ],404);
+            ], 404);
         }
 
 
-        $DetailPembelian =Detail_Pembelian::create($storeData);
+        $DetailPembelian = Detail_Pembelian::create($storeData);
         return response([
             'message' => 'DetailPembelian Added Successfully',
             'data' => $DetailPembelian,
-        ],200);
+        ], 200);
     }
 
     /**
@@ -86,19 +87,19 @@ class DetailPembelianController extends Controller
      */
     public function show(string $id)
     {
-        $DetailPembelian =Detail_Pembelian::find($id);
+        $DetailPembelian = Detail_Pembelian::find($id);
 
-        if($DetailPembelian){
+        if ($DetailPembelian) {
             return response([
                 'message' => 'DetailPembelian Found',
                 'data' => $DetailPembelian
-            ],200);
+            ], 200);
         }
 
         return response([
             'message' => 'DetailPembelian Not Found',
             'data' => null
-        ],404);
+        ], 404);
     }
 
     /**
@@ -106,38 +107,38 @@ class DetailPembelianController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $DetailPembelian =Detail_Pembelian::find($id);
-        if(is_null($DetailPembelian)){
+        $DetailPembelian = Detail_Pembelian::find($id);
+        if (is_null($DetailPembelian)) {
             return response([
                 'message' => 'DetailPembelian Not Found',
                 'data' => null
-            ],404);
+            ], 404);
         }
 
         $updateData = $request->all();
 
-        $validate = Validator::make($updateData,[
+        $validate = Validator::make($updateData, [
             'id_pembelian' => 'required',
             'id_barang' => 'required',
             'id_penitip' => 'required',
         ]);
         if ($validate->fails()) {
-            return response(['message'=> $validate->errors()],400);
+            return response(['message' => $validate->errors()], 400);
         }
         $idUser = Auth::id();
         $user = Pegawai::find($idUser);
-        if(is_null($user)){
+        if (is_null($user)) {
             return response([
                 'message' => 'User Not Found'
-            ],404);
+            ], 404);
         }
-        
+
         $DetailPembelian->update($updateData);
 
         return response([
             'message' => 'DetailPembelian Updated Successfully',
             'data' => $DetailPembelian,
-        ],200);
+        ], 200);
     }
 
     /**
@@ -145,25 +146,25 @@ class DetailPembelianController extends Controller
      */
     public function destroy(string $id)
     {
-        $DetailPembelian =Detail_Pembelian::find($id);
+        $DetailPembelian = Detail_Pembelian::find($id);
 
-        if(is_null($DetailPembelian)){
+        if (is_null($DetailPembelian)) {
             return response([
                 'message' => 'DetailPembelian Not Found',
                 'data' => null
-            ],404);
+            ], 404);
         }
 
-        if($DetailPembelian->delete()){
+        if ($DetailPembelian->delete()) {
             return response([
                 'message' => 'DetailPembelian Deleted Successfully',
                 'data' => $DetailPembelian,
-            ],200);
+            ], 200);
         }
 
         return response([
             'message' => 'DeleteDetail_Pembelian Failed',
             'data' => null,
-        ],400);
+        ], 400);
     }
 }

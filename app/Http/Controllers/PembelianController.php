@@ -270,7 +270,7 @@ class PembelianController extends Controller
     }
     public function filterbymonth()
     {
-        $data = Pembelian::whereMonth("tanggal_pembelian",9)->get();
+        $data = Pembelian::whereMonth("tanggal_pembelian", 9)->get();
 
         return response([
             'message' => 'All JenisKamar Retrieved',

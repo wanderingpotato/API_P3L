@@ -19,15 +19,16 @@ class DetailDonasiController extends Controller
      */
     public function index()
     {
-        $DetailDonasi =Detail_Donasi::inRandomOrder()->get();
+        $DetailDonasi = Detail_Donasi::inRandomOrder()->get();
 
         return response([
             'message' => 'AllDetail_Donasi Retrieved',
             'data' => $DetailDonasi
         ], 200);
     }
-    public function getData(){
-        $data =Detail_Donasi::all();
+    public function getData()
+    {
+        $data = Detail_Donasi::all();
 
         return response([
             'message' => 'All JenisKamar Retrieved',
@@ -37,20 +38,20 @@ class DetailDonasiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function showDetailDonasibyUser($id) {
+    public function showDetailDonasibyUser($id)
+    {
         $user = Donasi::find($id);
-        if(!$user){
+        if (!$user) {
             return response([
                 'message' => 'User Not Found',
                 'data' => null
-            ],404);
+            ], 404);
         }
-        $DetailDonasi =Detail_Donasi::where('id_donasi', $user->id_donasi)->get();
+        $DetailDonasi = Detail_Donasi::where('id_donasi', $user->id_donasi)->get();
         return response([
-            'message' => 'DetailDonasi of '.$user->name.' Retrieved',
+            'message' => 'DetailDonasi of ' . $user->name . ' Retrieved',
             'data' => $DetailDonasi
-        ],200);
-
+        ], 200);
     }
 
 
@@ -58,29 +59,29 @@ class DetailDonasiController extends Controller
     {
         $storeData = $request->all();
 
-        $validate = Validator::make($storeData,[
+        $validate = Validator::make($storeData, [
             'id_donasi' => 'required',
             'id_barang' => 'required',
             'id_penitip' => 'required',
         ]);
         if ($validate->fails()) {
-            return response(['message'=> $validate->errors()],400);
+            return response(['message' => $validate->errors()], 400);
         }
 
         $idUser = Auth::id();
         $user = Pegawai::find($idUser);
-        if(is_null($user)){
+        if (is_null($user)) {
             return response([
                 'message' => 'User Not Found'
-            ],404);
+            ], 404);
         }
 
 
-        $DetailDonasi =Detail_Donasi::create($storeData);
+        $DetailDonasi = Detail_Donasi::create($storeData);
         return response([
             'message' => 'DetailDonasi Added Successfully',
             'data' => $DetailDonasi,
-        ],200);
+        ], 200);
     }
 
     /**
@@ -88,19 +89,19 @@ class DetailDonasiController extends Controller
      */
     public function show(string $id)
     {
-        $DetailDonasi =Detail_Donasi::find($id);
+        $DetailDonasi = Detail_Donasi::find($id);
 
-        if($DetailDonasi){
+        if ($DetailDonasi) {
             return response([
                 'message' => 'DetailDonasi Found',
                 'data' => $DetailDonasi
-            ],200);
+            ], 200);
         }
 
         return response([
             'message' => 'DetailDonasi Not Found',
             'data' => null
-        ],404);
+        ], 404);
     }
 
     /**
@@ -108,38 +109,38 @@ class DetailDonasiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $DetailDonasi =Detail_Donasi::find($id);
-        if(is_null($DetailDonasi)){
+        $DetailDonasi = Detail_Donasi::find($id);
+        if (is_null($DetailDonasi)) {
             return response([
                 'message' => 'DetailDonasi Not Found',
                 'data' => null
-            ],404);
+            ], 404);
         }
 
         $updateData = $request->all();
 
-        $validate = Validator::make($updateData,[
+        $validate = Validator::make($updateData, [
             'id_donasi' => 'required',
             'id_barang' => 'required',
             'id_penitip' => 'required',
         ]);
         if ($validate->fails()) {
-            return response(['message'=> $validate->errors()],400);
+            return response(['message' => $validate->errors()], 400);
         }
         $idUser = Auth::id();
         $user = Pegawai::find($idUser);
-        if(is_null($user)){
+        if (is_null($user)) {
             return response([
                 'message' => 'User Not Found'
-            ],404);
+            ], 404);
         }
-        
+
         $DetailDonasi->update($updateData);
 
         return response([
             'message' => 'DetailDonasi Updated Successfully',
             'data' => $DetailDonasi,
-        ],200);
+        ], 200);
     }
 
     /**
@@ -147,25 +148,25 @@ class DetailDonasiController extends Controller
      */
     public function destroy(string $id)
     {
-        $DetailDonasi =Detail_Donasi::find($id);
+        $DetailDonasi = Detail_Donasi::find($id);
 
-        if(is_null($DetailDonasi)){
+        if (is_null($DetailDonasi)) {
             return response([
                 'message' => 'DetailDonasi Not Found',
                 'data' => null
-            ],404);
+            ], 404);
         }
 
-        if($DetailDonasi->delete()){
+        if ($DetailDonasi->delete()) {
             return response([
                 'message' => 'DetailDonasi Deleted Successfully',
                 'data' => $DetailDonasi,
-            ],200);
+            ], 200);
         }
 
         return response([
             'message' => 'DeleteDetail_Donasi Failed',
             'data' => null,
-        ],400);
+        ], 400);
     }
 }

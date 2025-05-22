@@ -72,9 +72,9 @@ class AlamatController extends Controller
             'id_pembeli' => 'required',
             'no_telp' => 'required',
             'title' => 'required',
-            'default'=> 'required',
-            'deskripsi'=> 'required',
-            'alamat'=> 'required',
+            'default' => 'required',
+            'deskripsi' => 'required',
+            'alamat' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -111,8 +111,8 @@ class AlamatController extends Controller
             'no_telp' => 'required',
             'title' => 'required',
             // 'default'=> 'required',
-            'deskripsi'=> 'required',
-            'alamat'=> 'required',
+            'deskripsi' => 'required',
+            'alamat' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -124,7 +124,7 @@ class AlamatController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        $storeData['id_pembeli']=$user->id_pembeli;
+        $storeData['id_pembeli'] = $user->id_pembeli;
         $lastId = Alamat::latest('id_alamat')->first();
         $newId = $lastId ? 'A-' . str_pad((int) substr($lastId->id_alamat, 2) + 1, 4, '0', STR_PAD_LEFT) : 'A-0001';
         $storeData['id_alamat'] = $newId;
@@ -175,9 +175,9 @@ class AlamatController extends Controller
             'id_pembeli' => 'required',
             'no_telp' => 'required',
             'title' => 'required',
-            'default'=> 'required',
-            'deskripsi'=> 'required',
-            'alamat'=> 'required',
+            'default' => 'required',
+            'deskripsi' => 'required',
+            'alamat' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -217,9 +217,9 @@ class AlamatController extends Controller
         $validate = Validator::make($updateData, [
             'no_telp' => 'required',
             'title' => 'required',
-            'default'=> 'required',
-            'deskripsi'=> 'required',
-            'alamat'=> 'required',
+            'default' => 'required',
+            'deskripsi' => 'required',
+            'alamat' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);

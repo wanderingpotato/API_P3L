@@ -9,7 +9,7 @@ class gallery extends Model
 {
     //
     use HasFactory;
-    public $incrementing=false;
+    public $incrementing = false;
     /**
      * The attributes that are mass assignable.
      *
@@ -37,9 +37,9 @@ class gallery extends Model
     //relationship
     public function Penitipan_Barang()
     {
-        return $this->belongsTo(Penitipan_Barang::class,'id_barang');
+        return $this->belongsTo(Penitipan_Barang::class, 'id_barang');
     }
-    
+
     /**
      * Get the attributes that should be cast.
      *

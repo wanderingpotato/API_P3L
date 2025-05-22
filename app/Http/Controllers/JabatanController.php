@@ -65,7 +65,6 @@ class JabatanController extends Controller
             'message' => 'All JenisKamar Retrieved',
             'data' => $data
         ], 200);
-    
     }
     /**
      * Store a newly created resource in storage.

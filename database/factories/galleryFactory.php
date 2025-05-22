@@ -22,7 +22,7 @@ class galleryFactory extends Factory
             //
             'id_gallery' => fake()->unique()->numerify('GL-####'),
             'title' => fake()->word(),
-            'foto'=>fake()->word() . '.png',
+            'foto' => fake()->word() . '.png',
             'id_barang' => fake()->randomElement($BarangId),
         ];
     }

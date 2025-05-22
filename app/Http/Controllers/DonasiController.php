@@ -26,7 +26,7 @@ class DonasiController extends Controller
             ->join('detail__donasis as dd', 'b.Id_barang', '=', 'dd.Id_barang')
             ->join('donasis as d', 'dd.Id_donasi', '=', 'd.Id_donasi')
             ->join('organisasis as o', 'd.Id_organisasi', '=', 'o.Id_organisasi')
-            ->select('b.Nama_Barang', 'b.Harga_barang', 'b.Id_kategori', 'b.Deskripsi','b.Status', 'o.name')
+            ->select('b.Nama_Barang', 'b.Harga_barang', 'b.Id_kategori', 'b.Deskripsi', 'b.Status', 'o.name')
             ->where('o.Id_organisasi', 1)
             ->get();
 
@@ -325,7 +325,7 @@ class DonasiController extends Controller
                 'id_donasi' => 'required',
                 'id_barang' => 'required',
             ]);
-            $storeChildData['id_penitip']=$Detail_Pembelian->id_penitip;
+            $storeChildData['id_penitip'] = $Detail_Pembelian->id_penitip;
             if ($validate->fails()) {
                 return response(['message' => $validate->errors()], 400);
             }
@@ -373,7 +373,7 @@ class DonasiController extends Controller
             $storeChildData['id_barang'] = $updateData['id_barang'];
             $storeChildData['id_donasi'] = $id;
             $Detail_Pembelian = Penitipan_Barang::find($storeChildData['id_barang']);
-             $storeChildData['id_penitip']=$Detail_Pembelian->id_penitip;
+            $storeChildData['id_penitip'] = $Detail_Pembelian->id_penitip;
             if (is_null($Detail_Pembelian)) {
                 return response([
                     'message' => 'Barber Not found',
@@ -411,7 +411,7 @@ class DonasiController extends Controller
             'tanggal_diberikan' => 'nullable',
             'tanggal_request' => 'required',
             'deskripsi' => 'required',
-            'konfirmasi'=>'required',
+            'konfirmasi' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);

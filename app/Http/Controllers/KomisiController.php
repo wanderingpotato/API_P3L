@@ -124,7 +124,6 @@ class KomisiController extends Controller
                 $StoreTambah['total'] = $DataPenjualan->total + $total;
                 $DataPenjualan->update($StoreTambah);
             }
-            
         }
 
         return response([
