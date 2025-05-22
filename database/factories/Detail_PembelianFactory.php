@@ -25,7 +25,7 @@ class Detail_PembelianFactory extends Factory
             'id_barang' => fake()->randomElement($BarangId),
             'id_pembelian' => fake()->randomElement($PembelianId),
             'id_penitip' => function (array $attributes) {
-                return Penitipan_Barang::find($attributes['id_barang'])->Id_Penitip;
+                return Penitipan_Barang::find($attributes['id_barang'])->id_penitip;
             },
             //
         ];
