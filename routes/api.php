@@ -100,16 +100,16 @@ Route::get('/Pembelian/Show/{id}', [PembelianController::class, 'show']);
 // Route::get('/filterbymonth', [PembelianController::class, 'filterbymonth']);
 
 Route::middleware('auth:sanctum')->group(function () {
-  Route::post('/EditUserPenitip', [PenitipController::class, 'update']);
+  Route::post('/EditUserPenitip', [PenitipController::class, 'edit']);
   Route::post('/logoutPenitip', [PenitipController::class, 'logout']);
 
-  Route::post('/EditUserPembeli', [PembeliController::class, 'update']);
+  Route::post('/EditUserPembeli', [PembeliController::class, 'edit']);
   Route::post('/logoutPembeli', [PembeliController::class, 'logout']);
 
-  Route::post('/EditOrganisasi', [OrganisasiController::class, 'update']);
+  Route::post('/EditOrganisasi', [OrganisasiController::class, 'edit']);
   Route::post('/logoutOrganisasi', [OrganisasiController::class, 'logout']);
 
-  Route::post('/EditPegawai', [PegawaiController::class, 'update']);
+  Route::post('/EditPegawai', [PegawaiController::class, 'edit']);
   Route::post('/logoutPegawai', [PegawaiController::class, 'logout']);
 
   //Penitipan Barang
