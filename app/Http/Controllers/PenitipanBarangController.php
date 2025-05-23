@@ -225,7 +225,7 @@ class PenitipanBarangController extends Controller
             'id_pegawai' => '',
             'nama_barang' => 'required',
             'di_perpanjang' => 'required',
-            'diliver_Here' => 'required',
+            'diliverere' => 'required',
             'hunter' => 'required',
             'status' => 'required',
             'harga_barang' => 'required',
