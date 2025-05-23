@@ -46,7 +46,7 @@ class KategoriBarangController extends Controller
     }
     public function showKategoriBarangWithPenitipanBarangByKategori_BarangId(string $id)
     {
-        $Kategori_Barang = Kategori_Barang::with('penitipan__barangs')->find($id);
+        $Kategori_Barang = Kategori_Barang::with('Penitipan_Barang')->find($id);
 
         if ($Kategori_Barang) {
             return response([
@@ -62,7 +62,7 @@ class KategoriBarangController extends Controller
     }
     public function showKategoriBarangWithPenitipanBarang()
     {
-        $data = Kategori_Barang::with('penitipan__barangs')->get();
+        $data = Kategori_Barang::with('Penitipan_Barang')->get();
 
         return response([
             'message' => 'All Kategori Barang Retrieved',

@@ -68,8 +68,8 @@ Route::middleware('auth:sanctum')->group(function () {
   //KategoriBarang
   Route::post('/KategoriBarang', [KategoriBarangController::class, 'store']);
   Route::post('/KategoriBarang/{id}', [KategoriBarangController::class, 'update']);
-  Route::get('/KategoriBarang/PenitipanBarang/{id}', [KategoriBarangController::class, 'showKategoriBarangWithPenitipanBarangByKategori_BarangId']);
   Route::get('/KategoriBarang/PenitipanBarang/', [KategoriBarangController::class, 'showKategoriBarangWithPenitipanBarang']);
+  Route::get('/KategoriBarang/PenitipanBarang/{id}', [KategoriBarangController::class, 'showKategoriBarangWithPenitipanBarangByKategori_BarangId']);
   Route::delete('/KategoriBarang/{id}', [KategoriBarangController::class, 'destroy']);
   
   //Jabatan
