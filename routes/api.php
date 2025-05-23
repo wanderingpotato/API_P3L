@@ -127,13 +127,13 @@ Route::middleware('auth:sanctum')->group(function () {
   //KlaimMerchandise
   Route::post('/KlaimMerchandise', [KlaimMerchandiseController::class, 'store']);
   Route::post('/KlaimMerchandise/Dashboard', [KlaimMerchandiseController::class, 'storeDashboard']);
+  Route::get('/KlaimMerchandise/Penitip/', [KlaimMerchandiseController::class, 'getDataByPenitipId']);
+  Route::get('/KlaimMerchandise/Pembeli/', [KlaimMerchandiseController::class, 'getDataByPembeliId']);
+  Route::get('/KlaimMerchandise/Count/Penitip/', [KlaimMerchandiseController::class, 'countKlaimByPenitip']);
+  Route::get('/KlaimMerchandise/Count/Pembeli/', [KlaimMerchandiseController::class, 'countKlaimByPembeli']);
   Route::post('/KlaimMerchandise/{id}', [KlaimMerchandiseController::class, 'update']);
   Route::post('/KlaimMerchandise/Dashboard/{id}', [KlaimMerchandiseController::class, 'updateDashboard']);
   Route::post('/KlaimMerchandise/Status/{id}', [KlaimMerchandiseController::class, 'UpdateStatus']);
-  Route::get('/KlaimMerchandise/Penitip/{id}', [KlaimMerchandiseController::class, 'getDataByPenitipId']);
-  Route::get('/KlaimMerchandise/Pembeli/{id}', [KlaimMerchandiseController::class, 'getDataByPembeliId']);
-  Route::get('/KlaimMerchandise/Count/Penitip/{id}', [KlaimMerchandiseController::class, 'countKlaimByPenitip']);
-  Route::get('/KlaimMerchandise/Count/Pembeli/{id}', [KlaimMerchandiseController::class, 'countKlaimByPembeli']);
   Route::delete('/KlaimMerchandise/{id}', [KlaimMerchandiseController::class, 'destroy']);
   
   //Diskusi

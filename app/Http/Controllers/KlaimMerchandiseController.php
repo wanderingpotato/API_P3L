@@ -72,7 +72,7 @@ class KlaimMerchandiseController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        $data = Klaim_Merchandise::where('Id_Pembeli', $idUser)->get();
+        $data = Klaim_Merchandise::where('id_pembeli', $idUser)->get();
         if ($data->isNotEmpty()) {
             return response([
                 'message' => 'Data Klaim Merchandise Retrieved Successfully',
@@ -154,8 +154,8 @@ class KlaimMerchandiseController extends Controller
         }
 
         $Klaim_Merchandise = Klaim_Merchandise::create($storeData);
-        $pointBarang = Merchandise::where('id_merchandise', $storeData['id_merchandise'])->get();
-        $updateData['poin'] = $user->poin - ($pointBarang->Poin * $storeData['jumlah']);
+        $pointBarang = Merchandise::where('id_merchandise', $storeData['id_merchandise'])->first();
+        $updateData['poin'] = $user->poin - ($pointBarang->poin * $storeData['jumlah']);
         $user->update($updateData);
         $updateBarang['stock'] = $pointBarang->Stock - $storeData['jumlah'];
         $pointBarang->update($updateBarang);
@@ -199,7 +199,7 @@ class KlaimMerchandiseController extends Controller
 
 
         $Klaim_Merchandise = Klaim_Merchandise::create($storeData);
-        $pointBarang = Merchandise::where('id_merchandise', $storeData['id_merchandise'])->get();
+        $pointBarang = Merchandise::where('id_merchandise', $storeData['id_merchandise'])->first();
         $userP = Pembeli::find($storeData['id_pembeli']);
         if (is_null($userP)) {
             $userP = Penitip::find($storeData['id_penitip']);
@@ -274,22 +274,23 @@ class KlaimMerchandiseController extends Controller
             }
             $updateData['id_penitip'] = $user->id_penitip;
         } else {
-            $updateData['id_Pembeli'] = $user->id_Pembeli;
+            $updateData['id_pembeli'] = $user->id_pembeli;
         }
 
-        $Klaim_Merchandise->update($updateData);
 
-        $pointBarang = Merchandise::where('id_merchandise', $Klaim_Merchandise->id_merchandise)->get();
-        if ($request->has('id_merchandise')  && $request->id_merchandise != null) {
+        $pointBarang = Merchandise::where('id_merchandise', $Klaim_Merchandise->id_merchandise)->first();
+        if ($request->has('id_merchandise')  && $request->id_merchandise != null && $request->id_merchandise != $Klaim_Merchandise->id_merchandise) {
             $updateData['id_merchandise'] = $request->id_merchandise;
-            $pointBarang1 = Merchandise::where('id_merchandise', $updateData['id_merchandise'])->get();
+            $pointBarang1 = Merchandise::where('id_merchandise', $updateData['id_merchandise'])->first();
             $updatePoint['poin'] = ($user->poin + ($pointBarang->poin * $Klaim_Merchandise->jumlah)) - ($pointBarang1->poin * $updateData['jumlah']);
             $updateBarang['stock'] = ($pointBarang->stock + $Klaim_Merchandise->jumlah);
-            $updateBarang['stock'] = $pointBarang1->stock - $updateData['jumlah'];
+            $pointBarang1->stock = $pointBarang1->stock - $updateData['jumlah'];
+            $pointBarang1->update();
         } else {
             $updatePoint['poin'] = ($user->poin + ($pointBarang->poin * $Klaim_Merchandise->jumlah)) - ($pointBarang->poin * $updateData['jumlah']);
             $updateBarang['stock'] = ($pointBarang->stock + $Klaim_Merchandise->jumlah) - $updateData['jumlah'];
         }
+        $Klaim_Merchandise->update($updateData);
         $user->update($updatePoint);
         $pointBarang->update($updateBarang);
 
@@ -370,31 +371,58 @@ class KlaimMerchandiseController extends Controller
                 'message' => 'User Cannot'
             ], 404);
         }
-
-        $Klaim_Merchandise->update($updateData);
-        $userP = Pembeli::find($updateData['id_Pembeli']);
-        if (is_null($userP)) {
-            $userP = Penitip::find($updateData['id_penitip']);
-            if (is_null($userP)) {
+        $user1 = Pembeli::find($Klaim_Merchandise->id_pembeli);
+        if (is_null($user1)) {
+            $user1 = Penitip::find($Klaim_Merchandise->id_penitip);
+            if (is_null($user1)) {
                 return response([
                     'message' => 'User Not Found'
                 ], 404);
             }
         }
-        $pointBarang = Merchandise::where('id_merchandise', $Klaim_Merchandise->id_merchandise)->get();
-        if ($request->has('id_merchandise')  && $request->id_merchandise != null) {
-            $updateData['id_merchandise'] = $request->id_merchandise;
-            $pointBarang1 = Merchandise::where('id_merchandise', $updateData['id_merchandise'])->get();
-            $updatePoint['poin'] = ($userP->poin + ($pointBarang->poin * $Klaim_Merchandise->jumlah)) - ($pointBarang1->poin * $updateData['jumlah']);
-            $updateBarang['stock'] = ($pointBarang->stock + $Klaim_Merchandise->jumlah);
-            $updateBarang['stock'] = $pointBarang1->stock - $updateData['jumlah'];
+        if ($request->has('id_penitip') || $request->has('id_pembeli')) {
+            $userP = Pembeli::find($request->id_pembeli);
+            if (is_null($userP)) {
+                $userP = Penitip::find($request->id_penitip);
+                if (is_null($userP)) {
+                    return response([
+                        'message' => 'User Not Found'
+                    ], 404);
+                }
+            }
+            $pointBarang = Merchandise::where('id_merchandise', $Klaim_Merchandise->id_merchandise)->first();
+            if ($request->has('id_merchandise')  && $request->id_merchandise != null && $request->id_merchandise != $Klaim_Merchandise->id_merchandise) {
+                $updateData['id_merchandise'] = $request->id_merchandise;
+                $pointBarang1 = Merchandise::where('id_merchandise', $updateData['id_merchandise'])->first();
+                $user1->poin = $user1->point + ($pointBarang->poin * $Klaim_Merchandise->jumlah);
+                $updatePoint['poin'] = $userP->poin - ($pointBarang1->poin * $updateData['jumlah']);
+                $updateBarang['stock'] = ($pointBarang->stock + $Klaim_Merchandise->jumlah);
+                $pointBarang1->stock = $pointBarang1->stock - $updateData['jumlah'];
+                $pointBarang1->update();
+            } else {
+                $user1->poin = $user1->point + ($pointBarang->poin * $Klaim_Merchandise->jumlah);
+                $updatePoint['poin'] = $userP->poin - ($pointBarang->poin * $updateData['jumlah']);
+                $updateBarang['stock'] = ($pointBarang->stock + $Klaim_Merchandise->jumlah) - $updateData['jumlah'];
+            }
+            $userP->update($updatePoint);
+            $pointBarang->update($updateBarang);
         } else {
-            $updatePoint['poin'] = ($userP->poin + ($pointBarang->poin * $Klaim_Merchandise->jumlah)) - ($pointBarang->poin * $updateData['jumlah']);
-            $updateBarang['stock'] = ($pointBarang->stock + $Klaim_Merchandise->jumlah) - $updateData['jumlah'];
+            $pointBarang = Merchandise::where('id_merchandise', $Klaim_Merchandise->id_merchandise)->first();
+            if ($request->has('id_merchandise')  && $request->id_merchandise != null && $request->id_merchandise != $Klaim_Merchandise->id_merchandise) {
+                $updateData['id_merchandise'] = $request->id_merchandise;
+                $pointBarang1 = Merchandise::where('id_merchandise', $updateData['id_merchandise'])->first();
+                $updatePoint['poin'] = ($user1->poin + ($pointBarang->poin * $Klaim_Merchandise->jumlah)) - ($pointBarang1->poin * $updateData['jumlah']);
+                $updateBarang['stock'] = ($pointBarang->stock + $Klaim_Merchandise->jumlah);
+                $pointBarang1->stock = $pointBarang1->stock - $updateData['jumlah'];
+                $pointBarang1->update();
+            } else {
+                $updatePoint['poin'] = ($user1->poin + ($pointBarang->poin * $Klaim_Merchandise->jumlah)) - ($pointBarang->poin * $updateData['jumlah']);
+                $updateBarang['stock'] = ($pointBarang->stock + $Klaim_Merchandise->jumlah) - $updateData['jumlah'];
+            }
+            $user1->update($updatePoint);
         }
-        $userP->update($updatePoint);
-        $pointBarang->update($updateBarang);
 
+        $Klaim_Merchandise->update($updateData);
         return response([
             'message' => 'Klaim Merchandise Updated Successfully',
             'data' => $Klaim_Merchandise,
@@ -413,7 +441,7 @@ class KlaimMerchandiseController extends Controller
                 'data' => null
             ], 404);
         }
-        $pointBarang = Merchandise::where('id_merchandise', $Klaim_Merchandise->id_merchandise)->get();
+        $pointBarang = Merchandise::where('id_merchandise', $Klaim_Merchandise->id_merchandise)->first();
         $userP = Pembeli::find($Klaim_Merchandise->id_pembeli);
         if (is_null($userP)) {
             $userP = Penitip::find($Klaim_Merchandise->id_penitip);
