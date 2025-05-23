@@ -43,7 +43,7 @@ class JabatanController extends Controller
     }
     public function showJabatanWithPegawaiByJabatanId(string $id)
     {
-        $Jabatan = Jabatan::with('pegawais')->find($id);
+        $Jabatan = Jabatan::with('Pegawai')->find($id);
 
         if ($Jabatan) {
             return response([
@@ -59,7 +59,7 @@ class JabatanController extends Controller
     }
     public function showJabatanWithPegawai()
     {
-        $data = Jabatan::with('pegawais')->get();
+        $data = Jabatan::with('Pegawai')->get();
 
         return response([
             'message' => 'All JenisKamar Retrieved',

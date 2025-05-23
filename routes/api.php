@@ -74,9 +74,9 @@ Route::middleware('auth:sanctum')->group(function () {
   
   //Jabatan
   Route::post('/Jabatan', [JabatanController::class, 'store']);
+  Route::get('/Jabatan/Pegawai', [JabatanController::class, 'showJabatanWithPegawai']);
   Route::post('/Jabatan/{id}', [JabatanController::class, 'update']);
   Route::get('/Jabatan/Pegawai/{id}', [JabatanController::class, 'showJabatanWithPegawaiByJabatanId']);
-  Route::get('/Jabatan/Pegawai', [JabatanController::class, 'showJabatanWithPegawai']);
   Route::delete('/Jabatan/{id}', [JabatanController::class, 'destroy']);
   
   //Alamat
