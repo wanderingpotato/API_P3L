@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class PenitipanBarangController extends Controller
 {
@@ -95,7 +96,7 @@ class PenitipanBarangController extends Controller
                 'data' => null
             ], 404);
         }
-        
+
         $PenitipanBarang = Penitipan_Barang::where('id_penitip', $user->id_penitip)->get();
         return response([
             'message' => 'Penitipan Barang of ' . $user->name . ' Retrieved',
@@ -146,8 +147,8 @@ class PenitipanBarangController extends Controller
             'harga_barang' => 'required',
             'rating' => '',
             'tanggal_penitipan' => 'required',
-            'tanggal_kadaluarsa' => 'required',
-            'batas_ambil' => 'required',
+            'tanggal_kadaluarsa' => '',
+            'batas_ambil' => '',
             'tanggal_laku' => '',
             'tanggal_rating' => '',
             'garansi' => '',
@@ -157,6 +158,13 @@ class PenitipanBarangController extends Controller
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
         }
+
+        $tanggalMasuk = Carbon::parse($storeData['tanggal_penitipan']);
+        $tanggalKadaluarsa = $tanggalMasuk->copy()->addDays(30);
+        $storeData['tanggal_kadaluarsa'] = $tanggalMasuk->addDays(30)->toDateString();
+
+        $batasAmbil = $tanggalKadaluarsa->copy()->addDays(7);
+        $storeData['batas_ambil'] = $batasAmbil->toDateString();
 
         $idUser = Auth::id();
         $user = Pegawai::find($idUser);
@@ -235,8 +243,8 @@ class PenitipanBarangController extends Controller
             'harga_barang' => 'required',
             'rating' => '',
             'tanggal_penitipan' => 'required',
-            'tanggal_kadaluarsa' => 'required',
-            'batas_ambil' => 'required',
+            'tanggal_kadaluarsa' => '',
+            'batas_ambil' => '',
             'tanggal_laku' => '',
             'tanggal_rating' => '',
             'garansi' => '',
@@ -245,6 +253,15 @@ class PenitipanBarangController extends Controller
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
         }
+
+        $tanggalMasuk = Carbon::parse($updateData['tanggal_penitipan']);
+        $tanggalKadaluarsa = $tanggalMasuk->copy()->addDays(30);
+        $updateData['tanggal_kadaluarsa'] = $tanggalKadaluarsa->toDateString();
+
+        // Hitung batas_ambil = tanggal_kadaluarsa + 7 hari
+        $batasAmbil = $tanggalKadaluarsa->copy()->addDays(7);
+        $updateData['batas_ambil'] = $batasAmbil->toDateString();
+
         $idUser = Auth::id();
         $user = Pegawai::find($idUser);
         if (is_null($user)) {
