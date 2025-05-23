@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('galleries', function (Blueprint $table) {
             $table->string('id_gallery')->primary();
-            // $table->string('title');
             $table->text('foto');
             $table->string('id_barang');
             $table->foreign('id_barang')->references('id_barang')->on('penitipan__barangs')->onDelete('cascade');

@@ -318,7 +318,7 @@ class PegawaiController extends Controller
             'data' => $user,
         ], 200);
     }
-    public function countUser()
+    public function countPegawai()
     {
         $count = Pegawai::count();
         return response([

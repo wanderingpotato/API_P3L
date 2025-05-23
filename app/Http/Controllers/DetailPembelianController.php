@@ -87,7 +87,7 @@ class DetailPembelianController extends Controller
      */
     public function show(string $id)
     {
-        $DetailPembelian = Detail_Pembelian::find($id);
+        $DetailPembelian = Detail_Pembelian::where('id_pembelian', $id)->get();
 
         if ($DetailPembelian) {
             return response([

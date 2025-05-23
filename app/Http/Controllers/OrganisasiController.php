@@ -316,7 +316,7 @@ class OrganisasiController extends Controller
             'data' => $user,
         ], 200);
     }
-    public function countUser()
+    public function countOrganisasi()
     {
         $count = Organisasi::count();
         return response([

@@ -344,7 +344,7 @@ class PenitipController extends Controller
             'data' => $user,
         ], 200);
     }
-    public function countUser()
+    public function countPenitip()
     {
         $count = Penitip::count();
         return response([
@@ -365,7 +365,7 @@ class PenitipController extends Controller
                 'data' => null
             ], 404);
         }
-        $updateData['password'] = bcrypt("2000-01-05");
+        $updateData['password'] = bcrypt("2000-01-05"); // di ganti ke request pass
         $User->update($updateData);
 
         return response([
