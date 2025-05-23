@@ -73,7 +73,7 @@ class DonasiController extends Controller
     public function getDataWithPenitipanBarangById($id)
     {
         $data = Donasi::with(['Detail_Donasi', 'DetailDonasis.Barang'])->find($id);
-        if ($data->isNotEmpty()) {
+        if ($data) {
             return response([
                 'message' => 'Data Retrieved Successfully',
                 'data' => $data
@@ -87,8 +87,8 @@ class DonasiController extends Controller
     }
     public function getDataWithPenitipanBarangByIdOrganisasi($id)
     {
-        $data = Donasi::with('penitipan__barangs')->where('id_organisasi', $id)->get();
-        if ($data->isNotEmpty()) {
+        $data = Donasi::with('Detail_Donasi')->where('id_organisasi', $id)->get();
+        if ($data) {
             return response([
                 'message' => 'Data Retrieved Successfully',
                 'data' => $data
@@ -353,24 +353,26 @@ class DonasiController extends Controller
             ], 404);
         }
         $Donasi->update($updateData);
-        foreach ($request->Data as $items) {
-            $storeChildData = $items;
-            $storeChildData['id_donasi'] = $id;
-            $Detail_Pembelian = Penitipan_Barang::find($items['id_barang']);
-            if (is_null($Detail_Pembelian)) {
-                return response([
-                    'message' => 'Barber Not found',
-                ], 404);
+        if($request->Data!=null){
+            foreach ($request->Data as $items) {
+                $storeChildData = $items;
+                $storeChildData['id_donasi'] = $id;
+                $Detail_Pembelian = Penitipan_Barang::find($items['id_barang']);
+                if (is_null($Detail_Pembelian)) {
+                    return response([
+                        'message' => 'Barber Not found',
+                    ], 404);
+                }
+                $validate = Validator::make($storeChildData, [
+                    'id_donasi' => 'required',
+                    'id_barang' => 'required',
+                ]);
+                $storeChildData['id_penitip'] = $Detail_Pembelian->id_penitip;
+                if ($validate->fails()) {
+                    return response(['message' => $validate->errors()], 400);
+                }
+                Detail_Donasi::create($storeChildData);
             }
-            $validate = Validator::make($storeChildData, [
-                'id_donasi' => 'required',
-                'id_barang' => 'required',
-            ]);
-            $storeChildData['id_penitip'] = $Detail_Pembelian->id_penitip;
-            if ($validate->fails()) {
-                return response(['message' => $validate->errors()], 400);
-            }
-            Detail_Donasi::create($storeChildData);
         }
         return response([
             'message' => 'Donasi Updated Successfully',
