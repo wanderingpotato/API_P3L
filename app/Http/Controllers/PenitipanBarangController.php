@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Detail_Pembelian;
 use App\Models\Pegawai;
 use App\Models\Pembeli;
 use App\Models\Penitip;
@@ -61,7 +62,7 @@ class PenitipanBarangController extends Controller
         $ratingBarang = Penitipan_Barang::where('id_penitip', $user->id_penitip)->where('status', 'DiBeli')
             ->where('rating', '!=', 0)->count();
 
-        $updateData['Ratarating'] = ($user->Ratarating * ($ratingBarang - 1)) + ($request->input('rating')/ $ratingBarang);
+        $updateData['Ratarating'] = ($user->Ratarating * ($ratingBarang - 1)) + ($request->input('rating') / $ratingBarang);
 
         $user->update($updateData);
         return response([
@@ -94,6 +95,7 @@ class PenitipanBarangController extends Controller
                 'data' => null
             ], 404);
         }
+        
         $PenitipanBarang = Penitipan_Barang::where('id_penitip', $user->id_penitip)->get();
         return response([
             'message' => 'Penitipan Barang of ' . $user->name . ' Retrieved',
@@ -109,7 +111,9 @@ class PenitipanBarangController extends Controller
                 'data' => null
             ], 404);
         }
-        $PenitipanBarang = Penitipan_Barang::where('Id_Pembeli', $user->id_penitip)->get();
+        $pembelianIds = $user->Pembelian()->pluck('id_pembelian');
+        $barangIds = Detail_Pembelian::whereIn('id_pembelian', $pembelianIds)->pluck('id_barang');
+        $PenitipanBarang = Penitipan_Barang::whereIn('id_barang', $barangIds)->get();
         return response([
             'message' => 'Penitipan Barang of ' . $user->name . ' Retrieved',
             'data' => $PenitipanBarang
