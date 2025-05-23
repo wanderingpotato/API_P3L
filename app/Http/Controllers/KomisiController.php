@@ -109,7 +109,7 @@ class KomisiController extends Controller
         $Komisi = Komisi::create($storeData);
 
         if ($request->has('id_penitip')  && $request->id_penitip != null) {
-            $Penitip = Penitip::where('id_penitip', $request->id_penitip)->get();
+            $Penitip = Penitip::find($request->id_penitip);
             $UpdateDataPenitip['saldo'] = $Penitip->saldo + $storeData['komisi_penitip'];
             $total =  $storeData['komisi_penitip'];
             if ($request->has('bonus_penitip')  && $request->bonus_penitip != null) {
@@ -118,7 +118,7 @@ class KomisiController extends Controller
             }
             $Penitip->update($UpdateDataPenitip);
             $currentDate = Carbon::now();
-            $DataPenjualan = Detail_Pendapatan::whereMonth('month', $currentDate->month())->get();
+            $DataPenjualan = Detail_Pendapatan::whereMonth('month', $currentDate->month())->first();
             if (is_null($DataPenjualan)) {
                 $StoreTambah['id_penitip'] = $request->id_penitip;
                 $StoreTambah['total'] = $total;
@@ -194,18 +194,64 @@ class KomisiController extends Controller
             ], 404);
         }
 
-        $Komisi->update($updateData);
 
-        if ($request->has('id_penitip')  && $request->id_penitip != null) {
-            $Penitip = Penitip::where('id_penitip', $request->id_penitip)->get();
+
+        if ($request->has('id_penitip')  && $request->id_penitip != null && $request->has('id_penitip') != $Komisi->id_penitip) {
+            //ini kurangi yang lama dulu
+            $KomisiLama = Penitip::find($Komisi->id_penitip);
+            $KomisiLama->saldo = ($KomisiLama->saldo - $Komisi->komisi_penitip);
+            $totalLama =  $Komisi->komisi_penitip;
+            if ($request->has('bonus_penitip')  && $request->bonus_penitip != null) {
+                $KomisiLama->saldo = $KomisiLama->saldo - $Komisi->bonus_penitip;
+                $totalLama = $totalLama +  $Komisi->bonus_penitip;
+            }
+            $KomisiLama->update();
+            $currentDate = Carbon::now();
+            $DataPenjualan = Detail_Pendapatan::whereMonth('month', $currentDate->month())->first();
+            if (is_null($DataPenjualan)) {
+                $StoreTambah['id_penitip'] = $request->id_penitip;
+                $StoreTambah['total'] = 0;
+                $StoreTambah['month'] = $currentDate->toDateString();
+                $StoreTambah['bonus_pendapatan'] = 0;
+                Detail_Pendapatan::create($StoreTambah);
+            } else {
+                $StoreTambah['id_penitip'] = $request->id_penitip;
+                $StoreTambah['total'] = $DataPenjualan->total - $totalLama;
+                $DataPenjualan->update($StoreTambah);
+            }
+            //ini tambah yang baru ( ganti penitip )
+            $Penitip = Penitip::find($request->id_penitip);
+            $Penitip->saldo = $Penitip->saldo + $updateData['komisi_penitip'];
+            $total =  $updateData['komisi_penitip'];
+            if ($request->has('bonus_penitip')  && $request->bonus_penitip != null) {
+                $Penitip->saldo = $Penitip->saldo +  $updateData['bonus_penitip'];
+                $total = $total +  $updateData['bonus_penitip'];
+            }
+            $Penitip->update();
+            $currentDate = Carbon::now();
+            $DataPenjualan = Detail_Pendapatan::whereMonth('month', $currentDate->month())->first();
+            if (is_null($DataPenjualan)) {
+                $StoreTambah['id_penitip'] = $request->id_penitip;
+                $StoreTambah['total'] = $total;
+                $StoreTambah['month'] = $currentDate->toDateString();
+                $StoreTambah['bonus_pendapatan'] = 0;
+                Detail_Pendapatan::create($StoreTambah);
+            } else {
+                $StoreTambah['id_penitip'] = $request->id_penitip;
+                $StoreTambah['total'] = $DataPenjualan->total + $total;
+                $DataPenjualan->update($StoreTambah);
+            }
+        } else {
+            $Penitip = Penitip::find($Komisi->id_penitip);
             $Penitip->saldo = ($Penitip->saldo - $Komisi->komisi_penitip) + $updateData['komisi_penitip'];
             $total =  $updateData['komisi_penitip'];
             if ($request->has('bonus_penitip')  && $request->bonus_penitip != null) {
                 $Penitip->saldo = ($Penitip->saldo - $Komisi->bonus_penitip) +  $updateData['bonus_penitip'];
                 $total = $total +  $updateData['bonus_penitip'];
             }
+            $Penitip->update();
             $currentDate = Carbon::now();
-            $DataPenjualan = Detail_Pendapatan::whereMonth('month', $currentDate->month())->get();
+            $DataPenjualan = Detail_Pendapatan::whereMonth('month', $currentDate->month())->first();
             if (is_null($DataPenjualan)) {
                 $StoreTambah['id_penitip'] = $request->id_penitip;
                 $StoreTambah['total'] = $total;
@@ -218,7 +264,7 @@ class KomisiController extends Controller
                 $DataPenjualan->update($StoreTambah);
             }
         }
-
+        $Komisi->update($updateData);
         return response([
             'message' => 'Komisi Updated Successfully',
             'data' => $Komisi,
@@ -231,7 +277,29 @@ class KomisiController extends Controller
     public function destroy(string $id)
     {
         $Komisi = Komisi::find($id);
-
+        //Kurangi Saldo Penitip
+        $KomisiLama = Penitip::find($Komisi->id_penitip);
+        $KomisiLama->saldo = ($KomisiLama->saldo - $Komisi->komisi_penitip);
+        $totalLama =  $Komisi->komisi_penitip;
+        if ($Komisi->bonus_penitip != null) {
+            $KomisiLama->saldo = $KomisiLama->saldo - $Komisi->bonus_penitip;
+            $totalLama = $totalLama +  $Komisi->bonus_penitip;
+        }
+        $KomisiLama->update();
+        $currentDate = Carbon::now();
+        $DataPenjualan = Detail_Pendapatan::whereMonth('month', $currentDate->month())->first();
+        if (is_null($DataPenjualan)) {
+            $StoreTambah['id_penitip'] = $Komisi->id_penitip;
+            $StoreTambah['total'] = 0;
+            $StoreTambah['month'] = $currentDate->toDateString();
+            $StoreTambah['bonus_pendapatan'] = 0;
+            Detail_Pendapatan::create($StoreTambah);
+        } else {
+            $StoreTambah['id_penitip'] = $Komisi->id_penitip;
+            $StoreTambah['total'] = $DataPenjualan->total - $totalLama;
+            $DataPenjualan->update($StoreTambah);
+        }
+        
         if (is_null($Komisi)) {
             return response([
                 'message' => 'Komisi Not Found',
