@@ -51,7 +51,10 @@ class PenitipanBarangController extends Controller
                 'data' => null
             ], 404);
         }
-        $updateData["rating"] = $request->input('rating');
+        $updateData = [
+            "rating" => $request->input('rating'),
+            "tanggal_rating" => now()
+        ];
         $PenitipanBarang->update($updateData);
         $user = Penitip::find($PenitipanBarang->id_penitip);
         if (is_null($user)) {
