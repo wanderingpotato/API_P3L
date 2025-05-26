@@ -51,29 +51,40 @@ class PenitipanBarangController extends Controller
                 'data' => null
             ], 404);
         }
-        $updateData = [
+
+        $PenitipanBarang->update([
             "rating" => $request->input('rating'),
             "tanggal_rating" => now()
-        ];
-        $PenitipanBarang->update($updateData);
+        ]);
+
         $user = Penitip::find($PenitipanBarang->id_penitip);
         if (is_null($user)) {
             return response([
-                'message' => 'user Not Found',
+                'message' => 'User Not Found',
                 'data' => null
             ], 404);
         }
-        $ratingBarang = Penitipan_Barang::where('id_penitip', $user->id_penitip)->where('status', 'DiBeli')
-            ->where('rating', '!=', 0)->count();
 
-        $updateData['Ratarating'] = ($user->Ratarating * ($ratingBarang - 1)) + ($request->input('rating') / $ratingBarang);
+        $totalRating = Penitipan_Barang::where('id_penitip', $user->id_penitip)
+            ->where('status', 'DiBeli')
+            ->where('rating', '!=', 0)
+            ->sum('rating');
 
-        $user->update($updateData);
+        $countRating = Penitipan_Barang::where('id_penitip', $user->id_penitip)
+            ->where('status', 'DiBeli')
+            ->where('rating', '!=', 0)
+            ->count();
+
+        $rataRata = $countRating > 0 ? ($totalRating / $countRating) : 0;
+
+        $user->update(['rata_rating' => $rataRata]);
+
         return response([
-            'message' => 'rating updated successfully',
+            'message' => 'Rating updated successfully',
             'data' => $user
         ], 200);
     }
+
     public function showPenitipanBarangbyPenitip($id)
     {
         $user = Penitip::find($id);

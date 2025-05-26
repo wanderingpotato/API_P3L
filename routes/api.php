@@ -170,7 +170,8 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('/Penitip/{id}', [PenitipController::class, 'update']);
   Route::delete('/Penitip/{id}', [PenitipController::class, 'destroy']);
   Route::post('/resetPasswordPenitip/{id}', [PenitipController::class, 'resetPassword']);
-  
+  Route::get('/Penitip/{id}', [PenitipController::class, 'showById']);
+
   //Pembeli
   Route::post('/Pembeli', [PembeliController::class, 'store']);
   Route::post('/PembeliEditData', [PembeliController::class, 'edit']);
