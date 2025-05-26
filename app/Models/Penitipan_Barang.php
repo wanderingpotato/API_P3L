@@ -79,7 +79,7 @@ class Penitipan_Barang extends Model
     }
     public function Gallery()
     {
-        return $this->hasMany(Penitip::class, 'id_barang');
+        return $this->hasMany(Penitipan_Barang::class, 'id_barang');
     }
     /**
      * Get the attributes that should be cast.
