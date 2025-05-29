@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('pembelians', function (Blueprint $table) {
             $table->string('id_pembelian')->primary();
-            $table->string('id_alamat');
+            $table->string('id_alamat')->nullable();
             $table->foreign('id_alamat')->references('id_alamat')->on('alamats')->onDelete('cascade');
             $table->bigInteger('id_pembeli')->unsigned();
             $table->foreign('id_pembeli')->references('id_pembeli')->on('pembelis')->onDelete('cascade');
             $table->bigInteger('id_pegawai')->unsigned()->nullable();
             $table->foreign('id_pegawai')->references('id_pegawai')->on('pegawais')->onDelete('cascade');
             $table->boolean('dilivery');
-            $table->enum('status',['Proses','Batal','Selesai']);
-            $table->enum('status_pengiriman',['DiProses','Pegiriman','Sampai'])->nullable();
+            $table->enum('status',['Proses','Batal','Selesai','Keranjang']);
+            $table->enum('status_pengiriman',['DiProses','Pegiriman','Sampai','Keranjang'])->nullable();
             $table->double('point_yg_didapat')->nullable();
             $table->double('point_current');
             $table->double('point_digunakan')->nullable();

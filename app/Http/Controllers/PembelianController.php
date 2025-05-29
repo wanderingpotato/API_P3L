@@ -109,7 +109,7 @@ class PembelianController extends Controller
             'count' => $count
         ], 200);
     }
-    
+
     public function countPembelianByUser()
     {
         $idUser = Auth::id();
@@ -453,6 +453,58 @@ class PembelianController extends Controller
     /**
      * Display the specified resource.
      */
+    public function addToKeranjang(Request $request)
+    {
+        $storeData = $request->all();
+        $validate = Validator::make($storeData, [
+            'id_pembelian' => '',
+            'id_barang' => 'required',
+            'id_penitip' => '',
+        ]);
+        if ($validate->fails()) {
+            return response(['message' => $validate->errors()], 400);
+        }
+
+        $idUser = Auth::id();
+        $user = Pembeli::find($idUser);
+        if (is_null($user)) {
+            return response([
+                'message' => 'User Not Found'
+            ], 404);
+        }
+        $Pembelian = Pembelian::where('status','Keranjang')->first();
+        $Penitipan_Barang = Penitipan_Barang::find($storeData['id_barang']);
+        $storeData['id_pembelian'] = $Pembelian->id_pembelian;
+        $storeData['id_penitip'] = $Penitipan_Barang->id_penitip;
+
+        $DetailPembelian = Detail_Pembelian::create($storeData);
+        return response([
+            'message' => 'DetailPembelian Added Successfully',
+            'data' => $DetailPembelian,
+        ], 200);
+    }
+    public function removeFromKeranjang($id){
+        $Pembelian = Detail_Pembelian::where('status','keranjang')->where('id_barang',$id)->first();
+        if (is_null($Pembelian)) {
+            return response([
+                'message' => 'Pembelian Not Found',
+                'data' => null
+            ], 404);
+        }
+
+        if ($Pembelian->delete()) {
+            return response([
+                'message' => 'Pembelian Deleted Successfully',
+                'data' => $Pembelian,
+            ], 200);
+        }
+
+        return response([
+            'message' => 'Delete Pembelian Failed',
+            'data' => null,
+        ], 400);
+    }
+
     public function show(string $id)
     {
         $Pembelian = Pembelian::find($id);

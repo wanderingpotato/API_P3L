@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pegawai;
 use App\Models\Pembeli;
+use App\Models\Pembelian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -36,6 +37,28 @@ class PembeliController extends Controller
         $registrationData['password'] = bcrypt($request->password);
 
         $user = Pembeli::create($registrationData);
+
+        //buat keranjang biar bisa nyimpen data keranjangnya
+        $lastId = Pembelian::latest('id_pembelian')->first();
+        $newId = $lastId ? 'PM-' . str_pad((int) substr($lastId->id_pembelian, 3) + 1, 4, '0', STR_PAD_LEFT) : 'PM-0001';
+        $storeData['id_pembelian'] = $newId;
+        $storeData['id_pembeli'] = $user->id_pembeli;
+        $storeData['dilivery'] = 0;
+        $storeData['status'] = "Keranjang";
+        $storeData['status_pengiriman'] = "Keranjang";
+        $storeData['point_yg_didapat'] = 0;
+        $storeData['point_current'] = 0;
+        $storeData['point_digunakan'] = 0;
+        $storeData['potongan_harga'] = 0;
+        $storeData['harga_barang'] = 0;
+        $storeData['ongkir'] = 0;
+        $storeData['batas_waktu'] = "2000-01-01";
+        $storeData['tanggal_pembelian'] = "2000-01-01";
+        $storeData['tanggal_lunas'] = "2000-01-01";
+        $storeData['tanggal_pengiriman-pengambilan'] = "2000-01-01";
+        $storeData['bukti_pembayaran'] = "null";
+        Pembelian::create($storeData);
+
 
         return response([
             'message' => 'Register Success',
@@ -80,6 +103,9 @@ class PembeliController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+
+
     public function index(Request $request)
     {
         $query = Pembeli::query();
