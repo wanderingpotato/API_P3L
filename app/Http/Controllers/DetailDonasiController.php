@@ -76,10 +76,19 @@ class DetailDonasiController extends Controller
             ], 404);
         }
 
-
+        // Simpan detail donasi
         $DetailDonasi = Detail_Donasi::create($storeData);
+
+        // Update donasi terkait
+        $donasi = Donasi::find($storeData['id_donasi']);
+        if ($donasi) {
+            $donasi->tanggal_diberikan = now();  // pakai tanggal sekarang
+            $donasi->konfirmasi = 1;
+            $donasi->save();
+        }
+
         return response([
-            'message' => 'DetailDonasi Added Successfully',
+            'message' => 'DetailDonasi Added Successfully and Donasi updated',
             'data' => $DetailDonasi,
         ], 200);
     }
