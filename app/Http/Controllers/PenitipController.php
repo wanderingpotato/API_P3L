@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pegawai;
 use App\Models\Penitip;
+use App\Models\Penitipan_Barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -164,6 +165,18 @@ class PenitipController extends Controller
         ], 200);
     }
 
+    public function updateRataRataRatingPenitip($idPenitip)
+    {
+        // Ambil semua rating barang milik penitip
+        $rataRataBarang = Penitipan_Barang::where('id_penitip', $idPenitip)->avg('rating');
+
+        // Jika tidak ada barang, set 0
+        $rataRataBarang = $rataRataBarang ?? 0;
+
+        // Update kolom rata_rating di tabel penitip
+        Penitip::where('id', $idPenitip)->update(['rata_rating' => $rataRataBarang]);
+    }
+
     /**
      * Display the specified resource.
      */
@@ -183,6 +196,16 @@ class PenitipController extends Controller
             'data' => $user
         ], 200);
     }
+
+    public function showById($id)
+    {
+        $penitip = Penitip::find($id);
+        if (!$penitip) {
+            return response()->json(['message' => 'Penitip not found'], 404);
+        }
+        return response()->json($penitip, 200);
+    }
+
 
     /**
      * Update the specified resource in storage.

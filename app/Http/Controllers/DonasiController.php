@@ -19,24 +19,6 @@ class DonasiController extends Controller
      * Display a listing of the resource.
      */
 
-    public function getBarangDonasi($id_organisasi)
-    {
-        // Menjalankan query untuk mendapatkan barang yang didonasikan ke organisasi tertentu
-        $barang = DB::table('penitipan__barangs as b')
-            ->join('Detail_Donasis] as dd', 'b.Id_barang', '=', 'dd.Id_barang')
-            ->join('donasis as d', 'dd.Id_donasi', '=', 'd.Id_donasi')
-            ->join('organisasis as o', 'd.Id_organisasi', '=', 'o.Id_organisasi')
-            ->select('b.Nama_Barang', 'b.Harga_barang', 'b.Id_kategori', 'b.Deskripsi', 'b.Status', 'o.name')
-            ->where('o.Id_organisasi', 1)
-            ->get();
-
-        if ($barang->isEmpty()) {
-            return response()->json(['message' => 'Tidak ada barang yang didonasikan.'], 404);
-        }
-        return response()->json($barang);
-    }
-
-
     public function index(Request $request)
     {
         $query = Donasi::with('Detail_Donasi');
@@ -157,7 +139,7 @@ class DonasiController extends Controller
             'deskripsi' => 'required',
         ]);
         $storeData['konfirmasi'] = 0;
-        $storeData['tanggal_diberikan'] = '2000-01-01'; //tanggal Null kitas
+        // $storeData['tanggal_diberikan'] = '2000-01-01'; //tanggal Null kitas
 
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -198,7 +180,7 @@ class DonasiController extends Controller
             'deskripsi' => 'required',
         ]);
         $storeData['konfirmasi'] = 0;
-        $storeData['tanggal_diberikan'] = '2000-01-01'; //tanggal Null kitas
+        // $storeData['tanggal_diberikan'] = '2000-01-01'; //tanggal Null kitas
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
         }
