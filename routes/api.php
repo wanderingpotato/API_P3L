@@ -148,16 +148,18 @@ Route::middleware('auth:sanctum')->group(function () {
   
   //Pembelian
   Route::post('/Pembelian', [PembelianController::class, 'store']);
+  Route::post('/Keranjang', [PembelianController::class, 'addToKeranjang']);
   Route::post('/Pembelian/Dashboard', [PembelianController::class, 'storeDashboard']);
-  Route::post('/Pembelian/{id}', [PembelianController::class, 'update']);
-  Route::get('/Pembelian/{id}', [PembelianController::class, 'showPembelianbyId']);
   Route::get('/Pembelian/Pembeli', [PembelianController::class, 'getDataByPembeliId']);
   Route::get('/Pembelian/Pembeli/Count', [PembelianController::class, 'countPembelianByPembeli']);
+  Route::get('/Pembelian/{id}', [PembelianController::class, 'showPembelianbyId']);
+  Route::get('/Pembelian/Pembeli/{id}', [PembelianController::class, 'showPembelianbyUser']);
+  Route::post('/Pembelian/{id}', [PembelianController::class, 'update']);
   Route::post('/Pembelian/Bukti/{id}', [PembelianController::class, 'InsertBukti']);
   Route::post('/Pembelian/Konfirm/{id}', [PembelianController::class, 'KonfirmasiPembelian']);
   Route::post('/Pembelian/Dashboard/{id}', [PembelianController::class, 'updateDashboard']);
+  Route::delete('/Keranjang/{id}', [PembelianController::class, 'removeFromKeranjang']);
   Route::delete('/Pembelian/{id}', [PembelianController::class, 'destroy']);;
-  Route::get('/Pembelian/Pembeli/{id}', [PembelianController::class, 'showPembelianbyUser']);
   //Penitip
   Route::post('/Penitip', [PenitipController::class, 'store']);
   Route::post('/PenitipEditData', [PenitipController::class, 'edit']);
