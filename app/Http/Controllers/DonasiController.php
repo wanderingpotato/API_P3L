@@ -157,7 +157,7 @@ class DonasiController extends Controller
             'deskripsi' => 'required',
         ]);
         $storeData['konfirmasi'] = 0;
-        $storeData['tanggal_diberikan'] = '2000-01-01'; //tanggal Null kitas
+        // $storeData['tanggal_diberikan'] = '2000-01-01'; //tanggal Null kitas
 
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -198,7 +198,7 @@ class DonasiController extends Controller
             'deskripsi' => 'required',
         ]);
         $storeData['konfirmasi'] = 0;
-        $storeData['tanggal_diberikan'] = '2000-01-01'; //tanggal Null kitas
+        // $storeData['tanggal_diberikan'] = '2000-01-01'; //tanggal Null kitas
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
         }
