@@ -7,6 +7,7 @@ use App\Models\Donasi;
 use App\Models\Organisasi;
 use App\Models\Pegawai;
 use App\Models\Penitip;
+use App\Models\Penitipan_Barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -78,6 +79,12 @@ class DetailDonasiController extends Controller
 
         // Simpan detail donasi
         $DetailDonasi = Detail_Donasi::create($storeData);
+
+        $barang = Penitipan_Barang::find($storeData['id_barang']);
+        if ($barang) {
+            $barang->status = "DiDonasikan";
+            $barang->save();
+        }
 
         // Update donasi terkait
         $donasi = Donasi::find($storeData['id_donasi']);
