@@ -32,6 +32,20 @@ class PenitipanBarangController extends Controller
             'data' => $PenitipanBarang
         ], 200);
     }
+
+    public function getBarangWithSearch(Request $request)
+    {
+        $query = Penitipan_Barang::with('Kategori_Barang');
+        if ($request->has('search') && $request->search != '') {
+            $query->where('nama_barang', 'like', '%' . $request->search . '%');
+        }
+        $PenitipanBarang = $query->get();
+        return response([
+            'message' => 'All PenitipanBarang Retrieved',
+            'data' => $PenitipanBarang
+        ], 200);
+    }
+
     public function getData()
     {
         $data = Penitipan_Barang::with('Kategori_Barang')->get();
