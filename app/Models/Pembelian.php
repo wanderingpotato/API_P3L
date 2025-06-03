@@ -34,7 +34,7 @@ class Pembelian extends Model
         'tanggal_pembelian',
         'tanggal_lunas',
         'tanggal_pengiriman-pengambilan',
-        'Bukti_Pembayaran',
+        'bukti_pembayaran',
     ];
     /**
      * The attributes that should be hidden for serialization.

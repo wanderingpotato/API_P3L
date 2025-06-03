@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pembelians', function (Blueprint $table) {
             $table->string('id_pembelian')->primary();
             $table->string('id_alamat')->nullable();
-            $table->foreign('id_alamat')->references('id_alamat')->on('alamats')->onDelete('cascade');
+            $table->foreign('id_alamat')->references('id_alamat')->on('alamats');
             $table->bigInteger('id_pembeli')->unsigned();
             $table->foreign('id_pembeli')->references('id_pembeli')->on('pembelis')->onDelete('cascade');
             $table->bigInteger('id_pegawai')->unsigned()->nullable();
