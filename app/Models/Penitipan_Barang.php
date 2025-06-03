@@ -14,6 +14,7 @@ class Penitipan_Barang extends Model
      *
      * @var list<string>
      */
+    public $table = "penitipan__barangs";
     public $timestamps = false;
     protected $primaryKey = 'id_barang';
     protected $fillable = [

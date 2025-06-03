@@ -14,6 +14,7 @@ class Detail_Donasi extends Model
      *
      * @var list<string>
      */
+    public $table = "detail__donasis";
     public $timestamps = false;
     protected $fillable = [
         'id_donasi',

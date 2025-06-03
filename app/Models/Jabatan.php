@@ -15,6 +15,7 @@ class Jabatan extends Model
      *
      * @var list<string>
      */
+    public $table = "jabatans";
     public $timestamps = false;
     protected $primaryKey = 'id_jabatan';
     protected $fillable = [

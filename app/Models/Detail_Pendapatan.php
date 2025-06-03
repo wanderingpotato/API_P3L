@@ -14,6 +14,7 @@ class Detail_Pendapatan extends Model
      *
      * @var list<string>
      */
+    public $table = "detail__pendapatans";
     public $timestamps = false;
     protected $primaryKey = 'id_detail_pendapatan';
     protected $fillable = [

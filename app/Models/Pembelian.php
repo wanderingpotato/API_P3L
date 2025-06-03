@@ -14,6 +14,7 @@ class Pembelian extends Model
      *
      * @var list<string>
      */
+    public $table = "pembelians";
     public $timestamps = false;
     protected $primaryKey = 'id_pembelian';
     protected $fillable = [

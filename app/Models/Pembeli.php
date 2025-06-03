@@ -16,7 +16,7 @@ class Pembeli extends Authenticatable
      *
      * @var list<string>
      */
-    protected $table = 'Pembelis';
+    protected $table = 'pembelis';
     public $timestamps = false;
     protected $primaryKey = 'id_pembeli';
     protected $fillable = [

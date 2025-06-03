@@ -16,7 +16,7 @@ class Organisasi extends Authenticatable
      *
      * @var list<string>
      */
-    protected $table = 'Organisasis';
+    protected $table = 'organisasis';
     public $timestamps = false;
     protected $primaryKey = 'id_organisasi';
     protected $fillable = [

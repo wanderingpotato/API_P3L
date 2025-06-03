@@ -14,6 +14,7 @@ class Komisi extends Model
      *
      * @var list<string>
      */
+    public $table = "komisis";
     public $timestamps = false;
     protected $primaryKey = 'id_komisi';
     protected $fillable = [

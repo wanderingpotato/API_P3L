@@ -14,6 +14,7 @@ class Detail_Pembelian extends Model
      *
      * @var list<string>
      */
+    public $table = "detail__pembelians";
     public $timestamps = false;
     protected $fillable = [
         'id_pembelian',

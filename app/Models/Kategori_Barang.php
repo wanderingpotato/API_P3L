@@ -14,6 +14,7 @@ class Kategori_Barang extends Model
      *
      * @var list<string>
      */
+    public $table = "kategori__barangs";
     public $timestamps = false;
     protected $primaryKey = 'id_kategori';
     protected $fillable = [

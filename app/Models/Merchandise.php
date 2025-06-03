@@ -14,6 +14,7 @@ class Merchandise extends Model
      *
      * @var list<string>
      */
+    public $table = "merchandises";
     public $timestamps = false;
     protected $primaryKey = 'id_merchandise';
     protected $fillable = [

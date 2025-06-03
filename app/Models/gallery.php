@@ -15,6 +15,7 @@ class gallery extends Model
      *
      * @var list<string>
      */
+    public $table = "galleries";
     public $timestamps = false;
     protected $primaryKey = 'id_gallery';
     protected $fillable = [

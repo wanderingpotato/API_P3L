@@ -19,7 +19,7 @@ class Detail_PendapatanFactory extends Factory
     {
         $PenitipId = Penitip::pluck('id_penitip')->toArray();
         return [
-            'id_detail_pendapatan' => fake()->unique()->numerify('DP-####'),
+            'id_detail_pendapatan' => fake()->unique()->numerify('DP-#####'),
             'id_penitip' => fake()->randomElement($PenitipId),
             'month' => fake()->unique()->date(),
             'total' => fake()->randomFloat(2),

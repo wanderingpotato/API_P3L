@@ -16,7 +16,7 @@ class Penitip extends Authenticatable
      *
      * @var list<string>
      */
-    protected $table = 'Penitips';
+    protected $table = 'penitips';
     public $timestamps = false;
     protected $primaryKey = 'id_penitip';
     protected $fillable = [

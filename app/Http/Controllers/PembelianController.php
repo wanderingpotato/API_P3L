@@ -541,6 +541,24 @@ class PembelianController extends Controller
         ], 400);
     }
 
+    public function checkMinutePembayaran(){
+        $now = Carbon::now();
+        // \Log::info('Current time: ' . $now);
+
+        $expiredRecords = Pembelian::where('batas_waktu', '<=', $now)
+            ->where('status', 'Proses')->get();
+
+
+        // \Log::info('Expired Records Count: ' . $expiredRecords->count());
+
+        foreach ($expiredRecords as $record) {
+            $user = Pembeli::find($record->id_pembeli);
+            $user->increment('poin', $record->point_digunakan);
+            $record->status = 'Batal';
+            $record->save();
+        }
+    }
+
     public function show(string $id)
     {
         $Pembelian = Pembelian::find($id);

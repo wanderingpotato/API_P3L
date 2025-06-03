@@ -15,6 +15,7 @@ class Donasi extends Model
      *
      * @var list<string>
      */
+    public $table = "donasis";
     public $timestamps = false;
     protected $primaryKey = 'id_donasi';
     protected $fillable = [

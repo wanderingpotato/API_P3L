@@ -16,7 +16,7 @@ class Pegawai extends Authenticatable
      *
      * @var list<string>
      */
-    protected $table = 'Pegawais';
+    protected $table = 'pegawais';
     public $timestamps = false;
     protected $primaryKey = 'id_pegawai';
     protected $fillable = [

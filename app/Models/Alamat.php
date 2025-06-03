@@ -14,6 +14,7 @@ class Alamat extends Model
      *
      * @var list<string>
      */
+    public $table = "alamats";
     public $timestamps = false;
     protected $primaryKey = 'id_alamat';
     protected $fillable = [

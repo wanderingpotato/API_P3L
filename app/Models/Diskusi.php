@@ -14,6 +14,7 @@ class Diskusi extends Model
      *
      * @var list<string>
      */
+    public $table = "diskusis";
     public $timestamps = false;
     protected $primaryKey = 'id_diskusi';
     protected $fillable = [

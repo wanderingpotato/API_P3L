@@ -14,6 +14,7 @@ class Klaim_Merchandise extends Model
      *
      * @var list<string>
      */
+    public $table = "klaim__merchandises";
     public $timestamps = false;
     protected $primaryKey = 'id_klaim';
     protected $fillable = [
