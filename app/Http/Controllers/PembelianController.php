@@ -23,11 +23,11 @@ class PembelianController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Pembelian::with('detail__pembelians');
+        $query = Pembelian::with(['detail__pembelians','pembeli', 'alamat',]);
         if ($request->has('search') && $request->search != '') {
             $query->where('id_pembelian', 'like', '%' . $request->search . '%');
         }
-        $perPage = $request->query('per_page', 10);
+        $perPage = $request->query('per_page', 7);
         $Pembelian = $query->paginate($perPage);
 
 
@@ -67,10 +67,34 @@ class PembelianController extends Controller
             ], 404);
         }
     }
+
+    public function showKeranjang()
+    {
+        $idUser = Auth::id();
+        $user = Pembeli::find($idUser);
+        if (is_null($user)) {
+            return response([
+                'message' => 'User Not Found'
+            ], 404);
+        }
+        $data = Pembelian::where('id_pembeli', $idUser)->where('status', 'Keranjang')->with(['detail__pembelians.penitip', "detail__pembelians",'detail__pembelians.gallery'])->get();
+        if ($data->isNotEmpty()) {
+            return response([
+                'message' => 'Data Retrieved Successfully',
+                'data' => $data
+            ], 200);
+        } else {
+            return response([
+                'message' => 'No Booking Data Found',
+                'data' => null
+            ], 404);
+        }
+    }
+
     public function getDataWithPembeliAndAlamat()
     {
-        $data = Pembelian::with(['pembeli', 'alamat','detail__pembelians'])->get();
-        
+        $data = Pembelian::with(['pembeli', 'alamat', 'detail__pembelians'])->get();
+
         if ($data->isNotEmpty()) {
             return response([
                 'message' => 'Data Retrieved Successfully',
@@ -179,7 +203,7 @@ class PembelianController extends Controller
         ], 200);
     }
 
-    public function KonfirmasiPembelian(Request $request, $id)
+    public function KonfirmasiPembelian($id)
     {
         $idUser = Auth::id();
         $user = Pegawai::find($idUser);
@@ -200,11 +224,20 @@ class PembelianController extends Controller
                 'data' => null
             ], 404);
         }
+
+        $pembeli = Pembeli::find($Pembelian->id_pembeli);
+        if (is_null($pembeli)) {
+            return response([
+                'message' => 'Pembelian Not Found',
+                'data' => null
+            ], 404);
+        }
         $updateData = [];
         $updateData["status"] = "Selesai";
         $updateData["status_pengiriman"] = "DiProses";
         $updateData["tanggal_lunas"] = Carbon::now()->toDateTimeString();
-
+        $pembeli->increment('poin', $Pembelian->point_yg_didapat);
+        
         $Pembelian->update($updateData);
         foreach ($Pembelian->detail__pembelians as $item) {
             $Penitipan_Barang = Penitipan_Barang::find($item['id_barang']);
@@ -292,7 +325,7 @@ class PembelianController extends Controller
         $storeData = $request->all();
 
         $validate = Validator::make($storeData, [
-            'id_alamat' => 'required',
+            'id_alamat' => '',
             'id_pegawai' => '',
             'dilivery' => 'required',
             'status' => '',
@@ -360,7 +393,7 @@ class PembelianController extends Controller
             $totalPoin = $poinDasar;
         }
         $storeData['point_yg_didapat'] = (int) $totalPoin;
-
+        
         if ($request->hasFile('bukti_pembayaran')) {
             $uploadFolder = 'BuktiPembayaran';
             $image = $request->file('bukti_pembayaran');
@@ -407,7 +440,7 @@ class PembelianController extends Controller
 
         $validate = Validator::make($storeData, [
             'id_pembeli' => 'required',
-            'id_alamat' => 'required',
+            'id_alamat' => '',
             'id_pegawai' => '',
             'dilivery' => 'required',
             'status' => 'required',
@@ -541,7 +574,8 @@ class PembelianController extends Controller
         ], 400);
     }
 
-    public function checkMinutePembayaran(){
+    public function checkMinutePembayaran()
+    {
         $now = Carbon::now();
         // \Log::info('Current time: ' . $now);
 
@@ -592,7 +626,7 @@ class PembelianController extends Controller
         $updateData = $request->all();
 
         $validate = Validator::make($updateData, [
-            'id_alamat' => 'required',
+            'id_alamat' => '',
             'id_pegawai' => '',
             'dilivery' => 'required',
             'status' => '',
@@ -704,7 +738,7 @@ class PembelianController extends Controller
 
         $validate = Validator::make($updateData, [
             'id_pembeli' => 'required',
-            'id_alamat' => 'required',
+            'id_alamat' => '',
             'id_pegawai' => '',
             'dilivery' => 'required',
             'status' => 'required',

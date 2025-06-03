@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Detail_Pembelian;
 use App\Models\Pegawai;
+use App\Models\Pembeli;
 use App\Models\Pembelian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -52,6 +53,31 @@ class DetailPembelianController extends Controller
         ], 200);
     }
 
+    public function countCart()
+    {
+        $idUser = Auth::id();
+        $user = Pembeli::find($idUser);
+        if (is_null($user)) {
+            return response([
+                'message' => 'User Not Found'
+            ], 404);
+        }
+        $Pembelian = Pembelian::where('status', 'Keranjang')->where('id_pembeli', $user->id_pembeli)->first();
+
+        $DetailPembelian = Detail_Pembelian::where('id_pembelian', $Pembelian->id_pembelian)->count();
+
+        if ($DetailPembelian) {
+            return response([
+                'message' => 'DetailPembelian Found',
+                'data' => $DetailPembelian
+            ], 200);
+        }
+
+        return response([
+            'message' => 'DetailPembelian Not Found',
+            'data' => null
+        ], 404);
+    }
 
     public function store(Request $request)
     {

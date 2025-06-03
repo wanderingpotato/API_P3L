@@ -82,6 +82,7 @@ Route::middleware('auth:sanctum')->group(function () {
   //Alamat
   Route::post('/Alamat', [AlamatController::class, 'store']);
   Route::post('/Alamat/Pembeli', [AlamatController::class, 'AddAlamatPembeli']);
+  Route::get('/Alamat/Pembeli/get', [AlamatController::class, 'AlamatPembeliAuth']);
   Route::post('/Alamat/{id}', [AlamatController::class, 'update']);
   Route::post('/Alamat/Pembeli/{id}', [AlamatController::class, 'EditAlamatPembeli']);
   Route::get('/Alamat/Pembeli/{id}', [AlamatController::class, 'showAlamatbyPembeli']);
@@ -101,6 +102,7 @@ Route::middleware('auth:sanctum')->group(function () {
   
   //DetailPembelian
   Route::post('/DetailPembelian', [DetailPembelianController::class, 'store']);
+  Route::get('/DetailPembelian/count', [DetailPembelianController::class, 'countCart']);
   Route::post('/DetailPembelian/{id}', [DetailPembelianController::class, 'update']);
   Route::get('/DetailPembelian/Pembelian/{id}', [DetailPembelianController::class, 'showDetailPembelianbyPembelian']);
   Route::delete('/DetailPembelian/{id}', [DetailPembelianController::class, 'destroy']);
@@ -149,6 +151,7 @@ Route::middleware('auth:sanctum')->group(function () {
   //Pembelian
   Route::post('/Pembelian', [PembelianController::class, 'store']);
   Route::post('/Keranjang', [PembelianController::class, 'addToKeranjang']);
+  Route::get('/Pembelian/Keranjang', [PembelianController::class, 'showKeranjang']);
   Route::post('/Pembelian/Dashboard', [PembelianController::class, 'storeDashboard']);
   Route::get('/Pembelian/Pembeli', [PembelianController::class, 'getDataByPembeliId']);
   Route::get('/Pembelian/Admin', [PembelianController::class, 'getDataWithPembeliAndAlamat']);
@@ -180,6 +183,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('/PembeliEditData', [PembeliController::class, 'edit']);
   Route::post('/sendResetLinkPembeli', [PembeliController::class, 'sendResetLink']);
   Route::get('/Pembeli', [PembeliController::class, 'index']);
+  Route::get('/Pembeli/poin', [PembeliController::class, 'poinUser']);
   Route::get('/Pembeli/all', [PembeliController::class, 'getData']);
   Route::get('/Pembeli/Count', [PembeliController::class, 'countPembeli']);
   Route::get('/PembeliData', [PembeliController::class, 'show']);

@@ -199,7 +199,22 @@ class PembeliController extends Controller
             'data' => $user
         ], 200);
     }
+    public function poinUser()
+    {
+        $idUser = Auth::id();
+        $user = Pembeli::find($idUser);
+        if (!$user) {
+            return response([
+                'message' => 'User Not Found',
+                'data' => null
+            ], 404);
+        }
 
+        return response([
+            'message' => 'User of ' . $user->name . ' Retrieved',
+            'data' => $user->poin
+        ], 200);
+    }
     /**
      * Update the specified resource in storage.
      */

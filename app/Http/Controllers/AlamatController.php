@@ -53,6 +53,22 @@ class AlamatController extends Controller
             'data' => $Alamat
         ], 200);
     }
+    public function AlamatPembeliAuth()
+    {
+        $idUser = Auth::id();
+        $user = Pembeli::find($idUser);
+        if (!$user) {
+            return response([
+                'message' => 'User Not Found',
+                'data' => null
+            ], 404);
+        }
+        $Alamat = Alamat::where('id_pembeli', $user->id_pembeli)->get();
+        return response([
+            'message' => 'Penitipan Barang of ' . $user->name . ' Retrieved',
+            'data' => $Alamat
+        ], 200);
+    }
     /**
      * Show the form for creating a new resource.
      */

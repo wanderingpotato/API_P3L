@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Pembeli;
 use App\Models\Pembelian;
+use App\Models\Penitipan_Barang;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -32,7 +33,7 @@ class CheckBatasWaktuBayar extends Command
         // \Log::info('Current time: ' . $now);
 
         $expiredRecords = Pembelian::where('batas_waktu', '<=', $now)
-            ->where('status', 'Proses')->get();
+            ->where('status', 'Proses')->with('detail__pembelians')->get();
 
 
         // \Log::info('Expired Records Count: ' . $expiredRecords->count());
@@ -42,6 +43,13 @@ class CheckBatasWaktuBayar extends Command
             $user->increment('poin', $record->point_digunakan);
             $record->status = 'Batal';
             $record->save();
+            foreach ($record->detail__pembelians as $detail) {
+                $barang = Penitipan_Barang::find($detail->id_barang);
+                if ($barang) {
+                    $barang->status = 'DiJual';
+                    $barang->save();
+                }
+            }
         }
 
         // $this->info('Expired records updated.');
