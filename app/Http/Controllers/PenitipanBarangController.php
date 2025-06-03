@@ -320,6 +320,14 @@ class PenitipanBarangController extends Controller
             $updateData['status'] = 'DiJual'; // Ganti dengan status aktif kamu jika beda
         }
 
+        if (
+            isset($updateData['status']) &&
+            $updateData['status'] === 'DiKembalikan'
+        ) {
+            $tanggalBaru = Carbon::now();
+            $updateData['tanggal_laku'] = $tanggalBaru->toDateString();
+        }
+
         // if ($request->hasFile('foto')) {
         //     $uploadFolder = 'FotoBarang';
         //     $image = $request->file('Foto_Barang');

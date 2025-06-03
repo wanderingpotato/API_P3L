@@ -35,6 +35,7 @@ class Pembelian extends Model
         'tanggal_pembelian',
         'tanggal_lunas',
         'tanggal_pengiriman-pengambilan',
+        'batas_pembeli_ambil_barang',
         'bukti_pembayaran',
     ];
     /**
