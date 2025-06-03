@@ -151,6 +151,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('/Keranjang', [PembelianController::class, 'addToKeranjang']);
   Route::post('/Pembelian/Dashboard', [PembelianController::class, 'storeDashboard']);
   Route::get('/Pembelian/Pembeli', [PembelianController::class, 'getDataByPembeliId']);
+  Route::get('/Pembelian/Admin', [PembelianController::class, 'getDataWithPembeliAndAlamat']);
   Route::get('/Pembelian/Pembeli/Count', [PembelianController::class, 'countPembelianByPembeli']);
   Route::get('/Pembelian/{id}', [PembelianController::class, 'showPembelianbyId']);
   Route::get('/Pembelian/Pembeli/{id}', [PembelianController::class, 'showPembelianbyUser']);
@@ -234,6 +235,7 @@ Route::get('/Merchandise/{id}', [MerchandiseController::class, 'show']);
 Route::get('/PenitipanBarang', [PenitipanBarangController::class, 'index']);
 Route::get('/PenitipanBarang/all', [PenitipanBarangController::class, 'getData']);
 // Route::get('/PenitipanBarang/Count', [PenitipanBarangController::class, 'countPenitipanBarang']); -> ternyata udh ilang
+Route::get('/PenitipanBarang/search', [PenitipanBarangController::class, 'getBarangWithSearch']);
 Route::get('/PenitipanBarang/{id}', [PenitipanBarangController::class, 'show']);
 
 Route::get('/Gallery', [GalleryController::class, 'index']);

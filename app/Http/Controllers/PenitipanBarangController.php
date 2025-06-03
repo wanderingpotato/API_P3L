@@ -32,6 +32,20 @@ class PenitipanBarangController extends Controller
             'data' => $PenitipanBarang
         ], 200);
     }
+
+    public function getBarangWithSearch(Request $request)
+    {
+        $query = Penitipan_Barang::with('Kategori_Barang');
+        if ($request->has('search') && $request->search != '') {
+            $query->where('nama_barang', 'like', '%' . $request->search . '%');
+        }
+        $PenitipanBarang = $query->get();
+        return response([
+            'message' => 'All PenitipanBarang Retrieved',
+            'data' => $PenitipanBarang
+        ], 200);
+    }
+
     public function getData()
     {
         $data = Penitipan_Barang::with('Kategori_Barang')->get();
@@ -148,13 +162,14 @@ class PenitipanBarangController extends Controller
     public function store(Request $request)
     {
         $storeData = $request->all();
+        $storeData['di_perpanjang'] = false;
 
         $validate = Validator::make($storeData, [
             'id_kategori' => 'required',
             'id_penitip' => 'required',
             'id_pegawai' => '',
             'nama_barang' => 'required',
-            'di_perpanjang' => 'required',
+            // 'di_perpanjang' => 'required',
             'diliver_here' => 'required',
             'hunter' => 'required',
             'status' => 'required',
@@ -264,6 +279,7 @@ class PenitipanBarangController extends Controller
             'garansi' => '',
             'deskripsi' => '',
         ]);
+
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
         }
@@ -289,12 +305,26 @@ class PenitipanBarangController extends Controller
             ], 404);
         }
 
+        // ===============================
+        // AUTO PERPANJANGAN
+        // ===============================
+        if (
+            isset($updateData['status']) &&
+            $updateData['status'] === 'Kadaluarsa' &&
+            isset($updateData['di_perpanjang']) &&
+            $updateData['di_perpanjang'] == true
+        ) {
+            $tanggalBaru = Carbon::now()->addDays(30);
+            $updateData['tanggal_kadaluarsa'] = $tanggalBaru->toDateString();
+            $updateData['batas_ambil'] = $tanggalBaru->copy()->addDays(7)->toDateString();
+            $updateData['status'] = 'DiJual'; // Ganti dengan status aktif kamu jika beda
+        }
+
         // if ($request->hasFile('foto')) {
         //     $uploadFolder = 'FotoBarang';
         //     $image = $request->file('Foto_Barang');
         //     $image_uploaded_path = $image->store($uploadFolder, 'public');
         //     $uploadedImageResponse = basename($image_uploaded_path);
-
         //     $updateData['Foto_Barang'] = $uploadedImageResponse;
         // }
 
@@ -305,7 +335,6 @@ class PenitipanBarangController extends Controller
             'data' => $PenitipanBarang,
         ], 200);
     }
-
 
     /**
      * Remove the specified resource from storage.
