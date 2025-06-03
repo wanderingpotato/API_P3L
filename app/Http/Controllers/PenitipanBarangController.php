@@ -314,10 +314,18 @@ class PenitipanBarangController extends Controller
             isset($updateData['di_perpanjang']) &&
             $updateData['di_perpanjang'] == true
         ) {
-            $tanggalBaru = Carbon::now()->addDays(30);
+            $tanggalBaru = Carbon::parse($updateData['tanggal_kadaluarsa'])->addDays(30);
             $updateData['tanggal_kadaluarsa'] = $tanggalBaru->toDateString();
             $updateData['batas_ambil'] = $tanggalBaru->copy()->addDays(7)->toDateString();
             $updateData['status'] = 'DiJual'; // Ganti dengan status aktif kamu jika beda
+        }
+
+        if (
+            isset($updateData['status']) &&
+            $updateData['status'] === 'DiKembalikan'
+        ) {
+            $tanggalBaru = Carbon::now();
+            $updateData['tanggal_laku'] = $tanggalBaru->toDateString();
         }
 
         // if ($request->hasFile('foto')) {

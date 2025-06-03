@@ -93,7 +93,7 @@ class PembelianController extends Controller
 
     public function getDataWithPembeliAndAlamat()
     {
-        $data = Pembelian::with(['pembeli', 'alamat', 'detail__pembelians'])->get();
+        $data = Pembelian::with(['pembeli', 'alamat','detail__pembelians', 'pegawai'])->get();
 
         if ($data->isNotEmpty()) {
             return response([
@@ -340,6 +340,7 @@ class PembelianController extends Controller
             'tanggal_pembelian' => '',
             'tanggal_lunas' => '',
             'tanggal_pengiriman-pengambilan' => '',
+            'batas_pembeli_ambil_barang' => '',
             'bukti_pembayaran' => '',
         ]);
         if ($validate->fails()) {
@@ -455,6 +456,7 @@ class PembelianController extends Controller
             'tanggal_pembelian' => 'required',
             'tanggal_lunas' => '',
             'tanggal_pengiriman-pengambilan' => '',
+            'batas_pembeli_ambil_barang' => '',
             'bukti_pembayaran' => '',
         ]);
         $storeData['tanggal_lunas'] = '2000-01-01';
@@ -641,6 +643,7 @@ class PembelianController extends Controller
             'tanggal_pembelian' => '',
             'tanggal_lunas' => '',
             'tanggal_pengiriman-pengambilan' => '',
+            'batas_pembeli_ambil_barang' => '',
             'bukti_pembayaran' => '',
         ]);
         if ($validate->fails()) {
@@ -753,6 +756,7 @@ class PembelianController extends Controller
             'tanggal_pembelian' => 'required',
             'tanggal_lunas' => '',
             'tanggal_pengiriman-pengambilan' => '',
+            'batas_pembeli_ambil_barang' => '',
             'bukti_pembayaran' => '',
         ]);
         if ($validate->fails()) {
@@ -796,6 +800,14 @@ class PembelianController extends Controller
             $uploadedImageResponse = basename($image_uploaded_path);
             Storage::disk('public')->delete('BuktiPembayaran/' . $Pembelian->bukti_pembayaran);
             $updateData['bukti_pembayaran'] = $uploadedImageResponse;
+        }
+
+        if ($updateData['status_pengiriman'] === "Sampai") {
+            $updateData['status'] = "Selesai";
+        }
+
+        if ($updateData['tanggal_pengiriman-pengambilan']) {
+            $updateData['batas_pembeli_ambil_barang'] = Carbon::parse($updateData['tanggal_pengiriman-pengambilan'])->copy()->addDays (2)->toDateString();
         }
 
         $Pembelian->update($updateData);
