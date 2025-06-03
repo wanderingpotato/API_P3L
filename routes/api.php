@@ -151,6 +151,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('/Keranjang', [PembelianController::class, 'addToKeranjang']);
   Route::post('/Pembelian/Dashboard', [PembelianController::class, 'storeDashboard']);
   Route::get('/Pembelian/Pembeli', [PembelianController::class, 'getDataByPembeliId']);
+  Route::get('/Pembelian/Admin', [PembelianController::class, 'getDataWithPembeliAndAlamat']);
   Route::get('/Pembelian/Pembeli/Count', [PembelianController::class, 'countPembelianByPembeli']);
   Route::get('/Pembelian/{id}', [PembelianController::class, 'showPembelianbyId']);
   Route::get('/Pembelian/Pembeli/{id}', [PembelianController::class, 'showPembelianbyUser']);

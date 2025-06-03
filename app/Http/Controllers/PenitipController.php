@@ -29,6 +29,7 @@ class PenitipController extends Controller
             'password' => 'required|min:8',
             'no_telp' => 'required|min:10',
             'username' => 'required|unique:Penitips',
+            'nik' => 'required|min:16|unique:Penitips',
         ]);
         $registrationData['saldo'] = 0;
         $registrationData['poin'] = 0;

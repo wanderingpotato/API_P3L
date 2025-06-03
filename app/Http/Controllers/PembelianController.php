@@ -27,7 +27,7 @@ class PembelianController extends Controller
         if ($request->has('search') && $request->search != '') {
             $query->where('id_pembelian', 'like', '%' . $request->search . '%');
         }
-        $perPage = $request->query('per_page', 7);
+        $perPage = $request->query('per_page', 10);
         $Pembelian = $query->paginate($perPage);
 
 
@@ -41,7 +41,7 @@ class PembelianController extends Controller
         $data = Pembelian::all();
 
         return response([
-            'message' => 'All JenisKamar Retrieved',
+            'message' => 'All kamar Retrieved',
             'data' => $data
         ], 200);
     }
@@ -55,6 +55,22 @@ class PembelianController extends Controller
             ], 404);
         }
         $data = Pembelian::where('id_users', $idUser)->get();
+        if ($data->isNotEmpty()) {
+            return response([
+                'message' => 'Data Retrieved Successfully',
+                'data' => $data
+            ], 200);
+        } else {
+            return response([
+                'message' => 'No Booking Data Found',
+                'data' => null
+            ], 404);
+        }
+    }
+    public function getDataWithPembeliAndAlamat()
+    {
+        $data = Pembelian::with(['pembeli', 'alamat','detail__pembelians'])->get();
+        
         if ($data->isNotEmpty()) {
             return response([
                 'message' => 'Data Retrieved Successfully',
