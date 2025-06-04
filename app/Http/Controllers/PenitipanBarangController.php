@@ -48,7 +48,7 @@ class PenitipanBarangController extends Controller
 
     public function getData()
     {
-        $data = Penitipan_Barang::with('Kategori_Barang')->get();
+        $data = Penitipan_Barang::with(['Kategori_Barang', 'Gallery'])->get();
 
         return response([
             'message' => 'All JenisKamar Retrieved',
