@@ -48,7 +48,7 @@ class PenitipanBarangController extends Controller
 
     public function getData()
     {
-        $data = Penitipan_Barang::with(['Kategori_Barang','gallery'])->get();
+        $data = Penitipan_Barang::with('Kategori_Barang')->get();
 
         return response([
             'message' => 'All JenisKamar Retrieved',
@@ -79,19 +79,9 @@ class PenitipanBarangController extends Controller
             ], 404);
         }
 
-        $totalRating = Penitipan_Barang::where('id_penitip', $user->id_penitip)
-            ->where('status', 'DiBeli')
-            ->where('rating', '!=', 0)
-            ->sum('rating');
-
-        $countRating = Penitipan_Barang::where('id_penitip', $user->id_penitip)
-            ->where('status', 'DiBeli')
-            ->where('rating', '!=', 0)
-            ->count();
-
-        $rataRata = $countRating > 0 ? ($totalRating / $countRating) : 0;
-
-        $user->update(['rata_rating' => $rataRata]);
+        // Panggil update rata-rata rating dari PenitipController
+        $penitipController = new \App\Http\Controllers\PenitipController();
+        $penitipController->updateRataRataRatingPenitip($user->id_penitip);
 
         return response([
             'message' => 'Rating updated successfully',
@@ -314,7 +304,7 @@ class PenitipanBarangController extends Controller
             isset($updateData['di_perpanjang']) &&
             $updateData['di_perpanjang'] == true
         ) {
-            $tanggalBaru = Carbon::now()->addDays(30);
+            $tanggalBaru = Carbon::parse($updateData['tanggal_kadaluarsa'])->addDays(30);
             $updateData['tanggal_kadaluarsa'] = $tanggalBaru->toDateString();
             $updateData['batas_ambil'] = $tanggalBaru->copy()->addDays(7)->toDateString();
             $updateData['status'] = 'DiJual'; // Ganti dengan status aktif kamu jika beda

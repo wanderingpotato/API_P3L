@@ -102,7 +102,7 @@ class PenitipController extends Controller
             'data' => $User
         ], 200);
     }
-     public function editFoto(Request $request)
+    public function editFoto(Request $request)
     {
         $idUser = Auth::id();
         $user = Pegawai::find($idUser);
@@ -194,14 +194,17 @@ class PenitipController extends Controller
 
     public function updateRataRataRatingPenitip($idPenitip)
     {
-        // Ambil semua rating barang milik penitip
-        $rataRataBarang = Penitipan_Barang::where('id_penitip', $idPenitip)->avg('rating');
+        // Ambil rata-rata rating barang milik penitip yang sudah dibeli dan rating tidak nol
+        $rataRataBarang = Penitipan_Barang::where('id_penitip', $idPenitip)
+            ->where('status', 'DiBeli')
+            ->where('rating', '!=', 0)
+            ->avg('rating');
 
         // Jika tidak ada barang, set 0
         $rataRataBarang = $rataRataBarang ?? 0;
 
         // Update kolom rata_rating di tabel penitip
-        Penitip::where('id', $idPenitip)->update(['rata_rating' => $rataRataBarang]);
+        Penitip::where('id_penitip', $idPenitip)->update(['rata_rating' => $rataRataBarang]);
     }
 
     /**
