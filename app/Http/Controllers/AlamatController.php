@@ -256,6 +256,39 @@ class AlamatController extends Controller
         ], 200);
     }
 
+    public function SetDefaultAlamatPembeli(Request $request, string $id)
+    {
+        $Alamat = Alamat::find($id);
+        if (is_null($Alamat)) {
+            return response([
+                'message' => 'Alamat Not Found',
+                'data' => null
+            ], 404);
+        }
+
+        $updateData = $request->all();
+
+        $validate = Validator::make($updateData, [
+            'default' => 'required',
+        ]);
+        if ($validate->fails()) {
+            return response(['message' => $validate->errors()], 400);
+        }
+        $idUser = Auth::id();
+        $user = Pembeli::find($idUser);
+        if (is_null($user)) {
+            return response([
+                'message' => 'User Not Found'
+            ], 404);
+        }
+
+        $Alamat->update($updateData);
+
+        return response([
+            'message' => 'Alamat Updated Successfully',
+            'data' => $Alamat,
+        ], 200);
+    }
     /**
      * Remove the specified resource from storage.
      */

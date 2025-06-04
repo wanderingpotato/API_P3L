@@ -318,6 +318,34 @@ class PegawaiController extends Controller
             'data' => $user,
         ], 200);
     }
+
+    public function editFoto(Request $request)
+    {
+        $idUser = Auth::id();
+        $user = Pegawai::find($idUser);
+        if (is_null($user)) {
+            return response([
+                'message' => 'user Not Found',
+                'data' => null
+            ], 404);
+        }
+        $updateData = [];
+        if ($request->hasFile('foto')) {
+            $uploadFolder = 'Profile';
+            $image = $request->file('foto');
+            $image_uploaded_path = $image->store($uploadFolder, 'public');
+            $uploadedImageResponse = basename($image_uploaded_path);
+            Storage::disk('public')->delete('Profile/' . $user->foto);
+            $updateData['foto'] = $uploadedImageResponse;
+        }
+        $user->update($updateData);
+
+        return response([
+            'message' => 'user Updated Successfully',
+            'data' => $user,
+        ], 200);
+    }
+
     public function countPegawai()
     {
         $count = Pegawai::count();

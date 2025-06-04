@@ -85,6 +85,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('/Alamat/Pembeli/get', [AlamatController::class, 'AlamatPembeliAuth']);
   Route::post('/Alamat/{id}', [AlamatController::class, 'update']);
   Route::post('/Alamat/Pembeli/{id}', [AlamatController::class, 'EditAlamatPembeli']);
+  Route::post('/Alamat/Default/{id}', [AlamatController::class, 'SetDefaultAlamatPembeli']);
   Route::get('/Alamat/Pembeli/{id}', [AlamatController::class, 'showAlamatbyPembeli']);
   Route::delete('/Alamat/{id}', [AlamatController::class, 'destroy']);
   
@@ -174,6 +175,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('/PenitipData', [PenitipController::class, 'show']);
   // Route::get('/Penitip/Penitip/{id}', [PenitipController::class, 'showPenitipbyPenitip']); -> ini ga ada fuctionnya
   Route::post('/Penitip/{id}', [PenitipController::class, 'update']);
+  Route::post('/Penitip/Foto/{id}', [PenitipController::class, 'editFoto']);
   Route::delete('/Penitip/{id}', [PenitipController::class, 'destroy']);
   Route::post('/resetPasswordPenitip/{id}', [PenitipController::class, 'resetPassword']);
   Route::get('/Penitip/{id}', [PenitipController::class, 'showById']);
@@ -189,6 +191,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('/PembeliData', [PembeliController::class, 'show']);
   // Route::get('/Pembeli/Pembeli/{id}', [PembeliController::class, 'showPembelibyPembeli']); -> ini juga
   Route::post('/Pembeli/{id}', [PembeliController::class, 'update']);
+  Route::post('/Pembeli/Foto/{id}', [PembeliController::class, 'editFoto']);
   Route::delete('/Pembeli/{id}', [PembeliController::class, 'destroy']);
   Route::post('/resetPasswordPembeli/{id}', [PembeliController::class, 'resetPassword']);
   
@@ -202,6 +205,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('/OrganisasiData', [OrganisasiController::class, 'show']);
   // Route::get('/Organisasi/Organisasi/{id}', [OrganisasiController::class, 'showOrganisasibyOrganisasi']); -> ini lagi
   Route::post('/Organisasi/{id}', [OrganisasiController::class, 'update']);
+  Route::post('/Organisasi/Foto/{id}', [OrganisasiController::class, 'editFoto']);
   Route::delete('/Organisasi/{id}', [OrganisasiController::class, 'destroy']);
   Route::post('/resetPasswordOrganisasi/{id}', [OrganisasiController::class, 'resetPassword']);
 
@@ -214,6 +218,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('/PegawaiData', [PegawaiController::class, 'show']);
   // Route::get('/Pegawai/Pegawai/{id}', [PegawaiController::class, 'showPegawaibyPegawai']); -> ini juga lagi
   Route::post('/Pegawai/{id}', [PegawaiController::class, 'update']);
+  Route::post('/Pegawai/Foto/{id}', [PegawaiController::class, 'editFoto']);
   Route::delete('/Pegawai/{id}', [PegawaiController::class, 'destroy']);
   Route::post('/resetPasswordPegawai/{id}', [PegawaiController::class, 'resetPassword']);
 });
