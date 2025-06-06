@@ -159,6 +159,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('/Pembelian/Pembeli/Count', [PembelianController::class, 'countPembelianByPembeli']);
   Route::get('/Pembelian/{id}', [PembelianController::class, 'showPembelianbyId']);
   Route::get('/Pembelian/Pembeli/{id}', [PembelianController::class, 'showPembelianbyUser']);
+  Route::get('/laporan/penjualan-bulanan', [PembelianController::class, 'laporanPenjualanBulanan']);
   Route::post('/Pembelian/{id}', [PembelianController::class, 'update']);
   Route::post('/Pembelian/Bukti/{id}', [PembelianController::class, 'InsertBukti']);
   Route::post('/Pembelian/Konfirm/{id}', [PembelianController::class, 'KonfirmasiPembelian']);

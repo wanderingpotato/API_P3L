@@ -13,6 +13,7 @@ use App\Models\Penitipan_Barang;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -23,7 +24,7 @@ class PembelianController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Pembelian::with(['detail__pembelians','pembeli', 'alamat',]);
+        $query = Pembelian::with(['detail__pembelians', 'pembeli', 'alamat',]);
         if ($request->has('search') && $request->search != '') {
             $query->where('id_pembelian', 'like', '%' . $request->search . '%');
         }
@@ -77,7 +78,7 @@ class PembelianController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        $data = Pembelian::where('id_pembeli', $idUser)->where('status', 'Keranjang')->with(['detail__pembelians.penitip', "detail__pembelians",'detail__pembelians.gallery'])->get();
+        $data = Pembelian::where('id_pembeli', $idUser)->where('status', 'Keranjang')->with(['detail__pembelians.penitip', "detail__pembelians", 'detail__pembelians.gallery'])->get();
         if ($data->isNotEmpty()) {
             return response([
                 'message' => 'Data Retrieved Successfully',
@@ -93,7 +94,7 @@ class PembelianController extends Controller
 
     public function getDataWithPembeliAndAlamat()
     {
-        $data = Pembelian::with(['pembeli', 'alamat','detail__pembelians', 'pegawai'])->get();
+        $data = Pembelian::with(['pembeli', 'alamat', 'detail__pembelians', 'pegawai'])->get();
 
         if ($data->isNotEmpty()) {
             return response([
@@ -237,7 +238,7 @@ class PembelianController extends Controller
         $updateData["status_pengiriman"] = "DiProses";
         $updateData["tanggal_lunas"] = Carbon::now()->toDateTimeString();
         $pembeli->increment('poin', $Pembelian->point_yg_didapat);
-        
+
         $Pembelian->update($updateData);
         foreach ($Pembelian->detail__pembelians as $item) {
             $Penitipan_Barang = Penitipan_Barang::find($item['id_barang']);
@@ -394,7 +395,7 @@ class PembelianController extends Controller
             $totalPoin = $poinDasar;
         }
         $storeData['point_yg_didapat'] = (int) $totalPoin;
-        
+
         if ($request->hasFile('bukti_pembayaran')) {
             $uploadFolder = 'BuktiPembayaran';
             $image = $request->file('bukti_pembayaran');
@@ -807,7 +808,7 @@ class PembelianController extends Controller
         }
 
         if ($updateData['tanggal_pengiriman-pengambilan']) {
-            $updateData['batas_pembeli_ambil_barang'] = Carbon::parse($updateData['tanggal_pengiriman-pengambilan'])->copy()->addDays (2)->toDateString();
+            $updateData['batas_pembeli_ambil_barang'] = Carbon::parse($updateData['tanggal_pengiriman-pengambilan'])->copy()->addDays(2)->toDateString();
         }
 
         $Pembelian->update($updateData);
@@ -842,5 +843,68 @@ class PembelianController extends Controller
             'message' => 'Delete Pembelian Failed',
             'data' => null,
         ], 400);
+    }
+
+
+    public function laporanPenjualanBulanan(Request $request)
+    {
+        $tahun = $request->input('tahun', date('Y'));
+
+        // Ambil total penjualan per bulan dari pembelians
+        $penjualanPerBulan = DB::table('pembelians')
+            ->select(
+                DB::raw('MONTH(tanggal_pembelian) as bulan'),
+                DB::raw('SUM(harga_barang) as total_penjualan')
+            )
+            ->whereYear('tanggal_pembelian', $tahun)
+            ->groupBy(DB::raw('MONTH(tanggal_pembelian)'))
+            ->orderBy('bulan')
+            ->get();
+
+        // Ambil jumlah barang terjual per bulan dari detail__pembelians join pembelians
+        $jumlahBarangPerBulan = DB::table('detail__pembelians')
+            ->join('pembelians', 'detail__pembelians.id_pembelian', '=', 'pembelians.id_pembelian')
+            ->select(
+                DB::raw('MONTH(pembelians.tanggal_pembelian) as bulan'),
+                DB::raw('COUNT(detail__pembelians.id_barang) as jumlah_barang')
+            )
+            ->whereYear('pembelians.tanggal_pembelian', $tahun)
+            ->groupBy(DB::raw('MONTH(pembelians.tanggal_pembelian)'))
+            ->orderBy('bulan')
+            ->get();
+
+        $result = [];
+
+        for ($i = 1; $i <= 12; $i++) {
+            $penjualan = $penjualanPerBulan->firstWhere('bulan', $i);
+            $jumlahBarang = $jumlahBarangPerBulan->firstWhere('bulan', $i);
+
+            $result[] = [
+                'bulan' => $this->namaBulanIndonesia($i),
+                'jumlah' => $jumlahBarang ? (int) $jumlahBarang->jumlah_barang : 0,
+                'penjualan' => $penjualan ? (int) $penjualan->total_penjualan : 0,
+            ];
+        }
+
+        return response()->json($result);
+    }
+
+    private function namaBulanIndonesia($bulan)
+    {
+        $namaBulan = [
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember'
+        ];
+        return $namaBulan[$bulan] ?? '';
     }
 }
