@@ -269,6 +269,7 @@ Route::get('/Diskusi/{id}', [DiskusiController::class, 'show']);
 Route::get('/Komisi', [KomisiController::class, 'index']);
 Route::get('/Komisi/all', [KomisiController::class, 'getData']);
 Route::get('/Komisi/{id}', [KomisiController::class, 'show']);
+Route::get('/laporan/laporan-komisi', [KomisiController::class, 'laporanKomisi']);
 
 Route::get('/KlaimMerchandise', [KlaimMerchandiseController::class, 'index']);
 Route::get('/KlaimMerchandise/all', [KlaimMerchandiseController::class, 'getData']);
