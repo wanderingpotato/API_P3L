@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -8,7 +9,7 @@ class Penitipan_Barang extends Model
 {
     ////
     use HasFactory;
-    public $incrementing=false;
+    public $incrementing = false;
     /**
      * The attributes that are mass assignable.
      *
@@ -21,7 +22,8 @@ class Penitipan_Barang extends Model
         'id_barang',
         'id_kategori',
         'id_penitip',
-        'id_pegawai',
+        'id_pegawai_qc',
+        'id_pegawai_hunter',
         'nama_barang',
         'di_perpanjang',
         'diliver_here',
@@ -62,7 +64,7 @@ class Penitipan_Barang extends Model
         return $this->belongsToMany(
             Donasi::class,
             'detail__donasis',
-            'id_barang' ,
+            'id_barang',
             'id_donasi'
         );
     }
@@ -70,9 +72,13 @@ class Penitipan_Barang extends Model
     {
         return $this->belongsTo(Kategori_Barang::class, 'id_kategori');
     }
-    public function Pegawai()
+    public function PegawaiQC()
     {
-        return $this->belongsTo(Pegawai::class, 'id_pegawai');
+        return $this->belongsTo(Pegawai::class, 'id_pegawai_qc');
+    }
+    public function PegawaiHunter()
+    {
+        return $this->belongsTo(Pegawai::class, 'id_pegawai_hunter');
     }
     public function Penitip()
     {

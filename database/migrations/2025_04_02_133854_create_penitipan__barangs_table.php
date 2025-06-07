@@ -17,13 +17,15 @@ return new class extends Migration
             $table->foreign('id_kategori')->references('id_kategori')->on('kategori__barangs')->onDelete('cascade');
             $table->bigInteger('id_penitip')->unsigned();
             $table->foreign('id_penitip')->references('id_penitip')->on('penitips')->onDelete('cascade');
-            $table->bigInteger('id_pegawai')->unsigned();
-            $table->foreign('id_pegawai')->references('id_pegawai')->on('pegawais')->onDelete('cascade');
+            $table->bigInteger('id_pegawai_qc')->unsigned();
+            $table->foreign('id_pegawai_qc')->references('id_pegawai')->on('pegawais')->onDelete('cascade');
+            $table->bigInteger('id_pegawai_hunter')->unsigned();
+            $table->foreign('id_pegawai_hunter')->references('id_pegawai')->on('pegawais')->onDelete('cascade');
             $table->string('nama_barang');
             $table->boolean('di_perpanjang');
             $table->boolean('diliver_here');
             $table->boolean('hunter');
-            $table->enum('status',['DiJual','DiDonasikan','DiKembalikan','DiBeli','Kadaluarsa','Untuk Donasi']);
+            $table->enum('status', ['DiJual', 'DiDonasikan', 'DiKembalikan', 'DiBeli', 'Kadaluarsa', 'Untuk Donasi']);
             $table->double('harga_barang');
             $table->double('rating')->nullable();
             $table->dateTime('tanggal_penitipan');

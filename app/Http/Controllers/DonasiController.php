@@ -335,7 +335,7 @@ class DonasiController extends Controller
             ], 404);
         }
         $Donasi->update($updateData);
-        if($request->Data!=null){
+        if ($request->Data != null) {
             foreach ($request->Data as $items) {
                 $storeChildData = $items;
                 $storeChildData['id_donasi'] = $id;
@@ -486,5 +486,35 @@ class DonasiController extends Controller
             'message' => 'Delete Donasi Failed',
             'data' => null,
         ], 400);
+    }
+
+    public function laporanRekamRequestDonasi(Request $request)
+    {
+        $query = DB::table('donasis as d')
+            ->join('organisasis as o', 'd.id_organisasi', '=', 'o.id_organisasi')
+            ->where('d.konfirmasi', false) // hanya yang belum dikonfirmasi
+            ->select(
+                'o.id_organisasi',
+                'o.name as nama',
+                'o.alamat',
+                'd.deskripsi as request'
+            );
+
+        // Optional filter by nama organisasi
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('o.name', 'like', '%' . $search . '%')
+                    ->orWhere('d.deskripsi', 'like', '%' . $search . '%');
+            });
+        }
+
+        $perPage = $request->query('per_page', 10);
+        $data = $query->paginate($perPage);
+
+        return response()->json([
+            'message' => 'Laporan Rekam Request Donasi Retrieved',
+            'data' => $data
+        ]);
     }
 }

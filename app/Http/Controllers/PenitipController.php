@@ -7,6 +7,7 @@ use App\Models\Penitip;
 use App\Models\Penitipan_Barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Storage;
@@ -460,5 +461,83 @@ class PenitipController extends Controller
             'message' => 'Delete User Failed',
             'data' => null,
         ], 400);
+    }
+
+    // public function laporanPenitip(Request $request)
+    // {
+    //     $idPenitip = $request->query('id_penitip');
+
+    //     if (!$idPenitip) {
+    //         return response()->json([
+    //             'message' => 'ID penitip harus disertakan.'
+    //         ], 400);
+    //     }
+
+    //     $query = DB::table('penitipan__barangs as pb')
+    //         ->join('komisis as k', 'pb.id_penitip', '=', 'k.id_penitip')
+    //         ->where('pb.id_penitip', $idPenitip)
+    //         ->select(
+    //             'pb.id_barang as kode_produk',
+    //             'pb.nama_barang',
+    //             'pb.tanggal_laku',
+    //             'k.komisi_penitip as harga_jual_bersih',
+    //             'k.bonus_penitip as bonus_terjual_cepat',
+    //             DB::raw('(k.komisi_penitip + k.bonus_penitip) as pendapatan')
+    //         );
+
+    //     // Optional: filter by nama barang
+    //     if ($request->has('search') && $request->search != '') {
+    //         $search = $request->search;
+    //         $query->where('pb.nama_barang', 'like', '%' . $search . '%');
+    //     }
+
+    //     $perPage = $request->query('per_page', 10);
+    //     $data = $query->paginate($perPage);
+
+    //     return response()->json([
+    //         'message' => 'Laporan Laba Penitip Retrieved',
+    //         'data' => $data
+    //     ]);
+    // }
+
+    public function laporanPenitip(Request $request)
+    {
+        $idPenitip = $request->query('id_penitip');
+
+        if (!$idPenitip) {
+            return response()->json([
+                'message' => 'ID penitip harus disertakan.'
+            ], 400);
+        }
+
+        $query = DB::table('penitipan__barangs as pb')
+            ->join('komisis as k', function ($join) {
+                $join->on('pb.id_penitip', '=', 'k.id_penitip')
+                    ->on('pb.id_barang', '=', 'k.id_barang');
+            })
+            ->where('pb.id_penitip', $idPenitip)
+            ->where('pb.status', 'DiBeli') // filter status sesuai kebutuhan
+            ->select(
+                'pb.id_barang as kode_produk',
+                'pb.nama_barang',
+                'pb.tanggal_laku',
+                'k.komisi_penitip as harga_jual_bersih',
+                'k.bonus_penitip as bonus_terjual_cepat',
+                DB::raw('(k.komisi_penitip + k.bonus_penitip) as pendapatan')
+            );
+
+        // Optional search by nama barang
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('pb.nama_barang', 'like', '%' . $search . '%');
+        }
+
+        $perPage = $request->query('per_page', 10);
+        $data = $query->paginate($perPage);
+
+        return response()->json([
+            'message' => 'Laporan Laba Penitip Retrieved',
+            'data' => $data
+        ]);
     }
 }
