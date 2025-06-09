@@ -299,7 +299,7 @@ class KomisiController extends Controller
             $StoreTambah['total'] = $DataPenjualan->total - $totalLama;
             $DataPenjualan->update($StoreTambah);
         }
-        
+
         if (is_null($Komisi)) {
             return response([
                 'message' => 'Komisi Not Found',
@@ -318,5 +318,35 @@ class KomisiController extends Controller
             'message' => 'DeleteKomisi Failed',
             'data' => null,
         ], 400);
+    }
+
+    public function laporanKomisi(Request $request)
+    {
+        $query = Komisi::query()
+            ->join('penitipan__barangs', 'komisis.id_barang', '=', 'penitipan__barangs.id_barang')
+            ->select(
+                'komisis.id_komisi',
+                'komisis.id_barang',
+                'penitipan__barangs.nama_barang',
+                'penitipan__barangs.harga_barang',
+                'penitipan__barangs.tanggal_penitipan',
+                'penitipan__barangs.tanggal_laku',
+                'komisis.komisi_hunter',
+                'komisis.komisi_toko',
+                'komisis.bonus_penitip'
+            );
+
+        if ($request->has('search') && $request->search != '') {
+            $query->where('penitipan__barangs.nama_barang', 'like', '%' . $request->search . '%');
+            // Bisa juga filter berdasarkan id_komisi atau kolom lain jika ingin
+        }
+
+        $perPage = $request->query('per_page', 10); // default 10
+        $data = $query->paginate($perPage);
+
+        return response([
+            'message' => 'Laporan Komisi Retrieved',
+            'data' => $data
+        ], 200);
     }
 }

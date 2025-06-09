@@ -49,6 +49,9 @@ Route::middleware('auth:sanctum')->group(function () {
   // Route::post('/PenitipanBarang/Dashboard/{id}', [PenitipanBarangController::class, 'updateDashboard']); -> ini juga knp
   Route::get('/PenitipanBarang/Penitip/{id}', [PenitipanBarangController::class, 'showPenitipanBarangbyPenitip']);
   Route::get('/PenitipanBarang/Pembeli/{id}', [PenitipanBarangController::class, 'showPenitipanBarangbyPembeli']);
+  Route::get('/laporan/stok-gudang', [PenitipanBarangController::class, 'laporanStokGudang']);
+  Route::get('/laporan/penjualan-per-kategori', [PenitipanBarangController::class, 'laporanPenjualanPerKategori']);
+  Route::get('/laporan/barang-masa-titip-habis', [PenitipanBarangController::class, 'laporanBarangMasaTitipHabis']);
   Route::post('/PenitipanBarang/UpdateRating/{id}', [PenitipanBarangController::class, 'UpdateRating']);
   Route::delete('/PenitipanBarang/{id}', [PenitipanBarangController::class, 'destroy']);
   
@@ -63,6 +66,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('/Donasi/Organisasi/Count/{id}', [DonasiController::class, 'countDonasiByOrganisasi']);
   Route::get('/Donasi/Barang/{id}', [DonasiController::class, 'getDataWithPenitipanBarangById']);
   Route::get('/Donasi/Organisasi/Barang/{id}', [DonasiController::class, 'getDataWithPenitipanBarangByIdOrganisasi']);
+  Route::get('/laporan/rekam-request-donasi', [DonasiController::class, 'laporanRekamRequestDonasi']);
   Route::delete('/Donasi/{id}', [DonasiController::class, 'destroy']);
   
   //KategoriBarang
@@ -93,6 +97,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('/DetailDonasi', [DetailDonasiController::class, 'store']);
   Route::post('/DetailDonasi/{id}', [DetailDonasiController::class, 'update']);
   Route::get('/DetailDonasi/Donasi/{id}', [DetailDonasiController::class, 'showDetailDonasibyDonasi']);
+  Route::get('/laporan/donasi-barang', [DetailDonasiController::class, 'laporanDonasiBarang']);
   Route::delete('/DetailDonasi/{id}', [DetailDonasiController::class, 'destroy']);
   
   //DetailPendapatan
@@ -121,6 +126,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::delete('/Gallery/{id}', [GalleryController::class, 'destroy']);
   
   //Merchandise
+  Route::get('/Merchandise', [MerchandiseController::class, 'index']);
   Route::post('/Merchandise', [MerchandiseController::class, 'store']);
   Route::post('/Merchandise/{id}', [MerchandiseController::class, 'update']);
   Route::get('/Merchandise/Penitip/{id}', [MerchandiseController::class, 'showMerchandisebyPenitip']); // ini masi aneh harusnya aku dari kalim merch
@@ -159,6 +165,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('/Pembelian/Pembeli/Count', [PembelianController::class, 'countPembelianByPembeli']);
   Route::get('/Pembelian/{id}', [PembelianController::class, 'showPembelianbyId']);
   Route::get('/Pembelian/Pembeli/{id}', [PembelianController::class, 'showPembelianbyUser']);
+  Route::get('/laporan/penjualan-bulanan', [PembelianController::class, 'laporanPenjualanBulanan']);
   Route::post('/Pembelian/{id}', [PembelianController::class, 'update']);
   Route::post('/Pembelian/Bukti/{id}', [PembelianController::class, 'InsertBukti']);
   Route::post('/Pembelian/Konfirm/{id}', [PembelianController::class, 'KonfirmasiPembelian']);
@@ -180,6 +187,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::delete('/Penitip/{id}', [PenitipController::class, 'destroy']);
   Route::post('/resetPasswordPenitip/{id}', [PenitipController::class, 'resetPassword']);
   Route::get('/Penitip/{id}', [PenitipController::class, 'showById']);
+  Route::get('/laporan/laporan-penitip', [PenitipController::class, 'laporanPenitip']);
 
   //Pembeli
   Route::post('/Pembeli', [PembeliController::class, 'store']);
@@ -269,6 +277,7 @@ Route::get('/Diskusi/{id}', [DiskusiController::class, 'show']);
 Route::get('/Komisi', [KomisiController::class, 'index']);
 Route::get('/Komisi/all', [KomisiController::class, 'getData']);
 Route::get('/Komisi/{id}', [KomisiController::class, 'show']);
+Route::get('/laporan/laporan-komisi', [KomisiController::class, 'laporanKomisi']);
 
 Route::get('/KlaimMerchandise', [KlaimMerchandiseController::class, 'index']);
 Route::get('/KlaimMerchandise/all', [KlaimMerchandiseController::class, 'getData']);

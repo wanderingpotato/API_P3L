@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class PenitipanBarangController extends Controller
 {
@@ -48,7 +49,7 @@ class PenitipanBarangController extends Controller
 
     public function getData()
     {
-        $data = Penitipan_Barang::with(['Kategori_Barang','gallery'])->get();
+        $data = Penitipan_Barang::with(['Kategori_Barang', 'Gallery'])->get();
 
         return response([
             'message' => 'All JenisKamar Retrieved',
@@ -79,19 +80,9 @@ class PenitipanBarangController extends Controller
             ], 404);
         }
 
-        $totalRating = Penitipan_Barang::where('id_penitip', $user->id_penitip)
-            ->where('status', 'DiBeli')
-            ->where('rating', '!=', 0)
-            ->sum('rating');
-
-        $countRating = Penitipan_Barang::where('id_penitip', $user->id_penitip)
-            ->where('status', 'DiBeli')
-            ->where('rating', '!=', 0)
-            ->count();
-
-        $rataRata = $countRating > 0 ? ($totalRating / $countRating) : 0;
-
-        $user->update(['rata_rating' => $rataRata]);
+        // Panggil update rata-rata rating dari PenitipController
+        $penitipController = new \App\Http\Controllers\PenitipController();
+        $penitipController->updateRataRataRatingPenitip($user->id_penitip);
 
         return response([
             'message' => 'Rating updated successfully',
@@ -164,14 +155,14 @@ class PenitipanBarangController extends Controller
         $storeData = $request->all();
         $storeData['di_perpanjang'] = false;
 
-        $validate = Validator::make($storeData, [
+        // Atur rules validasi dinamis sesuai nilai hunter
+        $rules = [
             'id_kategori' => 'required',
             'id_penitip' => 'required',
-            'id_pegawai' => '',
+            'id_pegawai_qc' => 'required|exists:pegawais,id_pegawai',
             'nama_barang' => 'required',
-            // 'di_perpanjang' => 'required',
             'diliver_here' => 'required',
-            'hunter' => 'required',
+            'hunter' => 'required|boolean',
             'status' => 'required',
             'harga_barang' => 'required',
             'rating' => '',
@@ -182,7 +173,18 @@ class PenitipanBarangController extends Controller
             'tanggal_rating' => '',
             'garansi' => '',
             'deskripsi' => '',
-        ]);
+        ];
+
+        // Validasi hunter dan id_pegawai_hunter
+        if (isset($storeData['hunter']) && $storeData['hunter'] == true) {
+            $rules['id_pegawai_hunter'] = 'required|exists:pegawais,id_pegawai';
+        } else {
+            $rules['id_pegawai_hunter'] = 'nullable|exists:pegawais,id_pegawai';
+            // Jika hunter false, kosongkan id_pegawai_hunter agar tidak error
+            $storeData['id_pegawai_hunter'] = null;
+        }
+
+        $validate = Validator::make($storeData, $rules);
 
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -190,7 +192,7 @@ class PenitipanBarangController extends Controller
 
         $tanggalMasuk = Carbon::parse($storeData['tanggal_penitipan']);
         $tanggalKadaluarsa = $tanggalMasuk->copy()->addDays(30);
-        $storeData['tanggal_kadaluarsa'] = $tanggalMasuk->addDays(30)->toDateString();
+        $storeData['tanggal_kadaluarsa'] = $tanggalKadaluarsa->toDateString();
 
         $batasAmbil = $tanggalKadaluarsa->copy()->addDays(7);
         $storeData['batas_ambil'] = $batasAmbil->toDateString();
@@ -209,14 +211,7 @@ class PenitipanBarangController extends Controller
         $lastId = Penitipan_Barang::latest('id_barang')->first();
         $newId = $lastId ? 'PB-' . str_pad((int) substr($lastId->id_barang, 3) + 1, 4, '0', STR_PAD_LEFT) : 'PB-0001';
         $storeData['id_barang'] = $newId;
-        // if ($request->hasFile('foto')) {
-        //     $uploadFolder = 'FotoBarang';
-        //     $image = $request->file('Foto_Barang');
-        //     $image_uploaded_path = $image->store($uploadFolder, 'public');
-        //     $uploadedImageResponse = basename($image_uploaded_path);
 
-        //     $storeData['Foto_Barang'] = $uploadedImageResponse;
-        // }
         $PenitipanBarang = Penitipan_Barang::create($storeData);
 
         return response([
@@ -260,14 +255,15 @@ class PenitipanBarangController extends Controller
 
         $updateData = $request->all();
 
-        $validate = Validator::make($updateData, [
+        // Atur rules validasi dinamis sesuai nilai hunter
+        $rules = [
             'id_kategori' => 'required',
             'id_penitip' => 'required',
-            'id_pegawai' => '',
+            'id_pegawai_qc' => 'required|exists:pegawais,id_pegawai',
             'nama_barang' => 'required',
             'di_perpanjang' => 'required',
             'diliver_here' => 'required',
-            'hunter' => 'required',
+            'hunter' => 'required|boolean',
             'status' => 'required',
             'harga_barang' => 'required',
             'rating' => '',
@@ -278,7 +274,18 @@ class PenitipanBarangController extends Controller
             'tanggal_rating' => '',
             'garansi' => '',
             'deskripsi' => '',
-        ]);
+        ];
+
+        // Validasi hunter dan id_pegawai_hunter
+        if (isset($updateData['hunter']) && $updateData['hunter'] == true) {
+            $rules['id_pegawai_hunter'] = 'required|exists:pegawais,id_pegawai';
+        } else {
+            $rules['id_pegawai_hunter'] = 'nullable|exists:pegawais,id_pegawai';
+            // Jika hunter false, kosongkan id_pegawai_hunter agar tidak error
+            $updateData['id_pegawai_hunter'] = null;
+        }
+
+        $validate = Validator::make($updateData, $rules);
 
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -305,28 +312,18 @@ class PenitipanBarangController extends Controller
             ], 404);
         }
 
-        // ===============================
         // AUTO PERPANJANGAN
-        // ===============================
         if (
             isset($updateData['status']) &&
             $updateData['status'] === 'Kadaluarsa' &&
             isset($updateData['di_perpanjang']) &&
             $updateData['di_perpanjang'] == true
         ) {
-            $tanggalBaru = Carbon::now()->addDays(30);
+            $tanggalBaru = Carbon::parse($updateData['tanggal_kadaluarsa'])->addDays(30);
             $updateData['tanggal_kadaluarsa'] = $tanggalBaru->toDateString();
             $updateData['batas_ambil'] = $tanggalBaru->copy()->addDays(7)->toDateString();
             $updateData['status'] = 'DiJual'; // Ganti dengan status aktif kamu jika beda
         }
-
-        // if ($request->hasFile('foto')) {
-        //     $uploadFolder = 'FotoBarang';
-        //     $image = $request->file('Foto_Barang');
-        //     $image_uploaded_path = $image->store($uploadFolder, 'public');
-        //     $uploadedImageResponse = basename($image_uploaded_path);
-        //     $updateData['Foto_Barang'] = $uploadedImageResponse;
-        // }
 
         $PenitipanBarang->update($updateData);
 
@@ -361,5 +358,96 @@ class PenitipanBarangController extends Controller
             'message' => 'Delete PenitipanBarang Failed',
             'data' => null,
         ], 400);
+    }
+
+    public function laporanStokGudang(Request $request)
+    {
+        $query = DB::table('penitipan__barangs as b')
+            ->join('penitips as p', 'b.id_penitip', '=', 'p.id_penitip')
+            ->leftJoin('pegawais as h', 'b.id_pegawai_hunter', '=', 'h.id_pegawai')
+            ->select(
+                'b.id_barang',
+                'b.nama_barang',
+                'b.harga_barang',
+                'b.tanggal_penitipan',
+                'b.di_perpanjang',
+                'b.id_pegawai_hunter',
+                'p.id_penitip',
+                'p.name as nama_penitip',
+                'h.name as nama_hunter'
+            )
+            // Filter hanya barang dengan status 'DiJual'
+            ->where('b.status', 'DiJual');
+
+        // Optional: Tambahkan filter pencarian nama barang
+        if ($request->has('search') && $request->search != '') {
+            $query->where('b.nama_barang', 'like', '%' . $request->search . '%');
+        }
+
+        $perPage = $request->query('per_page', 10); // default 10
+        $data = $query->paginate($perPage);
+
+        return response([
+            'message' => 'Laporan Stok Gudang Retrieved',
+            'data' => $data
+        ], 200);
+    }
+
+    public function laporanPenjualanPerKategori(Request $request)
+    {
+        $tahun = $request->input('tahun', date('Y'));
+
+        // Status yang dianggap gagal terjual
+        $statusGagalTerjual = ['Untuk Donasi', 'Kadaluarsa', 'DiDonasikan'];
+
+        $data = DB::table('penitipan__barangs as pb')
+            ->join('kategori__barangs as kb', 'pb.id_kategori', '=', 'kb.id_kategori')
+            ->select(
+                'kb.nama_kategori',
+                DB::raw("SUM(CASE WHEN pb.status = 'DiBeli' THEN 1 ELSE 0 END) as jumlah_terjual"),
+                DB::raw("SUM(CASE WHEN pb.status IN ('Untuk Donasi', 'Kadaluarsa', 'DiDonasikan') THEN 1 ELSE 0 END) as jumlah_gagal_terjual")
+            )
+            ->whereYear('pb.tanggal_penitipan', $tahun)
+            ->groupBy('kb.nama_kategori')
+            ->orderBy('kb.nama_kategori')
+            ->get();
+
+        return response()->json($data);
+    }
+
+    public function laporanBarangMasaTitipHabis(Request $request)
+    {
+        $today = date('Y-m-d');
+
+        $query = DB::table('penitipan__barangs as b')
+            ->join('penitips as p', 'b.id_penitip', '=', 'p.id_penitip')
+            ->select(
+                'b.id_barang as kode_produk',
+                'b.nama_barang as nama_produk',
+                'p.id_penitip',
+                'p.name as nama_penitip',
+                'b.tanggal_penitipan as tanggal_masuk',
+                'b.tanggal_kadaluarsa as tanggal_akhir',
+                'b.batas_ambil'
+            )
+            // Filter barang yang masa titipnya sudah habis (tanggal_kadaluarsa < hari ini)
+            ->whereDate('b.tanggal_kadaluarsa', '<', $today);
+
+        // Optional: filter pencarian nama produk atau nama penitip
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('b.nama_barang', 'like', '%' . $search . '%')
+                    ->orWhere('p.name', 'like', '%' . $search . '%');
+            });
+        }
+
+        $perPage = $request->query('per_page', 10); // default 10 per page
+        $data = $query->paginate($perPage);
+
+        return response([
+            'message' => 'Laporan Barang Masa Titip Habis Retrieved',
+            'data' => $data
+        ], 200);
     }
 }

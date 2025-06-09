@@ -19,6 +19,16 @@ class MerchandiseController extends Controller
         if ($request->has('search') && $request->search != '') {
             $query->where('nama', 'like', '%' . $request->search . '%');
         }
+
+        if ($request->has('all') && $request->all == 'true') {
+            // Ambil semua data tanpa paginate
+            $Merchandise = $query->get();
+            return response([
+                'message' => 'All Merchandise Retrieved (No Pagination)',
+                'data' => $Merchandise
+            ], 200);
+        }
+        
         $perPage = $request->query('per_page', 7);
         $Merchandise = $query->paginate($perPage);
 

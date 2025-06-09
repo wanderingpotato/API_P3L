@@ -10,6 +10,7 @@ use App\Models\Penitip;
 use App\Models\Penitipan_Barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -184,5 +185,50 @@ class DetailDonasiController extends Controller
             'message' => 'DeleteDetail_Donasi Failed',
             'data' => null,
         ], 400);
+    }
+
+    public function laporanDonasiBarang(Request $request)
+    {
+        $query = DB::table('detail__donasis as dd')
+            ->join('penitipan__barangs as b', 'dd.id_barang', '=', 'b.id_barang')
+            ->join('penitips as p', 'dd.id_penitip', '=', 'p.id_penitip')
+            ->join('donasis as d', 'dd.id_donasi', '=', 'd.id_donasi')
+            ->join('organisasis as o', 'd.id_organisasi', '=', 'o.id_organisasi')
+            ->select(
+                'b.id_barang as kode_produk',
+                'b.nama_barang as nama_produk',
+                'p.id_penitip',
+                'p.name as nama_penitip',
+                'd.tanggal_diberikan as tanggal_donasi',
+                'o.name as organisasi',
+                'd.nama_penerima'
+            );
+
+        // Filter pencarian (nama produk / penitip)
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('b.nama_barang', 'like', '%' . $search . '%')
+                    ->orWhere('p.name', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Filter organisasi
+        if ($request->has('organisasi') && $request->organisasi != '') {
+            $query->where('o.name', 'like', '%' . $request->organisasi . '%');
+        }
+
+        // Filter tanggal donasi
+        if ($request->has('from') && $request->has('to')) {
+            $query->whereBetween('d.tanggal_diberikan', [$request->from, $request->to]);
+        }
+
+        $perPage = $request->query('per_page', 10);
+        $data = $query->paginate($perPage);
+
+        return response()->json([
+            'message' => 'Laporan Donasi Barang Retrieved',
+            'data' => $data
+        ]);
     }
 }
