@@ -23,7 +23,7 @@ class PembelianController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Pembelian::with(['detail__pembelians','pembeli', 'alamat',]);
+        $query = Pembelian::with(['detail__pembelians', 'pembeli', 'alamat',]);
         if ($request->has('search') && $request->search != '') {
             $query->where('id_pembelian', 'like', '%' . $request->search . '%');
         }
@@ -77,7 +77,7 @@ class PembelianController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        $data = Pembelian::where('id_pembeli', $idUser)->where('status', 'Keranjang')->with(['detail__pembelians.penitip', "detail__pembelians",'detail__pembelians.gallery'])->get();
+        $data = Pembelian::where('id_pembeli', $idUser)->where('status', 'Keranjang')->with(['detail__pembelians.penitip', "detail__pembelians", 'detail__pembelians.gallery'])->get();
         if ($data->isNotEmpty()) {
             return response([
                 'message' => 'Data Retrieved Successfully',
@@ -93,7 +93,7 @@ class PembelianController extends Controller
 
     public function getDataWithPembeliAndAlamat()
     {
-        $data = Pembelian::with(['pembeli', 'alamat','detail__pembelians', 'pegawai'])->get();
+        $data = Pembelian::with(['pembeli', 'alamat', 'detail__pembelians', 'pegawai'])->get();
 
         if ($data->isNotEmpty()) {
             return response([
@@ -119,7 +119,7 @@ class PembelianController extends Controller
                 'data' => null
             ], 404);
         }
-        $Pembelian = Pembelian::with('detail__pembelians')->where('id_pembeli', $user->id_pembeli)->get();
+        $Pembelian = Pembelian::with(['detail__pembelians', 'detail__pembelians.gallery'])->where('id_pembeli', $user->id_pembeli)->get();
         return response([
             'message' => 'Pembelian of ' . $user->name . ' Retrieved',
             'data' => $Pembelian
@@ -135,7 +135,7 @@ class PembelianController extends Controller
                 'data' => null
             ], 404);
         }
-        $Pembelian = Pembelian::with(['detail__pembelians', 'alamat'])->where('id_pembelian', $id)->get();
+        $Pembelian = Pembelian::with(['detail__pembelians', 'alamat', 'detail__pembelians.gallery'])->where('id_pembelian', $id)->get();
         return response([
             'message' => 'Pembelian of ' . $user->name . ' Retrieved',
             'data' => $Pembelian
@@ -234,10 +234,10 @@ class PembelianController extends Controller
         }
         $updateData = [];
         $updateData["status"] = "Selesai";
-        $updateData["status_pengiriman"] = "DiProses";
+        $updateData["status_pengiriman"] = "DiSiapkan";
         $updateData["tanggal_lunas"] = Carbon::now()->toDateTimeString();
         $pembeli->increment('poin', $Pembelian->point_yg_didapat);
-        
+
         $Pembelian->update($updateData);
         foreach ($Pembelian->detail__pembelians as $item) {
             $Penitipan_Barang = Penitipan_Barang::find($item['id_barang']);
@@ -306,6 +306,53 @@ class PembelianController extends Controller
                 }
             }
         }
+        return response([
+            'message' => 'Pembelian Updated Successfully',
+            'data' => $Pembelian,
+        ], 200);
+    }
+
+    public function tolakPembelian($id)
+    {
+        $idUser = Auth::id();
+        $user = Pegawai::find($idUser);
+        if (is_null($user)) {
+            return response([
+                'message' => 'User Not Found'
+            ], 404);
+        }
+        if ($user->id_jabatan == 'J-003') {
+            return response([
+                'message' => 'User Cannot'
+            ], 404);
+        }
+        $Pembelian = Pembelian::with('detail__pembelians')->find($id);
+        if (is_null($Pembelian)) {
+            return response([
+                'message' => 'Pembelian Not Found',
+                'data' => null
+            ], 404);
+        }
+
+        $pembeli = Pembeli::find($Pembelian->id_pembeli);
+        if (is_null($pembeli)) {
+            return response([
+                'message' => 'Pembelian Not Found',
+                'data' => null
+            ], 404);
+        }
+
+        $pembeli->increment('poin', $Pembelian->point_digunakan);
+        $Pembelian->status = 'Batal';
+        $Pembelian->save();
+        foreach ($Pembelian->detail__pembelians as $detail) {
+            $barang = Penitipan_Barang::find($detail->id_barang);
+            if ($barang) {
+                $barang->status = 'DiJual';
+                $barang->save();
+            }
+        }
+
         return response([
             'message' => 'Pembelian Updated Successfully',
             'data' => $Pembelian,
@@ -394,7 +441,7 @@ class PembelianController extends Controller
             $totalPoin = $poinDasar;
         }
         $storeData['point_yg_didapat'] = (int) $totalPoin;
-        
+
         if ($request->hasFile('bukti_pembayaran')) {
             $uploadFolder = 'BuktiPembayaran';
             $image = $request->file('bukti_pembayaran');
@@ -807,7 +854,7 @@ class PembelianController extends Controller
         }
 
         if ($updateData['tanggal_pengiriman-pengambilan']) {
-            $updateData['batas_pembeli_ambil_barang'] = Carbon::parse($updateData['tanggal_pengiriman-pengambilan'])->copy()->addDays (2)->toDateString();
+            $updateData['batas_pembeli_ambil_barang'] = Carbon::parse($updateData['tanggal_pengiriman-pengambilan'])->copy()->addDays(2)->toDateString();
         }
 
         $Pembelian->update($updateData);

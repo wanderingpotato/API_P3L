@@ -33,7 +33,7 @@ class CheckBatasWaktuBayar extends Command
         // \Log::info('Current time: ' . $now);
 
         $expiredRecords = Pembelian::where('batas_waktu', '<=', $now)
-            ->where('status', 'Proses')->with('detail__pembelians')->get();
+            ->where('status', 'Proses')->where('bukti_pembayaran','!=', null)->with('detail__pembelians')->get();
 
 
         // \Log::info('Expired Records Count: ' . $expiredRecords->count());

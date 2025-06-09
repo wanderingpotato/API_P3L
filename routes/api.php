@@ -162,6 +162,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('/Pembelian/{id}', [PembelianController::class, 'update']);
   Route::post('/Pembelian/Bukti/{id}', [PembelianController::class, 'InsertBukti']);
   Route::post('/Pembelian/Konfirm/{id}', [PembelianController::class, 'KonfirmasiPembelian']);
+  Route::post('/Pembelian/Tolak/{id}', [PembelianController::class, 'tolakPembelian']);
   Route::post('/Pembelian/Dashboard/{id}', [PembelianController::class, 'updateDashboard']);
   Route::delete('/Keranjang/{id}', [PembelianController::class, 'removeFromKeranjang']);
   Route::delete('/Pembelian/{id}', [PembelianController::class, 'destroy']);;

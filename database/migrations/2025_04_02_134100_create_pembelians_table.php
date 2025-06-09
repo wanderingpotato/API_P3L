@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreign('id_pegawai')->references('id_pegawai')->on('pegawais')->onDelete('cascade');
             $table->boolean('dilivery');
             $table->enum('status',['Proses','Batal','Selesai','Keranjang']);
-            $table->enum('status_pengiriman',['DiProses','Pegiriman','Sampai','Keranjang'])->nullable();
+            $table->enum('status_pengiriman',['DiSiapkan','Pegiriman','Sampai','Keranjang'])->nullable();
             $table->double('point_yg_didapat')->nullable();
             $table->double('point_current');
             $table->double('point_digunakan')->nullable();
