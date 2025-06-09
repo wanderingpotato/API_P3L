@@ -126,6 +126,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::delete('/Gallery/{id}', [GalleryController::class, 'destroy']);
   
   //Merchandise
+  Route::get('/Merchandise', [MerchandiseController::class, 'index']);
   Route::post('/Merchandise', [MerchandiseController::class, 'store']);
   Route::post('/Merchandise/{id}', [MerchandiseController::class, 'update']);
   Route::get('/Merchandise/Penitip/{id}', [MerchandiseController::class, 'showMerchandisebyPenitip']); // ini masi aneh harusnya aku dari kalim merch
