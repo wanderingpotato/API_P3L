@@ -807,6 +807,10 @@ class PembelianController extends Controller
             $updateData['status'] = "Selesai";
         }
 
+        if ($updateData['status_pengiriman'] === "Sudah Diambil") {
+            $updateData['status'] = "Selesai";
+        }
+
         if ($updateData['tanggal_pengiriman-pengambilan']) {
             $updateData['batas_pembeli_ambil_barang'] = Carbon::parse($updateData['tanggal_pengiriman-pengambilan'])->copy()->addDays(2)->toDateString();
         }
