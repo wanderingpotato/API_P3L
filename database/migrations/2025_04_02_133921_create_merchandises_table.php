@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('merchandises', function (Blueprint $table) {
             $table->string('id_merchandise')->primary();
             $table->string('nama');
-            $table->string('poin');
+            $table->integer('poin');
             $table->enum('kategori',['Ballpoin','Stiker','Mug','Topi','Tumblr','T-shirt','Jam-Dinding','Tas-Travel','Payung']);
             $table->double('stock');
             $table->timestamps();
