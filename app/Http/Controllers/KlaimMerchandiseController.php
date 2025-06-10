@@ -7,6 +7,7 @@ use App\Models\Merchandise;
 use App\Models\Pegawai;
 use App\Models\Pembeli;
 use App\Models\Penitip;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -129,8 +130,6 @@ class KlaimMerchandiseController extends Controller
         $validate = Validator::make($storeData, [
             'id_merchandise' => 'required',
             'jumlah' => 'required',
-            'tanggal_ambil' => 'required',
-            'status' => 'required',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -138,6 +137,9 @@ class KlaimMerchandiseController extends Controller
         $lastId = Klaim_Merchandise::latest('id_klaim')->first();
         $newId = $lastId ? 'KM-' . str_pad((int) substr($lastId->id_klaim, 3) + 1, 4, '0', STR_PAD_LEFT) : 'KM-0001';
         $storeData['id_klaim'] = $newId;
+
+        $storeData['status'] = "On-Progress";
+        $storeData['tanggal_klaim'] = Carbon::now();
 
         $idUser = Auth::id();
         $user = Pembeli::find($idUser);

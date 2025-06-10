@@ -42,6 +42,7 @@ Route::middleware('auth:sanctum')->group(function () {
   
   //Penitipan Barang
   Route::post('/PenitipanBarang', [PenitipanBarangController::class, 'store']);
+  Route::post('/PenitipanBarang/Cek7Hari', [PenitipanBarangController::class, 'Cek7Hari']);
   Route::get('/PenitipanBarang/user', [PenitipanBarangController::class, 'getDataByPenitipId']);
   // Route::post('/PenitipanBarang/Dashboard', [PenitipanBarangController::class, 'storeDashboard']); -> ini knp ada ini
   // Route::get('/PenitipanBarang/User/Count', [PenitipanBarangController::class, 'countPenitipanBarangByUser']);
@@ -164,10 +165,11 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('/Pembelian/Pembeli', [PembelianController::class, 'getDataByPembeliId']);
   Route::get('/Pembelian/Admin', [PembelianController::class, 'getDataWithPembeliAndAlamat']);
   Route::get('/Pembelian/Pembeli/Count', [PembelianController::class, 'countPembelianByPembeli']);
+  Route::get('/laporan/penjualan-bulanan', [PembelianController::class, 'laporanPenjualanBulanan']);
   Route::get('/Pembelian/{id}', [PembelianController::class, 'showPembelianbyId']);
   Route::get('/Pembelian/Pembeli/{id}', [PembelianController::class, 'showPembelianbyUser']);
-  Route::get('/laporan/penjualan-bulanan', [PembelianController::class, 'laporanPenjualanBulanan']);
   Route::post('/Pembelian/{id}', [PembelianController::class, 'update']);
+  Route::post('/Pembelian/Pengiriman/{id}', [PembelianController::class, 'setStatus']);
   Route::post('/Pembelian/Bukti/{id}', [PembelianController::class, 'InsertBukti']);
   Route::post('/Pembelian/Konfirm/{id}', [PembelianController::class, 'KonfirmasiPembelian']);
   Route::post('/Pembelian/Tolak/{id}', [PembelianController::class, 'tolakPembelian']);

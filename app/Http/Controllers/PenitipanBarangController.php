@@ -57,6 +57,28 @@ class PenitipanBarangController extends Controller
         ], 200);
     }
 
+    public function Cek7Hari()
+    {
+        $today = Carbon::now()->toDateString();
+        $expiredBarang = Penitipan_Barang::whereDate('batas_ambil', '<=', $today)->get();
+
+        if ($expiredBarang->isEmpty()) {
+            return response([
+                'message' => 'No PenitipanBarang to update',
+                'data' => null
+            ], 404);
+        }
+        foreach ($expiredBarang as $barang) {
+            $barang->status = 'Untuk Donasi';
+            $barang->save();
+        }
+
+        return response([
+            'message' => 'PenitipanBarang statuses updated to Untuk Donasi',
+            'data' => $expiredBarang
+        ], 200);
+    }
+
     public function Updaterating(Request $request, $id)
     {
         $PenitipanBarang = Penitipan_Barang::find($id);

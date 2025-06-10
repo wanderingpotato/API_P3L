@@ -958,4 +958,20 @@ class PembelianController extends Controller
         ];
         return $namaBulan[$bulan] ?? '';
     }
+
+    public function setStatus($id){
+        $Pembelian = Pembelian::find($id);
+        if (is_null($Pembelian)) {
+            return response([
+                'message' => 'Pembelian Not Found',
+                'data' => null
+            ], 404);
+        }
+        $Pembelian->status_pengiriman="Sampai";
+        $Pembelian->save();
+        return response([
+            'message' => 'Pembelian Sampai Successfully',
+            'data' => $Pembelian,
+        ], 200);
+    }
 }
