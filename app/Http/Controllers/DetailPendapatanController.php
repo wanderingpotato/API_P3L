@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Detail_Pendapatan;
 use App\Models\Pegawai;
 use App\Models\Penitip;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -62,7 +63,7 @@ class DetailPendapatanController extends Controller
             'id_penitip' => 'required',
             'total' => 'required',
             'month' => 'required',
-            'bonus_pendapatan' => 'required',
+            'bonus_pendapatan' => '',
         ]);
         if ($validate->fails()) {
             return response(['message' => $validate->errors()], 400);
@@ -86,6 +87,33 @@ class DetailPendapatanController extends Controller
         ], 200);
     }
 
+
+    public function setTopSeller()
+    {
+        $firstOfMonth = Carbon::now()->startOfMonth()->toDateString();
+        $topDetailPendapatan = Detail_Pendapatan::where('month', $firstOfMonth)->orderBy('total', 'desc')->first();
+        if (is_null($topDetailPendapatan)) {
+            return response([
+                'message' => 'Toal Not Found'
+            ], 404);
+        }
+        $topDetailPendapatan->bonus_pendapatan = $topDetailPendapatan->total * 0.01;
+        $topDetailPendapatan->save();
+        $user = Penitip::find($topDetailPendapatan->id_penitip);
+        if (!$user) {
+            return response([
+                'message' => 'User Not Found',
+                'data' => null
+            ], 404);
+        }
+        $user->badge = 1;
+        $user->saldo = $user->saldo + $topDetailPendapatan->bonus_pendapatan;
+        $user->update();
+        return response([
+            'message' => 'DetailPendapatan Added Successfully',
+            'data' => $topDetailPendapatan,
+        ], 200);
+    }
     /**
      * Display the specified resource.
      */

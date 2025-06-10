@@ -102,6 +102,7 @@ Route::middleware('auth:sanctum')->group(function () {
   
   //DetailPendapatan
   Route::post('/DetailPendapatan', [DetailPendapatanController::class, 'store']);
+  Route::post('/setTopSeller', [DetailPendapatanController::class, 'setTopSeller']);
   Route::post('/DetailPendapatan/{id}', [DetailPendapatanController::class, 'update']);
   Route::get('/DetailPendapatan/Penitip/{id}', [DetailPendapatanController::class, 'showDetailPendapatanbyPenitip']);
   Route::delete('/DetailPendapatan/{id}', [DetailPendapatanController::class, 'destroy']);

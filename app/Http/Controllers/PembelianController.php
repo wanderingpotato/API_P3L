@@ -291,7 +291,7 @@ class PembelianController extends Controller
                         $total = $total +  $storeChildData['bonus_penitip'];
                     }
                     $Penitip->update($UpdateDataPenitip);
-                    $currentDate = Carbon::now();
+                    $currentDate = Carbon::now()->startOfMonth();
                     $DataPenjualan = Detail_Pendapatan::whereMonth('month', $currentDate->month())->first();
                     if (is_null($DataPenjualan)) {
                         $StoreTambah['id_penitip'] = $Penitipan_Barang->id_penitip;
