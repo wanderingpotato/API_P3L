@@ -137,7 +137,7 @@ class PenitipanBarangController extends Controller
                 'data' => null
             ], 404);
         }
-        $PenitipanBarang = Penitipan_Barang::where('id_pegawai', $user->id_pegawai)->get();
+        $PenitipanBarang = Penitipan_Barang::where('id_pegawai', $user->id_pegawai)->where('status','DiBeli')->get();
         return response([
             'message' => 'Penitipan Barang of ' . $user->name . ' Retrieved',
             'data' => $PenitipanBarang
