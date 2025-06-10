@@ -90,7 +90,7 @@ class DetailPendapatanController extends Controller
 
     public function setTopSeller()
     {
-        $firstOfMonth = Carbon::now()->startOfMonth()->toDateString();
+        $firstOfMonth = Carbon::now()->subMonth()->startOfMonth()->toDateString();
         $topDetailPendapatan = Detail_Pendapatan::where('month', $firstOfMonth)->orderBy('total', 'desc')->first();
         if (is_null($topDetailPendapatan)) {
             return response([
