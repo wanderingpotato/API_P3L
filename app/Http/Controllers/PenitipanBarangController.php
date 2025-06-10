@@ -121,7 +121,8 @@ class PenitipanBarangController extends Controller
                 'data' => null
             ], 404);
         }
-        $PenitipanBarang = Penitipan_Barang::where('id_penitip', $user->id_penitip)->get();
+        $PenitipanBarang = Penitipan_Barang::with(['gallery'])->where('id_penitip', $user->id_penitip)->get();
+
         return response([
             'message' => 'Penitipan Barang of ' . $user->name . ' Retrieved',
             'data' => $PenitipanBarang
