@@ -11,3 +11,5 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 Schedule::command('app:check-batas-waktu-bayar')->everyMinute();
 Schedule::command('app:check-over-batas-waktu-ambil-pembeli')->everyMinute();
+Schedule::command('app:check-top-seller')->monthlyOn(1, '00:00');
+Schedule::command('app:check7-days')->daily();
