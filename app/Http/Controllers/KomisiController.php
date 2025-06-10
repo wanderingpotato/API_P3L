@@ -59,6 +59,23 @@ class KomisiController extends Controller
             'data' => $Komisi
         ], 200);
     }
+
+    public function countKomisibyPegawai($id)
+    {
+        $user = Pegawai::find($id);
+        if (!$user) {
+            return response([
+                'message' => 'User Not Found',
+                'data' => null
+            ], 404);
+        }
+        $Komisi = Komisi::where('id_pegawai', $user->id_pegawai)->sum('komisi_hunter');
+        return response([
+            'message' => 'Komisi of ' . $user->name . ' Retrieved',
+            'data' => $Komisi
+        ], 200);
+    }
+    
     public function showKomisibyPenitip($id)
     {
         $user = Penitip::find($id);
