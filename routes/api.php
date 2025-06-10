@@ -49,6 +49,7 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('/PenitipanBarang/{id}', [PenitipanBarangController::class, 'update']);
   // Route::post('/PenitipanBarang/Dashboard/{id}', [PenitipanBarangController::class, 'updateDashboard']); -> ini juga knp
   Route::get('/PenitipanBarang/Penitip/{id}', [PenitipanBarangController::class, 'showPenitipanBarangbyPenitip']);
+  Route::get('/PenitipanBarang/Hunter/{id}', [PenitipanBarangController::class, 'showPenitipanBarangbyHunter']);
   Route::get('/PenitipanBarang/Pembeli/{id}', [PenitipanBarangController::class, 'showPenitipanBarangbyPembeli']);
   Route::get('/laporan/stok-gudang', [PenitipanBarangController::class, 'laporanStokGudang']);
   Route::get('/laporan/penjualan-per-kategori', [PenitipanBarangController::class, 'laporanPenjualanPerKategori']);

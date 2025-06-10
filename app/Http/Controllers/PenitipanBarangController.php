@@ -127,6 +127,21 @@ class PenitipanBarangController extends Controller
             'data' => $PenitipanBarang
         ], 200);
     }
+    public function showPenitipanBarangbyHunter($id)
+    {
+        $user = Pegawai::find($id);
+        if (!$user) {
+            return response([
+                'message' => 'User Not Found',
+                'data' => null
+            ], 404);
+        }
+        $PenitipanBarang = Penitipan_Barang::where('id_pegawai', $user->id_pegawai)->get();
+        return response([
+            'message' => 'Penitipan Barang of ' . $user->name . ' Retrieved',
+            'data' => $PenitipanBarang
+        ], 200);
+    }
     public function getDataByPenitipId()
     {
         $idUser = Auth::id();
