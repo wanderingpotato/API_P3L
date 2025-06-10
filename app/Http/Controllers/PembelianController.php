@@ -126,6 +126,21 @@ class PembelianController extends Controller
             'data' => $Pembelian
         ], 200);
     }
+    public function showPembelianbyKurir($id)
+    {
+        $user = Pegawai::find($id);
+        if (!$user) {
+            return response([
+                'message' => 'User Not Found',
+                'data' => null
+            ], 404);
+        }
+        $Pembelian = Pembelian::with(['detail__pembelians', 'detail__pembelians.gallery'])->where('id_pegawai', $user->id_pegawai)->get();
+        return response([
+            'message' => 'Pembelian of ' . $user->name . ' Retrieved',
+            'data' => $Pembelian
+        ], 200);
+    }
     public function showPembelianbyId($id)
     {
         $idUser = Auth::id();
