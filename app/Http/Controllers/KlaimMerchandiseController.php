@@ -139,7 +139,7 @@ class KlaimMerchandiseController extends Controller
         $storeData['id_klaim'] = $newId;
 
         $storeData['status'] = "On-Progress";
-        $storeData['tanggal_klaim'] = Carbon::now();
+        $storeData['tanggal_klaim'] = Carbon::now()->toDateTimeString();
 
         $idUser = Auth::id();
         $user = Pembeli::find($idUser);
@@ -159,7 +159,7 @@ class KlaimMerchandiseController extends Controller
         $pointBarang = Merchandise::where('id_merchandise', $storeData['id_merchandise'])->first();
         $updateData['poin'] = $user->poin - ($pointBarang->poin * $storeData['jumlah']);
         $user->update($updateData);
-        $updateBarang['stock'] = $pointBarang->Stock - $storeData['jumlah'];
+        $updateBarang['stock'] = $pointBarang->stock - $storeData['jumlah'];
         $pointBarang->update($updateBarang);
         return response([
             'message' => 'Klaim Merchandise Added Successfully',

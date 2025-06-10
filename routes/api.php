@@ -311,3 +311,8 @@ Route::get('/Pembelian', [PembelianController::class, 'index']);
 Route::get('/Pembelian/all', [PembelianController::class, 'getData']);
 Route::get('/Pembelian/Count', [PembelianController::class, 'countPembelian']);
 Route::get('/Pembelian/Show/{id}', [PembelianController::class, 'show']);
+
+Route::get('/PenitipanBarang/Hunter/count/{id}', [PenitipanBarangController::class, 'countPenitipanBarangbyHunter']);
+//why tf berhasil kalo di luar login njir
+Route::get('/Komisi/Pegawai/count/{id}', [KomisiController::class, 'countKomisibyPegawai']);
+//ini sama aja asu

@@ -143,6 +143,22 @@ class PenitipanBarangController extends Controller
             'data' => $PenitipanBarang
         ], 200);
     }
+    public function countPenitipanBarangbyHunter($id)
+    {
+        $user = Pegawai::find($id);
+        if (!$user) {
+            return response([
+                'message' => 'User Not Found',
+                'data' => null
+            ], 404);
+        }
+        $JumlahPenitipanBarang = Penitipan_Barang::where('id_pegawai_hunter', $user->id_pegawai)->where('status','DiBeli')->count();
+        return response([
+            'message' => 'Jumlah penitipan Barang of ' . $user->name . ' adalah ' . $JumlahPenitipanBarang ,
+            'data' => $JumlahPenitipanBarang
+        ], 200);
+    }
+
     public function getDataByPenitipId()
     {
         $idUser = Auth::id();

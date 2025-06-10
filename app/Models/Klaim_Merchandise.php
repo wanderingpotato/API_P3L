@@ -23,6 +23,7 @@ class Klaim_Merchandise extends Model
         'id_pembeli',
         'id_penitip',
         'jumlah',
+        'tanggal_klaim', 
         'tanggal_ambil',
         'status',
     ];
