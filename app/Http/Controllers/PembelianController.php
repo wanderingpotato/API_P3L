@@ -143,17 +143,17 @@ class PembelianController extends Controller
     }
     public function showPembelianbyId($id)
     {
-        $idUser = Auth::id();
-        $user = Pembeli::find($idUser);
-        if (!$user) {
-            return response([
-                'message' => 'User Not Found',
-                'data' => null
-            ], 404);
-        }
+        // $idUser = Auth::id();
+        // $user = Pembeli::find($idUser);
+        // if (!$user) {
+        //     return response([
+        //         'message' => 'User Not Found',
+        //         'data' => null
+        //     ], 404);
+        // }
         $Pembelian = Pembelian::with(['detail__pembelians', 'alamat', 'detail__pembelians.gallery'])->where('id_pembelian', $id)->get();
         return response([
-            'message' => 'Pembelian of ' . $user->name . ' Retrieved',
+            'message' => 'Pembelian Retrieved',
             'data' => $Pembelian
         ], 200);
     }
