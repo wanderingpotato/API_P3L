@@ -520,6 +520,7 @@ class PenitipController extends Controller
             ->select(
                 'pb.id_barang as kode_produk',
                 'pb.nama_barang',
+                'pb.tanggal_penitipan',
                 'pb.tanggal_laku',
                 'k.komisi_penitip as harga_jual_bersih',
                 'k.bonus_penitip as bonus_terjual_cepat',
