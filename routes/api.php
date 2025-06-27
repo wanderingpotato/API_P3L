@@ -256,6 +256,7 @@ Route::get('/Merchandise/all', [MerchandiseController::class, 'getData']);
 Route::get('/Merchandise/{id}', [MerchandiseController::class, 'show']);
 
 Route::get('/PenitipanBarang', [PenitipanBarangController::class, 'index']);
+Route::get('/PenitipanBarang/Perpanjang/{id}', [PenitipanBarangController::class, 'getDataSudahDiperpanjang']);
 Route::get('/PenitipanBarang/all', [PenitipanBarangController::class, 'getData']);
 // Route::get('/PenitipanBarang/Count', [PenitipanBarangController::class, 'countPenitipanBarang']); -> ternyata udh ilang
 Route::get('/PenitipanBarang/search', [PenitipanBarangController::class, 'getBarangWithSearch']);

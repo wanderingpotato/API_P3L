@@ -57,6 +57,25 @@ class PenitipanBarangController extends Controller
         ], 200);
     }
 
+    public function getDataSudahDiperpanjang($id)
+    {
+        $user = Penitip::find($id);
+        if (!$user) {
+            return response([
+                'message' => 'User Not Found',
+                'data' => null
+            ], 404);
+        }
+
+        $data = Penitipan_Barang::where('id_penitip', $user->id_penitip)->where('di_perpanjang', 1)->get();
+        // $hargaBarangPotongan = 0.05*($data->harga_barang);
+        return response([
+            'message' => 'All JenisKamar Retrieved',
+            'data' => $data,
+            // 'hargaPotongan' => $hargaBarangPotongan
+        ], 200);
+    }
+
     public function Cek7Hari()
     {
         $today = Carbon::now()->toDateString();
