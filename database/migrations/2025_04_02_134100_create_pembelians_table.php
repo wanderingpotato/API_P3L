@@ -20,7 +20,7 @@ return new class extends Migration
             $table->bigInteger('id_pegawai')->unsigned()->nullable();
             $table->foreign('id_pegawai')->references('id_pegawai')->on('pegawais')->onDelete('cascade');
             $table->boolean('dilivery');
-            $table->enum('status',['Proses','Batal','Selesai','Keranjang']);
+            $table->enum('status',['Proses','Batal','Selesai','Keranjang','disiapkan','dibatalkan pembeli']);
             $table->enum('status_pengiriman',['DiSiapkan','Pegiriman','Sampai','Keranjang'])->nullable();
             $table->double('point_yg_didapat')->nullable();
             $table->double('point_current');

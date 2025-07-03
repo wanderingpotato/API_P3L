@@ -140,6 +140,9 @@ class AlamatController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
+        if(Alamat::where("id_pembeli",$user->id_pembeli)->first()==null){
+            $storeData["default"]=1;
+        }
         $storeData['id_pembeli'] = $user->id_pembeli;
         $lastId = Alamat::latest('id_alamat')->first();
         $newId = $lastId ? 'A-' . str_pad((int) substr($lastId->id_alamat, 2) + 1, 4, '0', STR_PAD_LEFT) : 'A-0001';
@@ -281,7 +284,9 @@ class AlamatController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-
+        $AlamatLama = Alamat::where("id_pembeli",$user->id_pembeli)->where("default",1)->first();
+        $AlamatLama["default"]=0;
+        $AlamatLama->update();
         $Alamat->update($updateData);
 
         return response([

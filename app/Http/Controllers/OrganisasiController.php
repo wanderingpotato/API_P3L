@@ -97,7 +97,7 @@ class OrganisasiController extends Controller
             'data' => $User
         ], 200);
     }
-     public function editFoto(Request $request)
+    public function editFoto(Request $request)
     {
         $idUser = Auth::id();
         $user = Pegawai::find($idUser);
@@ -177,10 +177,12 @@ class OrganisasiController extends Controller
             $storeData['foto'] = $uploadedImageResponse;
         }
         $user = Organisasi::create($storeData);
-
+        $token = $user->createToken('Auth Token')->plainTextToken;
         return response([
             'message' => 'Register Success',
-            'user' => $user
+            'user' => $user,
+            'token_type' => 'Bearer',
+            'access_token' => $token,
         ], 200);
     }
 

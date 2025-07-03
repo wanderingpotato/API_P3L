@@ -173,10 +173,12 @@ class PembeliController extends Controller
             $storeData['foto'] = $uploadedImageResponse;
         }
         $user = Pembeli::create($storeData);
-
+        $token = $user->createToken('Auth Token')->plainTextToken;
         return response([
             'message' => 'Register Success',
-            'user' => $user
+            'user' => $user,
+            'token_type' => 'Bearer',
+            'access_token' => $token,
         ], 200);
     }
 

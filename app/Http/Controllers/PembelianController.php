@@ -249,8 +249,8 @@ class PembelianController extends Controller
             ], 404);
         }
         $updateData = [];
-        $updateData["status"] = "Selesai";
-        $updateData["status_pengiriman"] = "DiSiapkan";
+        $updateData["status"] = "disiapkan";
+        $updateData["status_pengiriman"] = "DiProses";
         $updateData["tanggal_lunas"] = Carbon::now()->toDateTimeString();
         $pembeli->increment('poin', $Pembelian->point_yg_didapat);
 
@@ -383,6 +383,42 @@ class PembelianController extends Controller
     //         'data' => $data
     //     ], 200);
     // }
+
+    public function batalkanPembelian($id){
+         $Pembelian = Pembelian::with('detail__pembelians')->find($id);
+        if (is_null($Pembelian)) {
+            return response([
+                'message' => 'Pembelian Not Found',
+                'data' => null
+            ], 404);
+        }
+        // disiapkan
+        $pembeli = Pembeli::find($Pembelian->id_pembeli);
+        if (is_null($pembeli)) {
+            return response([
+                'message' => 'Pembelian Not Found',
+                'data' => null
+            ], 404);
+        }
+        $pembeli->increment('poin',  floor($Pembelian->harga_barang / 10000));
+        $Pembelian->status = 'dibatalkan pembeli';
+        $Pembelian->save();
+        foreach ($Pembelian->detail__pembelians as $detail) {
+            $barang = Penitipan_Barang::find($detail->id_barang);
+            if ($barang) {
+                $barang->status = 'DiJual';
+                $barang->save();
+            }
+        }
+
+        return response([
+            'message' => 'Pembelian Updated Successfully',
+            'data' => $Pembelian,
+        ], 200);
+    }
+
+
+
     public function store(Request $request)
     {
         $storeData = $request->all();
@@ -599,7 +635,7 @@ class PembelianController extends Controller
                 'message' => 'User Not Found'
             ], 404);
         }
-        $Pembelian = Pembelian::where('status', 'Keranjang')->first();
+        $Pembelian = Pembelian::where('status', 'Keranjang')->where('id_pembeli',$user->id_pembeli)->first();
         $Penitipan_Barang = Penitipan_Barang::find($storeData['id_barang']);
         $storeData['id_pembelian'] = $Pembelian->id_pembelian;
         $storeData['id_penitip'] = $Penitipan_Barang->id_penitip;
@@ -613,7 +649,14 @@ class PembelianController extends Controller
 
     public function removeFromKeranjang($id)
     {
-        $Pembelian = Pembelian::where('status', 'keranjang')->first();
+        $idUser = Auth::id();
+        $user = Pembeli::find($idUser);
+        if (is_null($user)) {
+            return response([
+                'message' => 'User Not Found'
+            ], 404);
+        }
+        $Pembelian = Pembelian::where('status', 'keranjang')->where('id_pembeli',$user->id_pembeli)->first();
 
         if (!$Pembelian) {
             return response([
