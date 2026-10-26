@@ -1,66 +1,179 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# ReuseMart — Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**ReuseMart** is a secondhand e-commerce platform developed as a university group project by a team of three students. The platform aims to facilitate the buying and selling of pre-owned products, encouraging product reuse and more sustainable consumption.
 
-## About Laravel
+This repository contains the backend application, which handles business logic, database operations, and API functionality to support the platform's client applications.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Project Overview
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+ReuseMart provides an e-commerce platform for managing secondhand products and related transactions. The backend serves as the central component connecting the application's business logic, database, and frontend clients.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Key Features
 
-## Learning Laravel
+- **Product Management** — Manage secondhand product information and inventory.
+- **Product Discovery** — Support product browsing and searching.
+- **Order Management** — Handle customer orders and order-related information.
+- **Transaction Management** — Support transaction processing and management.
+- **Delivery Management** — Handle delivery-related information and tracking.
+- **Consignment Management** — Support the management of consigned products.
+- **Donation and Rewards** — Support donation-related functionality and reward mechanisms.
+- **Database Management** — Store and manage application data using a relational database.
+- **API Integration** — Provide backend functionality for client applications.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+*Features listed above should be adjusted to match the functionality implemented in the current version of the repository.*
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Technology Stack
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Technology | Purpose |
+|---|---|
+| Laravel | Backend framework |
+| PHP | Backend programming language |
+| MySQL | Relational database |
+| REST API | Communication between backend and client applications |
+| React | Web frontend |
+| Flutter | Mobile application |
 
-## Laravel Sponsors
+## System Architecture
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+ReuseMart separates its backend from its web and mobile client applications.
 
-### Premium Partners
+```text
+┌──────────────────────┐
+│     React Web App    │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│                      │
+│   Laravel Backend    │
+│                      │
+│      REST API        │
+│                      │
+└──────────┬───────────┘
+           │
+           ▼
+┌──────────────────────┐
+│    MySQL Database    │
+└──────────────────────┘
+           ▲
+           │
+┌──────────┴───────────┐
+│   Flutter Mobile App │
+└──────────────────────┘
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+The Laravel backend processes requests, applies application logic, and interacts with the database. The React web application and Flutter mobile application communicate with the backend to access the functionality they require.
 
-## Contributing
+## Getting Started
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Prerequisites
 
-## Code of Conduct
+Make sure the following tools are installed:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- PHP version compatible with the project
+- Composer
+- MySQL
+- Node.js and npm, if required by the project's asset tooling
 
-## Security Vulnerabilities
+### Installation
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**1. Clone the repository**
+
+```bash
+git clone <repository-url>
+cd <repository-directory>
+```
+
+Replace the placeholders with your actual repository URL and directory name.
+
+**2. Install dependencies**
+
+```bash
+composer install
+```
+
+**3. Configure environment variables**
+
+Create a local environment configuration file:
+
+```bash
+cp .env.example .env
+```
+
+Configure the database connection and other required environment variables in `.env`.
+
+Never commit your `.env` file or publish passwords, API keys, or other credentials.
+
+**4. Generate the application key**
+
+```bash
+php artisan key:generate
+```
+
+**5. Create the database**
+
+Create a MySQL database for ReuseMart and configure the database name and credentials in `.env`.
+
+**6. Run database migrations**
+
+```bash
+php artisan migrate
+```
+
+If the project requires initial data, review the available seeders before running them.
+
+**7. Start the development server**
+
+```bash
+php artisan serve
+```
+
+The application is typically available at:
+
+`http://localhost:8000`
+
+Refer to the project's configuration and dependency files for any additional setup requirements.
+
+## Project Structure
+
+The repository follows a Laravel application structure.
+
+```text
+.
+├── app/             # Application logic, models, and controllers
+├── bootstrap/       # Application bootstrap files
+├── config/          # Application configuration
+├── database/        # Migrations, factories, and seeders
+├── public/          # Public assets and application entry point
+├── resources/       # Views and frontend resources
+├── routes/          # Route definitions
+├── storage/         # Logs, cache, and generated files
+├── tests/           # Automated tests
+├── .env.example     # Example environment configuration
+├── artisan          # Laravel command-line interface
+├── composer.json    # PHP dependencies
+└── README.md
+```
+
+The exact contents may vary depending on the repository's implementation.
+
+
+## Learning Objectives
+
+This project provided an opportunity to apply software development concepts in a collaborative environment, including:
+
+- Backend application development using Laravel.
+- Relational database design and management.
+- API development and frontend integration.
+- Implementation of e-commerce business logic.
+- Collaboration and integration across multiple application components.
+
+## Disclaimer
+
+ReuseMart was developed as a university group project for educational purposes.
+
+The application is intended to demonstrate software development concepts and should undergo appropriate security, validation, and performance reviews before being used in a production environment.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+No license has been specified for this repository. Unless a license is added, others should not assume they have permission to reuse, modify, or redistribute the code.
